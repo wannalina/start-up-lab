@@ -1,0 +1,63 @@
+// Styles for the Contact Us Component
+
+:host {
+    display: block;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+}
+
+.contactus-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.contactus-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.contactus-header h1 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.contactus-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contactus-form input,
+.contactus-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.contactus-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.contactus-form button {
+    padding: 0.75rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contactus-form button:hover {
+    background-color: #0056b3;
+}

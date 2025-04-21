@@ -1,0 +1,30 @@
+:host {
+    display: block;
+    padding: 1rem;
+    background-color: #f9f9f9;
+}
+
+.home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.home-header {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.home-content {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+.home-footer {
+    margin-top: 2rem;
+    font-size: 0.875rem;
+    color: #999;
+}
