@@ -1,0 +1,11 @@
+<div class="game-container">
+  <div class="story">
+    <p>{{ currentStory.text }}</p>
+  </div>
+
+  <div class="choices" *ngIf="currentStory.choices">
+    <button *ngFor="let choice of currentStory.choices" (click)="makeChoice(choice.next)">
+      {{ choice.text }}
+    </button>
+  </div>
+</div>

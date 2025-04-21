@@ -1,0 +1,83 @@
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .login-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .login-container h1 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .login-container form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .login-container input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+
+  .login-container button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .login-container button:hover {
+    background-color: #0056b3;
+  }
+
+  .login-container .signup-link {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+
+  .login-container .signup-link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  .login-container .signup-link a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="login-container">
+  <h1>Login</h1>
+  <form (submit)="onLogin($event)">
+    <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required />
+    <input type="password" placeholder="Password" [(ngModel)]="password" name="password" required />
+    <button type="submit">Login</button>
+  </form>
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+  <div class="signup-link">
+    <p>Don't have an account? <a href="/signup">Sign up</a></p>
+  </div>
+</div>

@@ -1,7 +1,87 @@
 :host {
     display: block;
-    padding: 1rem;
+    padding: 2rem;
     background-color: #f9f9f9;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+}
+
+.home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+.home-header {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.home-content {
+    font-size: 1.125rem;
+    color: #34495e;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.home-footer {
+    margin-top: 2rem;
+    font-size: 0.875rem;
+    color: #7f8c8d;
+    border-top: 1px solid #ecf0f1;
+    padding-top: 1rem;
+    text-align: center;
+}
+
+button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+input[type="text"], input[type="email"], textarea {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #2c3e50;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 .home-container {
@@ -28,3 +108,81 @@
     font-size: 0.875rem;
     color: #999;
 }
+
+.home-container {
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .home-header {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+  }
+
+  .home-header h1 {
+    font-size: 2rem;
+    color: #333;
+  }
+
+  .home-header p {
+    font-size: 1.2rem;
+    color: #555;
+  }
+
+  section {
+    margin-top: 100px;
+    padding: 100px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+  }
+
+  section h2 {
+    font-size: 1.5rem;
+    color: #007bff;
+    margin-bottom: 10px;
+  }
+
+  section p {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.5;
+  }
+
+  form {
+    margin-top: 10px;
+  }
+
+  form input {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  form button:hover {
+    background-color: #0056b3;
+  }
+
+  .call-to-action button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .call-to-action button:hover {
+    background-color: #218838;
+  }
