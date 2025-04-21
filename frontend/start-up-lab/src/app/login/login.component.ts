@@ -1,26 +1,31 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss']
+  selector: 'app-login',
+  imports: [CommonModule, FormsModule],
+  standalone: true,
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-    loginForm: FormGroup;
+  email: string = '';
+  password: string = '';
+  errorMessage: string = '';
 
-    constructor(private fb: FormBuilder) {
-        this.loginForm = this.fb.group({
-            email: ['', [Validators.required, Validators.email]],
-            password: ['', [Validators.required, Validators.minLength(6)]]
-        });
-    }
+  onLogin(event: Event) {
+    event.preventDefault();
 
-    onSubmit(): void {
-        if (this.loginForm.valid) {
-            console.log('Form Submitted', this.loginForm.value);
-        } else {
-            console.log('Form is invalid');
-        }
+    // Mock login validation
+    if (this.email === 'test@example.com' && this.password === 'password') {
+      // Store session cookie
+      document.cookie = `session=mock-session-token; path=/; max-age=3600`; // Expires in 1 hour
+      alert('Login successful!');
+      this.errorMessage = '';
+    } else {
+      this.errorMessage = 'Invalid email or password.';
     }
+  }
 }

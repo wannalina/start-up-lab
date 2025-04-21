@@ -71,11 +71,12 @@
 
 <div class="login-container">
   <h1>Login</h1>
-  <form>
-    <input type="email" placeholder="Email" required />
-    <input type="password" placeholder="Password" required />
+  <form (submit)="onLogin($event)">
+    <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required />
+    <input type="password" placeholder="Password" [(ngModel)]="password" name="password" required />
     <button type="submit">Login</button>
   </form>
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
   <div class="signup-link">
     <p>Don't have an account? <a href="/signup">Sign up</a></p>
   </div>

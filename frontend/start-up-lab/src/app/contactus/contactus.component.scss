@@ -4,7 +4,7 @@
     align-items: center;
     min-height: 100vh;
     padding: 2rem;
-    background-color: #f9f9f9;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
     font-family: Arial, sans-serif;
 }
 
@@ -12,10 +12,16 @@
     max-width: 600px;
     width: 100%;
     background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    padding: 2.5rem;
     text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contactus-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
 .contactus-header {
@@ -27,12 +33,14 @@
     font-size: 2.5rem;
     margin: 0;
     color: #007bff;
+    font-weight: bold;
 }
 
 .contactus-header p {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #555;
     margin-top: 0.5rem;
+    line-height: 1.6;
 }
 
 .contactus-form {
@@ -46,11 +54,20 @@
 .contactus-form textarea {
     width: 100%;
     max-width: 500px;
-    padding: 0.75rem;
-    border: 1px solid #ccc;
+    padding: 0.9rem;
+    border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 1rem;
-    text-align: center;
+    text-align: left;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contactus-form input:focus,
+.contactus-form textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
 }
 
 .contactus-form textarea {
@@ -59,12 +76,13 @@
 }
 
 .contactus-form button {
-    padding: 0.75rem 2rem;
+    padding: 0.9rem 2.5rem;
     background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
@@ -76,4 +94,10 @@
 
 .contactus-form button:active {
     transform: scale(1);
+}
+
+.contactus-footer {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: #777;
 }
