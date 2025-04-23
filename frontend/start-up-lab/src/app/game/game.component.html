@@ -1,8 +1,13 @@
 <div class="game-container">
   <div class="story">
-    <p>{{ currentStory.text }}</p>
+    <!-- Display the image if it exists -->
+    <img *ngIf="currentStory.image" [src]="currentStory.image" alt="Story Image" class="story-image" />
+
+    <!-- Display the text if it exists -->
+    <p *ngIf="currentStory.text">{{ currentStory.text }}</p>
   </div>
 
+  <!-- Display choices if they exist -->
   <div class="choices" *ngIf="currentStory.choices">
     <button *ngFor="let choice of currentStory.choices" (click)="makeChoice(choice.next)">
       {{ choice.text }}
