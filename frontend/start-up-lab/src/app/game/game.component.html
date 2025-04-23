@@ -1,16 +1,17 @@
-<div class="game-container">
-  <div class="story">
-    <!-- Display the image if it exists -->
-    <img *ngIf="currentStory.image" [src]="currentStory.image" alt="Story Image" class="story-image" />
-
-    <!-- Display the text if it exists -->
-    <p *ngIf="currentStory.text">{{ currentStory.text }}</p>
+<div class="game-container" [ngClass]="currentStory.layout">
+  <!-- Image on the left -->
+  <div class="story-image" *ngIf="currentStory.image">
+    <img [src]="currentStory.image" alt="Story Image" />
   </div>
 
-  <!-- Display choices if they exist -->
-  <div class="choices" *ngIf="currentStory.choices">
-    <button *ngFor="let choice of currentStory.choices" (click)="makeChoice(choice.next)">
-      {{ choice.text }}
-    </button>
+  <!-- Text and choices on the right -->
+  <div class="story-content">
+    <p *ngIf="currentStory.text">{{ currentStory.text }}</p>
+
+    <div class="choices" *ngIf="currentStory.choices">
+      <button *ngFor="let choice of currentStory.choices" (click)="makeChoice(choice.next)">
+        {{ choice.text }}
+      </button>
+    </div>
   </div>
 </div>
