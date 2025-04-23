@@ -13,4 +13,9 @@ import { FormsModule } from '@angular/forms';
 })
 export class AppComponent {
   title = 'start-up-lab';
+  menuOpen: boolean = false;
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
 }

@@ -42,7 +42,7 @@ export class GameComponent implements OnInit {
     if (!this.currentStory.choices && this.currentStory.next) {
       setTimeout(() => {
         this.makeChoice(this.currentStory.next);
-      }, 5000); // 5 seconds delay
+      }, 2000); // 5 seconds delay
     }
   }
 }
