@@ -1,0 +1,20 @@
+<div class="report-container">
+    <div class="game-overview-container">
+        <p>{{ report.overview | json }}</p>
+    </div>
+    <div class="traits-container">
+        <p *ngFor="let trait of report.traits">{{ trait | json }}</p>
+    </div>
+    <div class="strengths-container">
+        <p>{{ report.strengths }}</p>
+    </div>
+    <div class="challenges-container">
+        <p>{{ report.challenges }}</p>
+    </div>
+    <div class="recommendations-container">
+        <p>{{ report.recommendations }}</p>
+    </div>
+    <div class="questions-container">
+        <p>{{ report.questions }}</p>
+    </div>
+</div>
