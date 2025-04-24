@@ -1,20 +1,26 @@
 <div class="report-container">
-    <div class="game-overview-container">
-        <p>{{ report.overview | json }}</p>
+    <div class="overview-container">
+        <p>{{ report.overview }}</p>
     </div>
     <div class="traits-container">
-        <p *ngFor="let trait of report.traits">{{ trait | json }}</p>
+        <ul>
+            <li *ngFor="let trait of report.traits"> {{ formatJsonObject(trait) }} </li>
+        </ul>
     </div>
     <div class="strengths-container">
         <p>{{ report.strengths }}</p>
     </div>
     <div class="challenges-container">
-        <p>{{ report.challenges }}</p>
+        <li>{{ report.challenges }}</li>
     </div>
     <div class="recommendations-container">
-        <p>{{ report.recommendations }}</p>
+        <ul>
+            <li *ngFor="let rec of report.recommendations"> {{ formatJsonObject(rec) }} </li>
+        </ul>
     </div>
     <div class="questions-container">
-        <p>{{ report.questions }}</p>
+        <ul>
+            <li *ngFor="let question of report.questions"> {{ formatJsonObject(question) }} </li>
+        </ul>
     </div>
 </div>
