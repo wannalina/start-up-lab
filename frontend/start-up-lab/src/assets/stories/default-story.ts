@@ -17,7 +17,7 @@ export const defaultStory = {
     select: {
       text: 'Choose your character',
       image: null,
-      layout: 'image-left',
+      layout: 'default',
       choices: [
         { text: 'Crew Member', next: 'character' },
         { text: 'Commander', next: 'character' },
@@ -64,7 +64,7 @@ export const defaultStory = {
     end: {
       text: 'You survived! The end.',
       image: 'assets/images/danger.jpg',
-      layout: 'default',
+      layout: 'image-left',
       choices: null
     }
   };

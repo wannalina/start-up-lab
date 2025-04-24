@@ -11,7 +11,7 @@
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   background-color: #f8f9fa;
   padding: 10px 20px;
   flex-wrap: wrap;
@@ -37,7 +37,7 @@
 
 .navbar-link {
   text-decoration: none;
-  color: #007bff;
+  color: #7c7aac;
   font-weight: bold;
 }
 
@@ -47,11 +47,12 @@
 
 .login-button {
   padding: 5px 15px;
-  background-color: #007bff;
+  background-color: #7c7aac;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-left: auto;
 }
 
 .login-button:hover {
@@ -60,7 +61,7 @@
 
 .menu-toggle {
   display: none;
-  background-color: #007bff;
+  background-color: #7c7aac;
   color: white;
   border: none;
   padding: 10px;
@@ -98,11 +99,17 @@
 
   .menu-toggle {
     display: block; /* Show the toggle button */
+    margin-left: auto;
   }
 
   .login-button {
+    display: none;
     align-self: flex-start;
     margin-top: 10px;
+  }
+
+  .login-button.show{
+    display: block; 
   }
 }
 
@@ -131,7 +138,7 @@
     <div class="left-side">
       <nav class="navbar">
         <a href="home">
-          <img src="assets/favicon.ico" alt="Logo" style="height: 30px; margin-right: 15px;">
+          <img src="assets/logo/logo.jpg" alt="Logo" style="height: 30px; margin-right: 15px;">
         </a>
         <button class="menu-toggle" (click)="toggleMenu()">☰ Menu</button>
         <ul class="navbar-list" [class.show]="menuOpen">
@@ -140,7 +147,7 @@
           <li class="navbar-item"><a href="services" class="navbar-link">Services</a></li>
           <li class="navbar-item"><a href="contactus" class="navbar-link">Contact</a></li>
         </ul>
-        <a href="login" class="login-button">Login</a>
+        <a [class.show]="menuOpen" href="login" class="login-button">Login</a>
       </nav>
     </div>
   </div>
@@ -148,7 +155,7 @@
 
 
 <router-outlet></router-outlet>
-<footer style="background-color: #f8f9fa; padding: 10px; text-align: center; margin-top: 20px;">
+<footer style="background-color: #f8f9fa; padding: 25px; text-align: center;">
   <p>&copy; 2025 Game 2 Hire. All rights reserved.</p>
   <p>
     <a href="privacy-policy" style="text-decoration: none; color: #007bff;">Privacy Policy</a> |
