@@ -1,0 +1,23 @@
+{
+    "name": "Collaborator",
+    "score": 4,
+    "image": "../../assets/pictures/crew_member.png",
+    "overview": "You thrive in teams, seek input, and value collective success.",
+    "traits": [
+        {"Supportive": "You step up for others in times of need."},
+        {"Empathetic": "You sense and care about others' perspectives."},
+        {"Team-Oriented": "You find strength in collaboration and shared goals."}
+    ],
+    "strengths": "Empathy, cooperation, adaptability.",
+    "challenges": "Can defer too much to others or struggle with leadership.",
+    "recommendations": [
+        "Identify when to lead and when to follow.",
+        "Maintain boundaries while supporting others.",
+        "Use emotional insight as a superpower."
+    ],
+    "questions": [
+        "How do you balance others' needs with your own?",
+        "What roles do you naturally take in a group?",
+        "When have you taken initiative with others' support?"
+    ]
+}

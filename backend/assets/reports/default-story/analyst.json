@@ -1,0 +1,23 @@
+{
+    "name": "Analyst",
+    "score": 2,
+    "image": "../../assets/pictures/crew_member.png",
+    "overview": "You observe, analyze, and think ahead. Caution is your strength.",
+    "traits": [
+        {"Thoughtful": "You tend to consider options carefully before acting."},
+        {"Planner": "You prioritize strategy and long-term outcomes."},
+        {"Reserved": "You may prefer independent problem-solving."}
+    ],
+    "strengths": "Analytical thinking, strategic planning, emotional control.",
+    "challenges": "May overthink or hesitate in high-pressure moments.",
+    "recommendations": [
+        "Practice quick decision-making in low-stakes scenarios.",
+        "Engage in group activities to boost interpersonal agility.",
+        "Balance caution with action."
+    ],
+    "questions": [
+        "How can you turn careful analysis into confident action?",
+        "What are the costs of hesitation?",
+        "Who helps you move from planning to execution?"
+    ]
+}

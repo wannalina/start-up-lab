@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 export class GameComponent implements OnInit {
   story: any;
   currentStory: any;
+  chosenCharacter: string = '';
 
   constructor(private gameStateService: GameStateService, private router: Router, private route: ActivatedRoute) {}
 
@@ -47,7 +48,7 @@ export class GameComponent implements OnInit {
     }
   }
 
-  makeChoice(next: string) {
+  makeChoice(choice: any, next: string) {
     // update choice score to determine report
     this.updateGameScore(next);
 
@@ -58,13 +59,17 @@ export class GameComponent implements OnInit {
       }, 2000);
     }
 
+    if (next === 'character') {
+      this.gameStateService.setCharacter(choice.text);
+    }
+
     // Update the current story based on the user's choice
     this.currentStory = this.story[next];
 
     // If there are no choices, auto-advance to the next story after 5 seconds
     if (!this.currentStory.choices && this.currentStory.next) {
       setTimeout(() => {
-        this.makeChoice(this.currentStory.next);
+        this.makeChoice(this.currentStory.choice, this.currentStory.next);
       }, 2000); // 5 seconds delay
     }
   }

@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Press+Start+2P&display=swap');
+
+$font-pixel: 'Press Start 2P', monospace;
+$font-body: 'Inter', sans-serif;
+$primary-yellow: #ffe14d;
+$text-black: #000;
+$background-white: #fff;
+
+.report-container {
+    background-color: $background-white;
+    padding: 2rem;
+    font-family: $font-body;
+    color: $text-black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+
+    .title-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .title-image {
+        max-width: 150px;
+        height: auto;
+        border-radius: 0.5rem;
+    }
+
+    p, li {
+        font-size: 1.15rem;
+        line-height: 1.5;
+    }
+
+    ul {
+        // list-style: none;
+        padding: 2rem;
+    }
+
+    .overview-container {
+        width: 80%;
+        background: rgba(255, 225, 77, 0.3);
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 3px 3px 0 $text-black;
+        text-align: center;
+    }
+
+    .list-container {
+        width: 80%;
+        background: $primary-yellow;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 3px 3px 0 $text-black;
+
+        li {
+        margin: 0.5rem 0;
+        }
+    }
+
+    .side-by-side {
+        width: 80%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+
+        .strengths-container,
+        .challenges-container {
+        background: rgba(255, 225, 77, 0.3);
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 3px 3px 0 $text-black;
+        flex: 1 1 300px;
+        }
+    }
+
+    /*
+    .recommendations-container,
+    .questions-container {
+        width: 90%;
+
+        li {
+        background: $primary-yellow;
+        margin: 1rem 0;
+        padding: 1rem;
+        border-radius: 1rem;
+        box-shadow: 3px 3px 0 $text-black;
+        }
+    } */
+
+    h1 {
+        font-size: 3rem;
+        font-family: $font-pixel;
+    }
+
+    h2 {
+        font-size: 1rem;
+        font-family: $font-pixel;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        text-align: center;
+    }
+}

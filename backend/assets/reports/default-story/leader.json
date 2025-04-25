@@ -1,0 +1,23 @@
+{
+    "name": "Leader",
+    "score": 6,
+    "image": "../../assets/pictures/crew_member.png",
+    "overview": "You take initiative, direct action, and aren't afraid to stand alone.",
+    "traits": [
+        {"Decisive": "You make quick choices under pressure."},
+        {"Initiator": "You move forward even when others hesitate."},
+        {"Commanding": "You naturally step into leadership roles."}
+    ],
+    "strengths": "Initiative, decision-making, confidence.",
+    "challenges": "May overlook input of othersor move too quickly.",
+    "recommendations": [
+        "Pause to invite feedback from your team.",
+        "Reflect on the consequences of impulsive action.",
+        "Balance leadership with listening."
+    ],
+    "questions": [
+        "How do you know when to take charge and when to step back?",
+        "Who helps you stay grounded when leading?",
+        "What do you gain by listening before acting?"
+    ]
+}

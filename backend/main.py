@@ -15,8 +15,8 @@ def get_game_results():
         final_score = request.args.get('score')
 
         # determine which report to select
-        report_name = determine_report(story_name, final_score)
-        return report_name
+        report = determine_report(story_name, final_score)
+        return report
     except Exception as e:
         return f'An error occurred: {e}'
 

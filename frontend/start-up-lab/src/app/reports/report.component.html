@@ -1,26 +1,38 @@
-<div class="report-container">
+<div class="report-container" *ngIf="report.name">
+    <div class="title-container">
+        <h1>{{ report.name }}</h1>
+        <img [src]="report.image" class="title-image" alt="Report Image" class="title-image">
+    </div>
     <div class="overview-container">
+        <h2>Candidate Overview</h2>
         <p>{{ report.overview }}</p>
     </div>
-    <div class="traits-container">
+    <div class="list-container" id="traits">
+        <h2>Personality Traits</h2>
         <ul>
             <li *ngFor="let trait of report.traits"> {{ formatJsonObject(trait) }} </li>
         </ul>
     </div>
-    <div class="strengths-container">
-        <p>{{ report.strengths }}</p>
+    <div class="side-by-side">
+        <div class="strengths-container">
+            <h2>Strengths</h2>
+            <p>{{ report.strengths }}</p>
+        </div>
+        <div class="challenges-container">
+            <h2>Challenges</h2>
+            <p>{{ report.challenges }}</p>
+        </div>
     </div>
-    <div class="challenges-container">
-        <p>{{ report.challenges }}</p>
-    </div>
-    <div class="recommendations-container">
+    <div class="list-container" id="recommendations">
+        <h2>Recommendations</h2>
         <ul>
-            <li *ngFor="let rec of report.recommendations"> {{ formatJsonObject(rec) }} </li>
+            <li *ngFor="let rec of report.recommendations"> {{ rec }} </li>
         </ul>
     </div>
-    <div class="questions-container">
+    <div class="list-container" id="questions">
+        <h2>Question Prompts</h2>
         <ul>
-            <li *ngFor="let question of report.questions"> {{ formatJsonObject(question) }} </li>
+            <li *ngFor="let question of report.questions"> {{ question }} </li>
         </ul>
     </div>
 </div>

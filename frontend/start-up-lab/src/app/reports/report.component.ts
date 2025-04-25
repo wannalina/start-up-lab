@@ -1,9 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environment';
-import { firstValueFrom } from 'rxjs';
 import { GameStateService } from '../services/game_state.service';
+import { CommonModule } from '@angular/common';
+
+class Report {
+    name?: string;
+    image?: string;
+    score?: number;
+    overview?: string;
+    traits?: { [key: string]: string }[];
+    strengths?: string;
+    challenges?: string;
+    recommendations?: string[];
+    questions?: string[];
+}
 
 @Component({
     selector: 'app-report',
@@ -12,33 +23,32 @@ import { GameStateService } from '../services/game_state.service';
     templateUrl: './report.component.html',
     styleUrls: ['./report.component.scss']
 })
+
 export class ReportComponent implements OnInit {
     storyName: string = this.gameStateService.name();
-    selectedReportName: string = '';
-    report: any = {};
+    report: Report = new Report();
     finalScore: number = this.gameStateService.score();
 
     constructor(private http: HttpClient, private gameStateService: GameStateService) {}
 
     async ngOnInit() {
-        this.selectedReportName = await this.getReportName();
-        this.report = await this.loadReport();
+        this.report = await this.getReport();
+    }
+
+    // function to reset signals after end of game
+    resetSignals() {
+        this.gameStateService.resetCharacter();
+        this.gameStateService.resetScore();
+        this.gameStateService.resetStoryName();
     }
 
     // function to fetch report name based on story name
-    async getReportName() {
+    async getReport(): Promise<Report> {
         // fetch report name to display
-        console.log("score:", this.finalScore);
         const response = (await fetch(`${environment.serverApiUrl}/get-report?storyName=${this.storyName}&score=${this.finalScore}`));
-        this.selectedReportName = await response.text();
-        return this.selectedReportName;
-    }
+        this.report = await response.json();
 
-    // function to load report data based on game and report names
-    async loadReport(): Promise<Object | undefined>  {
-        // path to report json files
-        const reportUrl = `../../assets/reports/${this.storyName}/${this.selectedReportName}.json`;
-        this.report = await firstValueFrom(this.http.get(reportUrl));
+        this.resetSignals();
         return this.report;
     }
 

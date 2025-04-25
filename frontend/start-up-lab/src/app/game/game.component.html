@@ -9,7 +9,7 @@
     <p *ngIf="currentStory.text">{{ currentStory.text }}</p>
 
     <div class="choices" *ngIf="currentStory.choices">
-      <button *ngFor="let choice of currentStory.choices" (click)="makeChoice(choice.next)">
+      <button *ngFor="let choice of currentStory.choices" (click)="makeChoice(choice, choice.next)">
         {{ choice.text }}
       </button>
     </div>
