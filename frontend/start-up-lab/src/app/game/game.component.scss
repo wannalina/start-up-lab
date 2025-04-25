@@ -62,6 +62,12 @@
   justify-content: center;
 }
 
+.story-text {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
 .choices {
   display: flex;
   flex-direction: column; /* Arrange buttons in a single column */
@@ -77,8 +83,50 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  max-width: 1200px; /* Limit button width */
+  align-self: center;
 }
 
 .choices button:hover {
   background-color: #0056b3;
+}
+
+/* Responsive Design for iPads and iPhones */
+@media (max-width: 768px) { /* For iPads and smaller devices */
+  .game-container {
+    padding-top: 5rem; /* Reduce padding for smaller screens */
+  }
+  .game-container.image-left {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;
+    text-align: center;
+  }
+
+  .game-container.image-left .story-image {
+    max-width: 100%; /* Image takes full width */
+    width: 100%; /* Image takes full width */
+    height: 30vh; /* Image takes up the top half of the screen */
+    margin-bottom: 1rem;
+  }
+
+  .game-container.image-left .story-content {
+    flex: none; /* Reset flex behavior */
+    width: 100%; /* Content takes full width */
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) { /* For iPhones and smaller devices */
+  .game-container.image-left .story-image {
+    height: 30vh; /* Slightly smaller image for iPhones */
+  }
+
+  .story-text {
+    font-size: 1rem; /* Adjust font size for smaller screens */
+  }
+
+  .choices button {
+    font-size: 0.9rem; /* Adjust button font size */
+    padding: 0.5rem 1rem; /* Adjust button padding */
+  }
 }
