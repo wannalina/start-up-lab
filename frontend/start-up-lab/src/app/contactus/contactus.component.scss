@@ -4,8 +4,8 @@
     align-items: center;
     min-height: 100vh;
     padding: 2rem;
-    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #eaeaf5, #e1dcf9);
+    font-family: 'Arial', sans-serif;
 }
 
 .contactus-container {
@@ -54,19 +54,20 @@
 .contactus-form textarea {
     width: 100%;
     max-width: 500px;
-    padding: 0.9rem;
+    padding: 1rem;
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 1rem;
     text-align: left;
     background-color: #f9f9f9;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .contactus-form input:focus,
 .contactus-form textarea:focus {
     border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
     outline: none;
 }
 
@@ -76,28 +77,40 @@
 }
 
 .contactus-form button {
-    padding: 0.9rem 2.5rem;
+    padding: 1rem 3rem;
     background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 8px;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .contactus-form button:hover {
     background-color: #0056b3;
-    transform: scale(1.05);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .contactus-form button:active {
-    transform: scale(1);
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .contactus-footer {
     margin-top: 2rem;
     font-size: 0.9rem;
     color: #777;
+}
+
+.contactus-footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contactus-footer a:hover {
+    text-decoration: underline;
 }
