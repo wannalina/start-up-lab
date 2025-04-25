@@ -36,6 +36,10 @@
   width: 100%;
   text-align: left;
 
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+
   h2 {
     font-size: 2rem;
     color: #333;
@@ -79,6 +83,11 @@
   }
 }
 
+.aboutus-content.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .team-section {
   display: flex;
   flex-wrap: wrap;
@@ -116,4 +125,10 @@
 .team-member p {
   font-size: 1rem;
   color: #95a5a6;
+}
+
+@media (max-width: 768px) { /* For iPads and smaller devices */
+  .aboutus-container {
+    padding-top: 5rem; /* Reduce padding for smaller screens */
+  }
 }
