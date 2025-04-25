@@ -1,50 +1,136 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-  * {
-    font-family: 'Roboto', sans-serif;
-  }
 
+* {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #f8f9fa;
+  padding: 10px 20px;
+  flex-wrap: wrap;
+  width: 100%;
+  z-index: 1000; /* Ensure it stays above other content */
+}
+
+.navbar img {
+  height: 30px;
+  margin-right: 15px;
+}
+
+.navbar-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-item {
+  margin: 0 15px;
+}
+
+.navbar-link {
+  text-decoration: none;
+  color: #7c7aac;
+  font-weight: bold;
+}
+
+.navbar-link:hover {
+  text-decoration: underline;
+}
+
+.login-button {
+  padding: 5px 15px;
+  background-color: #7c7aac;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.login-button:hover {
+  background-color: #0056b3;
+}
+
+.menu-toggle {
+  display: none;
+  background-color: #7c7aac;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.menu-toggle:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) { /* For iPads and smaller devices */
   .navbar {
-    display: flex;
-    justify-content: center;
-    background-color: #f8f9fa;
-    padding: 10px;
+    position: fixed; /* Make the navbar fixed only for iPads and smaller devices */
+    top: 0;
+    left: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
   }
 
   .navbar-list {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    display: none; /* Hide the menu by default */
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .navbar-list.show {
+    display: flex; /* Show the menu when toggled */
   }
 
   .navbar-item {
-    margin: 0 15px;
+    margin: 10px 0;
   }
 
-  .navbar-link {
-    text-decoration: none;
-    color: #007bff;
-    font-weight: bold;
-  }
-
-  .navbar-link:hover {
-    text-decoration: underline;
+  .menu-toggle {
+    display: block; /* Show the toggle button */
+    margin-left: auto;
   }
 
   .login-button {
-    margin-left: auto;
-    padding: 5px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    display: none;
+    align-self: flex-start;
+    margin-top: 10px;
   }
 
-  .login-button:hover {
-    background-color: #0056b3;
+  .login-button.show{
+    display: block; 
   }
+}
+
+@media (max-width: 480px) { /* For iPhones and smaller devices */
+  .navbar {
+    padding: 10px;
+  }
+
+  .navbar img {
+    height: 25px;
+  }
+
+  .navbar-link {
+    font-size: 0.9rem;
+  }
+
+  .login-button {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+  }
+}
 </style>
 
 <main class="main">
@@ -52,24 +138,25 @@
     <div class="left-side">
       <nav class="navbar">
         <a href="home">
-          <img src="assets/favicon.ico" alt="Logo" style="height: 30px; margin-right: 15px;">
+          <img src="assets/logo/logo.jpg" alt="Logo" style="height: 30px; margin-right: 15px;">
         </a>
-        <ul class="navbar-list">
+        <button class="menu-toggle" (click)="toggleMenu()">☰ Menu</button>
+        <ul class="navbar-list" [class.show]="menuOpen">
           <li class="navbar-item"><a href="home" class="navbar-link">Home</a></li>
           <li class="navbar-item"><a href="aboutus" class="navbar-link">About</a></li>
           <li class="navbar-item"><a href="services" class="navbar-link">Services</a></li>
           <li class="navbar-item"><a href="contactus" class="navbar-link">Contact</a></li>
         </ul>
-        <a href="login" class="login-button">Login</a>
+        <a [class.show]="menuOpen" href="login" class="login-button">Login</a>
       </nav>
     </div>
   </div>
 </main>
 
 
-<router-outlet />
-<footer style="background-color: #f8f9fa; padding: 10px; text-align: center; margin-top: 20px;">
-  <p>&copy; 2023 Start-Up Lab. All rights reserved.</p>
+<router-outlet></router-outlet>
+<footer style="background-color: #f8f9fa; padding: 25px; text-align: center;">
+  <p>&copy; 2025 Game 2 Hire. All rights reserved.</p>
   <p>
     <a href="privacy-policy" style="text-decoration: none; color: #007bff;">Privacy Policy</a> |
     <a href="terms-of-service" style="text-decoration: none; color: #007bff;">Terms of Service</a>

@@ -1,32 +1,84 @@
 .game-container {
-    display: flex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: #f4f4f4;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+
+  &.image-left {
+    flex-direction: row; /* Arrange items horizontally */
+    align-items: stretch; /* Stretch items to fill the height */
+    text-align: left;
+  }
+
+  &.image-only {
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 2rem;
-    background-color: #f4f4f4;
-    font-family: 'Arial', sans-serif;
+    justify-content: center; /* Center the image vertically */
     text-align: center;
   }
-  
-  .story {
-    margin-bottom: 2rem;
-    font-size: 1.2rem;
-    color: #333;
+}
+
+.story {
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.story-image {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  & img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
   }
-  
-  .choices button {
-    margin: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .choices button:hover {
-    background-color: #0056b3;
-  }
+}
+
+.game-container.image-left .story-image {
+  flex: 1; /* Take up half the screen */
+  max-width: 50%; /* Limit the width to 50% */
+  margin-bottom: 0; /* Remove bottom margin for horizontal layout */
+}
+
+.game-container.image-only .story-image {
+  max-width: 50%; /* Limit the width to 50% for centered image */
+  margin: 0 auto; /* Center the image horizontally */
+}
+
+.story-content {
+  flex: 1; /* Take up the other half of the screen */
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.choices {
+  display: flex;
+  flex-direction: column; /* Arrange buttons in a single column */
+  gap: 0.5rem; /* Add spacing between buttons */
+  margin-top: 1rem;
+}
+
+.choices button {
+  padding: 0.75rem 1.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.choices button:hover {
+  background-color: #0056b3;
+}
