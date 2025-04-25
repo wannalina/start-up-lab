@@ -1,5 +1,6 @@
 {
     "name": "Report One", 
+    "score": 11,
     "overview": "Overview here",
     "traits": [
         { "traitOne": "1" }, 

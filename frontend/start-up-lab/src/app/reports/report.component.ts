@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environment';
 import { firstValueFrom } from 'rxjs';
+import { GameStateService } from '../services/game_state.service';
 
 @Component({
     selector: 'app-report',
@@ -12,11 +13,12 @@ import { firstValueFrom } from 'rxjs';
     styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
-    storyName: string = 'gameOne'; //! placeholder until game component supports this
+    storyName: string = this.gameStateService.name();
     selectedReportName: string = '';
     report: any = {};
+    finalScore: number = this.gameStateService.score();
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private gameStateService: GameStateService) {}
 
     async ngOnInit() {
         this.selectedReportName = await this.getReportName();
@@ -26,7 +28,9 @@ export class ReportComponent implements OnInit {
     // function to fetch report name based on story name
     async getReportName() {
         // fetch report name to display
-        this.selectedReportName = await (await fetch(`${environment.serverApiUrl}/get-report?storyName=${this.storyName}`)).text();
+        console.log("score:", this.finalScore);
+        const response = (await fetch(`${environment.serverApiUrl}/get-report?storyName=${this.storyName}&score=${this.finalScore}`));
+        this.selectedReportName = await response.text();
         return this.selectedReportName;
     }
 
