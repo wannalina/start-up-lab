@@ -5,8 +5,8 @@
   </div>
 
   <!-- Text and choices on the right -->
-  <div class="story-content">
-    <p *ngIf="currentStory.text">{{ currentStory.text }}</p>
+  <div class="story-content" *ngIf="currentStory.text || currentStory.choices">
+    <p class="story-text" *ngIf="currentStory.text"><strong>{{ currentStory.text }}</strong></p>
 
     <div class="choices" *ngIf="currentStory.choices">
       <button *ngFor="let choice of currentStory.choices" (click)="makeChoice(choice, choice.next)">

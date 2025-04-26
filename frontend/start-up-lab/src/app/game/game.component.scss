@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 85vh;
   padding: 2rem;
   background-color: #f4f4f4;
   font-family: 'Arial', sans-serif;
@@ -13,13 +13,6 @@
     flex-direction: row; /* Arrange items horizontally */
     align-items: stretch; /* Stretch items to fill the height */
     text-align: left;
-  }
-
-  &.image-only {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Center the image vertically */
-    text-align: center;
   }
 }
 
@@ -33,6 +26,7 @@
   max-width: 100%;
   height: auto;
   margin-bottom: 1rem;
+  margin: 1rem;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
@@ -40,18 +34,24 @@
     width: 100%;
     height: auto;
     border-radius: 8px;
+    justify-self: center;
+    align-self: center; /* Center the image in the flex container */
   }
 }
 
 .game-container.image-left .story-image {
   flex: 1; /* Take up half the screen */
-  max-width: 50%; /* Limit the width to 50% */
-  margin-bottom: 0; /* Remove bottom margin for horizontal layout */
+  max-width: 50%; /* Limit the width to 50% *//* Remove bottom margin for horizontal layout */
 }
 
 .game-container.image-only .story-image {
-  max-width: 50%; /* Limit the width to 50% for centered image */
-  margin: 0 auto; /* Center the image horizontally */
+  flex: 1; /* Take up the other half of the screen */
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%; /* Full width for image-only layout */
+  max-width: 60%; /* Limit the width to 100% */
 }
 
 .story-content {
@@ -60,6 +60,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.story-text {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 1rem;
+  align-self: center;
+  text-align: center;
 }
 
 .choices {
@@ -77,8 +85,50 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  max-width: 1200px; /* Limit button width */
+  align-self: center;
 }
 
 .choices button:hover {
   background-color: #0056b3;
+}
+
+/* Responsive Design for iPads and iPhones */
+@media (max-width: 768px) { /* For iPads and smaller devices */
+  .game-container {
+    padding-top: 5rem; /* Reduce padding for smaller screens */
+  }
+  .game-container.image-left {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;
+    text-align: center;
+  }
+
+  .game-container.image-left .story-image {
+    max-width: 100%; /* Image takes full width */
+    width: 100%; /* Image takes full width */
+    height: 30vh; /* Image takes up the top half of the screen */
+    margin-bottom: 1rem;
+  }
+
+  .game-container.image-left .story-content {
+    flex: none; /* Reset flex behavior */
+    width: 100%; /* Content takes full width */
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) { /* For iPhones and smaller devices */
+  .game-container.image-left .story-image {
+    height: 30vh; /* Slightly smaller image for iPhones */
+  }
+
+  .story-text {
+    font-size: 1rem; /* Adjust font size for smaller screens */
+  }
+
+  .choices button {
+    font-size: 0.9rem; /* Adjust button font size */
+    padding: 0.5rem 1rem; /* Adjust button padding */
+  }
 }
