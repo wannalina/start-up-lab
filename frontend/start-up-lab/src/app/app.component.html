@@ -29,19 +29,12 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    flex-direction: column;
-    width: 100%;
-    max-height: 0; /* Initially hidden */
-    overflow: hidden; /* Hide overflowing content */
-    transition: max-height 0.3s ease-in-out; /* Smooth transition */
-  }
-
-  .navbar-list.show {
-    max-height: 300px; /* Adjust based on the number of items */
+    flex-direction: row; /* Default layout for larger screens */
+    width: auto; /* Allow the list to take its natural width */
   }
 
   .navbar-item {
-    margin: 10px 0;
+    margin: 0 15px; /* Add spacing between menu items */
   }
 
   .navbar-link {
@@ -55,6 +48,7 @@
   }
 
   .login-button {
+    display: none; /* Hide the login button by default */
     padding: 5px 15px;
     background-color: #7c7aac;
     color: white;
@@ -62,7 +56,6 @@
     border-radius: 5px;
     cursor: pointer;
     margin-left: auto;
-    display: none; /* Hide by default */;
   }
 
   .login-button:hover {
@@ -70,7 +63,7 @@
   }
 
   .menu-toggle {
-    display: none;
+    display: none; /* Hide the menu toggle button by default */
     background-color: #7c7aac;
     color: white;
     border: none;
@@ -95,14 +88,15 @@
     }
 
     .navbar-list {
-      display: flex;
-      flex-direction: column;
+      flex-direction: column; /* Stack items vertically */
       width: 100%;
-      margin-top: 10px;
+      max-height: 0; /* Initially hidden */
+      overflow: hidden; /* Hide overflowing content */
+      transition: max-height 0.3s ease-in-out; /* Smooth transition */
     }
 
     .navbar-list.show {
-      display: flex; /* Show the menu when toggled */
+      max-height: 300px; /* Adjust based on the number of items */
     }
 
     .navbar-item {
@@ -115,14 +109,14 @@
     }
 
     .login-button {
-      display: none;
+      display: none; /* Hide the login button by default */
       align-self: flex-start;
       margin-top: 10px;
       margin-left: 0;
     }
 
     .login-button.show {
-      display: none; /* Hide by default */;
+      display: none; /* Show the login button when the menu is open */
     }
   }
 
