@@ -3,14 +3,18 @@ import { Injectable, signal } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class GameStateService {
     private storyName = signal<string>('');
-    private scoreSignal = signal<number>(0);
     private chosenCharacter = signal<string>('');
+    private scoreSignal = signal<{ [key: string]: number }>({
+        Leader: 0,
+        Collaborator: 0,
+        Analyst: 0
+    });
 
     get name() {
         return this.storyName.asReadonly();
     }
 
-    get score() {
+    get scores() {
         return this.scoreSignal.asReadonly();
     }
 
@@ -36,11 +40,24 @@ export class GameStateService {
         this.chosenCharacter.set('');
     }
 
-    updateScore(amount: number) {
-        this.scoreSignal.set(this.scoreSignal() + amount);
+    updateScores(newScores: { [key: string]: number }) {
+        const currentScores = this.scoreSignal();
+        const updatedScores = { ...currentScores };
+
+        for (const key in newScores) {
+            if (updatedScores.hasOwnProperty(key)) {
+                updatedScores[key] += newScores[key];
+            }
+        }
+
+        this.scoreSignal.set(updatedScores);
     }
 
-    resetScore() {
-        this.scoreSignal.set(0);
+    resetScores() {
+        this.scoreSignal.set({
+            Leader: 0,
+            Collaborator: 0,
+            Analyst: 0
+        });
     }
 }

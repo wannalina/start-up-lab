@@ -40,17 +40,16 @@ export class GameComponent implements OnInit {
     this.gameStateService.setStoryName(this.story.name);
   }
 
-  updateGameScore(next: string) {
-    const selectedChoice = this.currentStory.choices?.find((choice: any) => choice.next === next);
-    if (selectedChoice && selectedChoice.score) {
-      const cumulativeScore = this.gameStateService.score() + selectedChoice.score;
-      this.gameStateService.updateScore(cumulativeScore);
+  updateGameScores(choice: any) {
+    if (choice && choice.scores) {
+      this.gameStateService.updateScores(choice.scores);
+      console.log("updated scores:", this.gameStateService.scores());
     }
   }
 
   makeChoice(choice: any, next: string) {
     // update choice score to determine report
-    this.updateGameScore(next);
+    this.updateGameScores(choice);
 
     // open the report if at the end of the game
     if (next === 'end') {
@@ -61,6 +60,7 @@ export class GameComponent implements OnInit {
 
     if (next === 'character') {
       this.gameStateService.setCharacter(choice.text);
+      console.log("char:", this.gameStateService.character());
     }
 
     // Update the current story based on the user's choice

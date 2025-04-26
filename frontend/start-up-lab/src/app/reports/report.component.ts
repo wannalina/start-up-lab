@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 class Report {
     name?: string;
     image?: string;
-    score?: number;
     overview?: string;
     traits?: { [key: string]: string }[];
     strengths?: string;
@@ -27,7 +26,7 @@ class Report {
 export class ReportComponent implements OnInit {
     storyName: string = this.gameStateService.name();
     report: Report = new Report();
-    finalScore: number = this.gameStateService.score();
+    finalScores: Object = this.gameStateService.scores();
 
     constructor(private http: HttpClient, private gameStateService: GameStateService) {}
 
@@ -38,14 +37,16 @@ export class ReportComponent implements OnInit {
     // function to reset signals after end of game
     resetSignals() {
         this.gameStateService.resetCharacter();
-        this.gameStateService.resetScore();
+        this.gameStateService.resetScores();
         this.gameStateService.resetStoryName();
     }
 
     // function to fetch report name based on story name
     async getReport(): Promise<Report> {
         // fetch report name to display
-        const response = (await fetch(`${environment.serverApiUrl}/get-report?storyName=${this.storyName}&score=${this.finalScore}`));
+        console.log("final score:", this.finalScores);
+        const encodedScores = encodeURIComponent(JSON.stringify(this.finalScores));
+        const response = (await fetch(`${environment.serverApiUrl}/get-report?storyName=${this.storyName}&score=${encodedScores}`));
         this.report = await response.json();
 
         this.resetSignals();

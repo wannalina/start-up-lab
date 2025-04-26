@@ -1,9 +1,17 @@
 import os
 import json
 
-def determine_report(story_name, score):
+def determine_report(story_name, scores):
+    """
+    scores: a dictionary like {"Leader": 4, "Collaborator": 2, "Analyst": 1}
+    """
     try:
-        score = int(score)
+        if not scores or not isinstance(scores, dict):
+            raise Exception("Invalid scores provided.")
+
+        # find the dominant type
+        dominant_type = max(scores, key=scores.get)
+        dominant_type = dominant_type.lower()
 
         # absolute path to reports folder
         base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -13,29 +21,19 @@ def determine_report(story_name, score):
         if not os.path.isdir(base_path):
             raise Exception(f"Report directory for story '{story_name}' not found at {base_path}")
 
-        # get all reports for the story
+        # load all report files
         report_files = [f for f in os.listdir(base_path) if f.endswith(".json")]
 
-        closest_report_data = None
-        closest_diff = float("inf")
-
-        # find the report with the closest matching score
         for filename in report_files:
             filepath = os.path.join(base_path, filename)
             with open(filepath, "r") as file:
                 report_data = json.load(file)
-                report_score = int(report_data.get("score", -1))
+                report_name = report_data.get("name", "").lower()
+                if report_name == dominant_type:
+                    return report_data
 
-                diff = abs(report_score - score)
-                if diff < closest_diff:
-                    closest_diff = diff
-                    closest_report_data = report_data
+        raise Exception(f"No matching report found for type '{dominant_type}'.")
 
-        if closest_report_data:
-            return closest_report_data
-        else:
-            raise Exception("No suitable report found.")
-    
     except Exception as e:
         print(f"Error determining report: {e}")
         return None

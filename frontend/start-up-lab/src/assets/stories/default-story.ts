@@ -5,7 +5,7 @@ export const defaultStory = {
     image: null,
     layout: 'default',
     choices: [
-      { text: 'Start', next: 'explore', score: null }
+      { text: 'Start', next: 'explore', scores: null }
     ]
   },
   explore: {
@@ -20,13 +20,13 @@ export const defaultStory = {
     image: null,
     layout: 'default',
     choices: [
-      { text: 'Crew Member', next: 'character', score: 1 },
-      { text: 'Commander', next: 'character', score: 1 },
-      { text: 'Tower Controller', next: 'character', score: 1 }
+      { text: 'Crew Member', next: 'character', scores: { Collaborator: 3 } },
+      { text: 'Commander', next: 'character', scores: { Leader: 3 } },
+      { text: 'Tower Controller', next: 'character', scores: { Analyst: 3 } }
     ]
   },
   character: {
-    text: 'You choose: Commander! Now you have to decide how to go on',
+    text: 'You choose your role! Now you have to decide how to go on.',
     image: 'assets/images/character.jpg',
     layout: 'image-left',
     choices: null,
@@ -37,9 +37,9 @@ export const defaultStory = {
     image: 'assets/images/alien.jpg',
     layout: 'image-left',
     choices: [
-      { text: 'Consult others and decide how to act together', next: 'injured', score: 1 },
-      { text: 'Give instructions to crew members on how to act', next: 'injured', score: 1 },
-      { text: 'Take initiative and face it alone', next: 'injured', score: 1 }
+      { text: 'Consult others and decide how to act together', next: 'injured', scores: { Collaborator: 2 } },
+      { text: 'Give instructions to crew members on how to act', next: 'injured', scores: { Leader: 2 } },
+      { text: 'Take initiative and face it alone', next: 'injured', scores: { Leader: 1, Analyst: 2 } }
     ]
   },
   injured: {
@@ -47,9 +47,9 @@ export const defaultStory = {
     image: null,
     layout: 'default',
     choices: [
-      { text: 'Leave them and continue to escape', next: 'alienGroup', score: 1 },
-      { text: 'Go back and help them, without thinking twice', next: 'alienGroup', score: 1 },
-      { text: 'Plan the best way to help them and ask other people for help if necessary', next: 'alienGroup', score: 1 }
+      { text: 'Leave them and continue to escape', next: 'alienGroup', scores: { Analyst: 1 } },
+      { text: 'Go back and help them, without thinking twice', next: 'alienGroup', scores: { Collaborator: 1, Leader: 2 } },
+      { text: 'Plan the best way to help them and ask other people for help if necessary', next: 'alienGroup', scores: { Analyst: 2, Collaborator: 2 } }
     ]
   },
   alienGroup: {
@@ -57,9 +57,9 @@ export const defaultStory = {
     image: 'assets/images/alien-group.jpg',
     layout: 'image-left',
     choices: [
-      { text: 'Use it by myself to hit each alien', next: 'end', score: 1 },
-      { text: 'Roll it to trip multiple aliens at once', next: 'end', score: 1 },
-      { text: 'Split the stick into pieces to make a weapon', next: 'end', score: 1 }
+      { text: 'Use it by myself to hit each alien', next: 'end', scores: { Leader: 1 } },
+      { text: 'Roll it to trip multiple aliens at once', next: 'end', scores: { Analyst: 1 } },
+      { text: 'Split the stick into pieces to make a weapon', next: 'end', scores: { Collaborator: 1 } }
     ]
   },
   end: {

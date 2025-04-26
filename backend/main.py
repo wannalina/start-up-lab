@@ -1,3 +1,4 @@
+import json
 from flask import Flask, request
 from flask_cors import CORS
 import os
@@ -12,10 +13,11 @@ def get_game_results():
     try:
         # get current game name from query parameters
         story_name = request.args.get('storyName')
-        final_score = request.args.get('score')
+        final_scores = request.args.get('score')
+        scores_dict = json.loads(final_scores)
 
         # determine which report to select
-        report = determine_report(story_name, final_score)
+        report = determine_report(story_name, scores_dict)
         return report
     except Exception as e:
         return f'An error occurred: {e}'
