@@ -1,134 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Press+Start+2P&display=swap');
+
+$font-pixel: 'Press Start 2P', monospace;
+$font-body: 'Inter', sans-serif;
+$primary-yellow: #ffe14d;
+$text-black: #000;
+$background-box-yellow: #ffe14d4d;
+$background-white: #fbfaf1;
+
 .game-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 85vh;
+  gap: 2rem;
   padding: 2rem;
-  background-color: #f4f4f4;
-  font-family: 'Arial', sans-serif;
+  height: 82vh;
+  background-color: $background-box-yellow;
+  font-family: $font-body;
+  color: $text-black;
   text-align: center;
 
+  &.image-left,
+  &.image-only {
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    .story-image {
+      display: flex;
+      justify-content: center;
+      border-radius: 0.5rem;
+      overflow: hidden;
+
+      img {
+        border-radius: 0.5rem;
+        object-fit: cover;
+      }
+    }
+  }
+
   &.image-left {
-    flex-direction: row; /* Arrange items horizontally */
-    align-items: stretch; /* Stretch items to fill the height */
-    text-align: left;
+    flex-direction: row;
+    align-items: stretch;
+
+    .story-image {
+      flex: 1;
+      max-width: 50%;
+      height: 100%;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
-}
 
-.story {
-  margin-bottom: 2rem;
-  font-size: 1.2rem;
-  color: #333;
-}
+  &.image-only {
+    .story-image {
+      width: 100%;
 
-.story-image {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 1rem;
-  margin: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-
-  & img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    justify-self: center;
-    align-self: center; /* Center the image in the flex container */
+      img {
+        width: auto;
+        max-width: 100%;
+        max-height: 90vh;
+      }
+    }
   }
-}
-
-.game-container.image-left .story-image {
-  flex: 1; /* Take up half the screen */
-  max-width: 50%; /* Limit the width to 50% *//* Remove bottom margin for horizontal layout */
-}
-
-.game-container.image-only .story-image {
-  flex: 1; /* Take up the other half of the screen */
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%; /* Full width for image-only layout */
-  max-width: 60%; /* Limit the width to 100% */
 }
 
 .story-content {
-  flex: 1; /* Take up the other half of the screen */
-  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
+  width: 70%;
+  min-height: 50vh;
+  padding: 2rem;
+  margin: 1rem;
+  border-radius: 1rem;
 
-.story-text {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 1rem;
-  align-self: center;
-  text-align: center;
+  p {
+    font-family: $font-body;
+    font-size: 1.4rem;
+    line-height: 1.5;
+  }
 }
 
 .choices {
   display: flex;
-  flex-direction: column; /* Arrange buttons in a single column */
-  gap: 0.5rem; /* Add spacing between buttons */
-  margin-top: 1rem;
-}
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
 
-.choices button {
-  padding: 0.75rem 1.5rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  max-width: 1200px; /* Limit button width */
-  align-self: center;
-}
+  button {
+    width: 100%;
+    max-width: 400px;
+    padding: 1rem 2rem;
+    background-color: $primary-yellow;
+    color: $text-black;
+    border: 2px solid $text-black;
+    border-radius: 1rem;
+    box-shadow: 3px 3px 0 $text-black;
+    font-family: $font-pixel;
+    font-size: 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
 
-.choices button:hover {
-  background-color: #0056b3;
-}
-
-/* Responsive Design for iPads and iPhones */
-@media (max-width: 768px) { /* For iPads and smaller devices */
-  .game-container {
-    padding-top: 5rem; /* Reduce padding for smaller screens */
+    &:hover {
+      transform: scale(1.02);
+      background-color: darken($primary-yellow, 10%);
+    }
   }
+}
+
+h1, h2 {
+  font-family: $font-pixel;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 1.2rem;
+}
+
+/* --- RESPONSIVE RULES --- */
+@media (max-width: 768px) {
   .game-container.image-left {
-    flex-direction: column; /* Stack items vertically */
+    flex-direction: column;
     align-items: center;
-    text-align: center;
   }
 
-  .game-container.image-left .story-image {
-    max-width: 100%; /* Image takes full width */
-    width: 100%; /* Image takes full width */
-    height: 30vh; /* Image takes up the top half of the screen */
-    margin-bottom: 1rem;
-  }
-
-  .game-container.image-left .story-content {
-    flex: none; /* Reset flex behavior */
-    width: 100%; /* Content takes full width */
+  .story-content {
+    width: 90%;
     padding: 1rem;
-  }
-}
-
-@media (max-width: 480px) { /* For iPhones and smaller devices */
-  .game-container.image-left .story-image {
-    height: 30vh; /* Slightly smaller image for iPhones */
-  }
-
-  .story-text {
-    font-size: 1rem; /* Adjust font size for smaller screens */
+    margin: 0.5rem;
   }
 
   .choices button {
-    font-size: 0.9rem; /* Adjust button font size */
-    padding: 0.5rem 1rem; /* Adjust button padding */
+    width: 90%;
+    font-size: 0.9rem;
   }
+
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .story-content {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .choices button {
+    width: 100%;
+    font-size: 0.85rem;
+  }
+
+  h1 { font-size: 1.7rem; }
+  h2 { font-size: 0.9rem; }
 }

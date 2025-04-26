@@ -67,7 +67,7 @@ export class GameComponent implements OnInit {
     // If there are no choices, auto-advance to the next story after 5 seconds
     if (!this.currentStory.choices && this.currentStory.next) {
       setTimeout(() => {
-        this.makeChoice(this.currentStory.choice, this.currentStory.next);
+      this.makeChoice(this.currentStory.choice, this.currentStory.next);
       }, 3000); // 5 seconds delay
     }
   }
