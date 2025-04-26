@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { defaultStory } from '../../assets/stories/default-story';
 import { adventureStory } from '../../assets/stories/test-story'; // Import the new story
+import { GameStateService } from '../services/game_state.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -14,8 +16,9 @@ import { adventureStory } from '../../assets/stories/test-story'; // Import the 
 export class GameComponent implements OnInit {
   story: any;
   currentStory: any;
+  chosenCharacter: string = '';
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private gameStateService: GameStateService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -33,16 +36,39 @@ export class GameComponent implements OnInit {
   initStory(story: any) {
     this.story = story;
     this.currentStory = this.story.start;
+    // set story name signal
+    this.gameStateService.setStoryName(this.story.name);
   }
 
-  makeChoice(next: string) {
+  updateGameScores(choice: any) {
+    if (choice && choice.scores) {
+      this.gameStateService.updateScores(choice.scores);
+    }
+  }
+
+  makeChoice(choice: any, next: string) {
+    // update choice score to determine report
+    this.updateGameScores(choice);
+
+    // open the report if at the end of the game
+    if (next === 'end') {
+      setTimeout(() =>  {
+        this.router.navigate(['/report']);
+      }, 2000);
+    }
+
+    if (next === 'character') {
+      this.gameStateService.setCharacter(choice.text);
+    }
+
+    // Update the current story based on the user's choice
     this.currentStory = this.story[next];
 
     // If there are no choices, auto-advance to the next story after 5 seconds
     if (!this.currentStory.choices && this.currentStory.next) {
       setTimeout(() => {
-        this.makeChoice(this.currentStory.next);
-      }, 3000); // 3 seconds delay
+        this.makeChoice(this.currentStory.choice, this.currentStory.next);
+      }, 3000); // 5 seconds delay
     }
   }
 }

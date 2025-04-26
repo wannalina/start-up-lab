@@ -1,0 +1,24 @@
+{
+    "name": "Collaborator",
+    "image": "../../assets/pictures/collaborator.png",
+    "overview": "This candidate excels in team environments, finding strength in collaboration and collective success. They are deeply empathetic and always consider the perspectives of others. They are supportive, adaptable, and thrive when working towards shared goals. However, they may sometimes struggle with leadership roles or find it difficult to assert themselves when necessary.",
+    "traits": [
+        {"Supportive": "This person is always ready to help others, stepping up in times of need and offering assistance wherever it is required."},
+        {"Empathetic": "They possess a keen emotional awareness and are able to understand and care for others' feelings and perspectives."},
+        {"Team-Oriented": "Collaboration is key for them. They naturally focus on the success of the group and the value of working together."}
+    ],
+    "strengths": "Strong empathy, excellent cooperation skills, highly adaptable in team settings, and ability to create a harmonious work environment.",
+    "challenges": "Can sometimes defer too much to others, avoiding taking charge. May struggle to assert themselves in leadership roles or when conflict arises.",
+    "recommendations": [
+        "Encourage this candidate to take on leadership opportunities to develop their assertiveness and decision-making skills.",
+        "Offer coaching on how to maintain healthy boundaries while still supporting team members and not overextending themselves.",
+        "Foster an environment where their empathy and team-focused strengths are recognized and valued, allowing them to thrive while also helping the team succeed.",
+        "During onboarding, involve them in collaborative projects that require a balance of leadership and teamwork."
+    ],
+    "questions": [
+        "How do you manage situations where you need to put your own needs or opinions aside to help a teammate?",
+        "Can you describe a time when you took on a supporting role in a team project? What was your contribution and how did the team respond?",
+        "When have you had to step up and lead in a group? What was the situation and how did you handle it?",
+        "How do you ensure that you’re not overwhelmed by others’ needs while still being an empathetic and supportive team member?"
+    ]
+}

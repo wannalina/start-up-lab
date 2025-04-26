@@ -1,0 +1,24 @@
+{
+    "name": "Analyst",
+    "image": "../../assets/pictures/analyst.png",
+    "overview": "This candidate excels at observing, analyzing, and thinking ahead. They prioritize careful consideration and strategic planning, ensuring long-term success. They may prefer independent work, as they value solitude for reflection. However, they may sometimes struggle with decision-making under pressure due to their tendency to overthink or hesitate in high-stress environments.",
+    "traits": [
+        {"Thoughtful": "This person takes the time to consider all options carefully, weighing the pros and cons before making a decision."},
+        {"Planner": "They excel in long-term strategy and planning, always thinking ahead to ensure success in future endeavors."},
+        {"Reserved": "While they prefer independent problem-solving, they may need encouragement to share their ideas and collaborate in group settings."}
+    ],
+    "strengths": "Strong analytical thinking, strategic planning abilities, and excellent emotional control. Able to foresee challenges and plan for the long term with precision.",
+    "challenges": "May struggle with quick decision-making in high-pressure situations, and could hesitate when fast action is needed. May also need support in engaging more actively in team collaborations.",
+    "recommendations": [
+        "Provide opportunities to practice quick decision-making in non-urgent situations to help build confidence in fast-paced environments.",
+        "Encourage them to participate in more group activities where they can practice communicating their insights and collaborating with others.",
+        "Support them in balancing their natural caution with the ability to act decisively when needed. This will help them become more versatile in various work environments.",
+        "Offer mentorship or coaching on building confidence in making decisions under pressure."
+    ],
+    "questions": [
+        "Can you share an example of a time when your careful analysis led to a highly successful decision? What were the outcomes?",
+        "How do you handle situations where quick decisions are required, and how do you balance this with your natural caution?",
+        "How do you manage stress or pressure when there’s a need to act quickly but you still want to ensure the decision is well thought out?",
+        "Who or what helps you move from planning to execution, especially when you need to take immediate action?"
+    ]
+}

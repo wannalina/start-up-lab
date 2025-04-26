@@ -1,0 +1,22 @@
+{
+    "name": "Report One", 
+    "score": 7,
+    "overview": "Overview here",
+    "traits": [
+        { "traitOne": "1" }, 
+        { "traitTwo": "2" },
+        { "traitThree": "3" }
+    ], 
+    "strengths": "Strengths", 
+    "challenges": "Challenges",
+    "recommendations": [
+        {"recommendationOne": "Recommendation 1"},
+        {"recommendationOne": "Recommendation 2"},
+        {"recommendationOne": "Recommendation 3"}
+    ], 
+    "questions": [
+        { "questionOne": "Question 1" },
+        { "questionTwo": "Question 2" }, 
+        { "questionThree":" Question 3 "}
+    ]
+}

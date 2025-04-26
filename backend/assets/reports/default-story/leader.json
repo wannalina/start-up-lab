@@ -1,0 +1,24 @@
+{
+    "name": "Leader",
+    "image": "../../assets/pictures/leader.png",
+    "overview": "This candidate is a natural leader who thrives in high-pressure situations. They take initiative, make decisions quickly, and aren’t afraid to step up when needed. They are focused on achieving results and can direct others with confidence. However, they may sometimes prefer to work independently, which can be both a strength and a challenge depending on the situation.",
+    "traits": [
+        {"Decisive": "This person excels at making quick, effective decisions under pressure."},
+        {"Initiator": "They are proactive and often take the lead without waiting for others to act."},
+        {"Commanding": "This candidate has a natural ability to command attention and take charge of a group."}
+    ],
+    "strengths": "Strong decision-making abilities, confidence in leadership, ability to inspire and direct teams, high initiative.",
+    "challenges": "May struggle with collaboration or delegating tasks, can sometimes overlook others' input, and might act too quickly without considering all options.",
+    "recommendations": [
+        "Encourage this candidate to take time to seek input from colleagues and team members before making final decisions.",
+        "Provide opportunities for them to mentor others to balance their leadership with a collaborative approach.",
+        "During onboarding, emphasize team-oriented activities and collaborative projects to help them understand the value of input from others.",
+        "Be mindful of their need to be in control and help them see when to trust others with decision-making."
+    ],
+    "questions": [
+        "Can you give an example of a time when you took charge of a project? How did you manage the team and handle challenges?",
+        "How do you ensure that you are making decisions in the best interest of your team and not just based on your own viewpoint?",
+        "Tell me about a situation where you needed to collaborate with others. How did you balance your desire to lead with the team's input?",
+        "Describe a time when you had to make a decision quickly. How did you handle the pressure and what was the outcome?"
+    ]
+}
