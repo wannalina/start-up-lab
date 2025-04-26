@@ -1,18 +1,33 @@
-<div class="contact-us-container">
-    <h1>Contact Us</h1>
-    <form>
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" placeholder="Enter your name" required />
-        </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required />
-        </div>
-        <div class="form-group">
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" rows="5" placeholder="Enter your message" required></textarea>
-        </div>
-        <button type="submit" class="submit-button">Submit</button>
+<div class="contactus-container">
+  <div class="contactus-header">
+    <h1>Get in touch</h1>
+    <p>
+      Planning to optimize your recruitment process? Let us know all about it so that we can plan a perfect game for your company.
+    </p>
+  </div>
+  <div class="contactus-form">
+    <form (submit)="openEmailApp($event)">
+      <div class="form-group">
+        <label for="name">First name</label>
+        <input type="text" id="name" name="name" [(ngModel)]="formData.name" placeholder="Enter your name" required />
+      </div>
+      <div class="form-group">
+        <label for="last-name">Last name</label>
+        <input type="text" id="last-name" name="lastName" [(ngModel)]="formData.lastName" placeholder="Enter your last name" required />
+      </div>
+      <div class="form-group">
+        <label for="company">Company Name</label>
+        <input type="text" id="company" name="company" [(ngModel)]="formData.company" placeholder="Enter your company name" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" [(ngModel)]="formData.email" placeholder="Enter your email" required />
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" [(ngModel)]="formData.message" rows="5" placeholder="Enter your message" required></textarea>
+      </div>
+      <button type="submit" class="submit-button">Submit</button>
     </form>
+  </div>
 </div>
