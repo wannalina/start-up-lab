@@ -1,20 +1,20 @@
 <div class="home-container">
     <header class="home-header">
-        <h1>Welcome to Game 2 Hire</h1>
-        <p>Your journey for better recruitment is here</p>
+        <h1>Your journey for better recruitment with <span class="highlight">gamification</span> is here</h1>
+        <p>We are <span class="highlight-purple">Game2Hire</span></p>
     </header>
 
-    <section class="intro">
+    <section class="home-section intro">
         <h1>Transforming Recruitment Through Innovation</h1>
         <p>Helping job applicants overcome pre-interview nerves and empowering companies to optimize their recruiting process.</p>
-    </section>
+    </section> 
     
-    <section class="service-overview">
+    <section class="home-section service-overview">
         <h2>Our Solution</h2>
         <p>We provide a unique service that uses gameplay in the 10 minutes leading up to an interview to analyze candidates' personality traits and job-related strengths and weaknesses.</p>
     </section>
     
-    <section class="target-audience">
+    <section class="home-section target-audience">
         <h2>Who We Serve</h2>
         <ul>
             <li>Innovative startups</li>
@@ -23,17 +23,17 @@
         </ul>
     </section>
 
-    <section class="newsletter-signup">
+    <section class="home-section newsletter-signup">
         <h2>Stay Updated</h2>
         <p>Sign up for our newsletter to receive the latest updates and insights.</p>
-        <form>
-            <input type="email" placeholder="Enter your email" required>
+        <form (submit)="onSubscribe($event)">
+            <input type="email" placeholder="Enter your email" [(ngModel)]="formData.email" name="email" required>
             <button type="submit">Subscribe</button>
         </form>
     </section>
 
-    <section class="call-to-action">
+    <section class="home-section call-to-action">
         <h2>Get Started Today</h2>
-        <button>Sign Up</button>
+        <button (click)="navigateToLogin()">Sign Up</button>
     </section>
 </div>
