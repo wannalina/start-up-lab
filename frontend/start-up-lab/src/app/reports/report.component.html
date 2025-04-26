@@ -1,3 +1,8 @@
+<div *ngIf="!report.name" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading report, please wait...</p>
+</div>
+
 <div class="report-container" *ngIf="report.name">
     <div class="title-container">
         <h1>{{ report.name }}</h1>
