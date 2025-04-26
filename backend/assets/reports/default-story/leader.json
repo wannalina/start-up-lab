@@ -1,6 +1,6 @@
 {
     "name": "Leader",
-    "image": "../../assets/pictures/crew_member.png",
+    "image": "../../assets/pictures/leader.png",
     "overview": "This candidate is a natural leader who thrives in high-pressure situations. They take initiative, make decisions quickly, and aren’t afraid to step up when needed. They are focused on achieving results and can direct others with confidence. However, they may sometimes prefer to work independently, which can be both a strength and a challenge depending on the situation.",
     "traits": [
         {"Decisive": "This person excels at making quick, effective decisions under pressure."},

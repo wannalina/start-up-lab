@@ -4,7 +4,7 @@ $font-pixel: 'Press Start 2P', monospace;
 $font-body: 'Inter', sans-serif;
 $primary-yellow: #ffe14d;
 $text-black: #000;
-$background-white: #fff;
+$background-white: #fbfaf1;
 
 .report-container {
     background-color: $background-white;
@@ -19,7 +19,7 @@ $background-white: #fff;
     .title-container {
         display: flex;
         align-items: center;
-        gap: 1rem;
+        gap: 3rem;
         justify-content: center;
         width: 100%;
     }
