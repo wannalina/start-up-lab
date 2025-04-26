@@ -11,7 +11,7 @@ CORS(app, resources={r"/api/*": {"origins": os.getenv('WEB_APP_URL')}})
 @app.route('/api/get-report')
 def get_game_results():
     try:
-        # get current game name from query parameters
+        # get current game name and score from query parameters
         story_name = request.args.get('storyName')
         final_scores = request.args.get('score')
         scores_dict = json.loads(final_scores)

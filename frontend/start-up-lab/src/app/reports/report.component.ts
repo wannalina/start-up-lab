@@ -44,7 +44,6 @@ export class ReportComponent implements OnInit {
     // function to fetch report name based on story name
     async getReport(): Promise<Report> {
         // fetch report name to display
-        console.log("final score:", this.finalScores);
         const encodedScores = encodeURIComponent(JSON.stringify(this.finalScores));
         const response = (await fetch(`${environment.serverApiUrl}/get-report?storyName=${this.storyName}&score=${encodedScores}`));
         this.report = await response.json();

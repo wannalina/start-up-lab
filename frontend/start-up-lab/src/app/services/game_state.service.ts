@@ -31,7 +31,7 @@ export class GameStateService {
     }
 
     setCharacter(characterName: string) {
-        // format character name
+        // format character name (replace spaces with underscore)
         let formattedChar = (characterName.toLowerCase()).replace(/\s+/g, '_');
         this.chosenCharacter.set(formattedChar);
     }
@@ -44,6 +44,7 @@ export class GameStateService {
         const currentScores = this.scoreSignal();
         const updatedScores = { ...currentScores };
 
+        // add score to relevant fields
         for (const key in newScores) {
             if (updatedScores.hasOwnProperty(key)) {
                 updatedScores[key] += newScores[key];

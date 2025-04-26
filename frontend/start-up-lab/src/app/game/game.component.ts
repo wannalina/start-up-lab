@@ -43,7 +43,6 @@ export class GameComponent implements OnInit {
   updateGameScores(choice: any) {
     if (choice && choice.scores) {
       this.gameStateService.updateScores(choice.scores);
-      console.log("updated scores:", this.gameStateService.scores());
     }
   }
 
@@ -60,7 +59,6 @@ export class GameComponent implements OnInit {
 
     if (next === 'character') {
       this.gameStateService.setCharacter(choice.text);
-      console.log("char:", this.gameStateService.character());
     }
 
     // Update the current story based on the user's choice
