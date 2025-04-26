@@ -1,12 +1,13 @@
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-aboutus',
-  templateUrl: './aboutus.component.html',
-  styleUrls: ['./aboutus.component.scss']
+  selector: 'app-service',
+  templateUrl: './service.component.html',
+  styleUrls: ['./service.component.scss']
 })
-export class AboutusComponent implements OnInit {
-  constructor(private el: ElementRef) {}
+export class ServiceComponent implements OnInit {
+  constructor(private el: ElementRef, private router: Router) {}
 
   ngOnInit(): void {
     this.checkVisibility(); // Check visibility on load
@@ -18,7 +19,7 @@ export class AboutusComponent implements OnInit {
   }
 
   private checkVisibility(): void {
-    const elements = this.el.nativeElement.querySelectorAll('.aboutus-content');
+    const elements = this.el.nativeElement.querySelectorAll('.service-demo');
     const windowHeight = window.innerHeight;
 
     elements.forEach((element: HTMLElement) => {
@@ -27,5 +28,9 @@ export class AboutusComponent implements OnInit {
         element.classList.add('visible');
       }
     });
+  }
+
+  navigateToGame(storyType: string) {
+    this.router.navigate(['/game'], { queryParams: { story: storyType } });
   }
 }
