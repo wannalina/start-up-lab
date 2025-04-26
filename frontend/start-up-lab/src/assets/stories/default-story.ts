@@ -10,7 +10,7 @@ export const defaultStory = {
   },
   explore: {
     text: null,
-    image: 'assets/images/village.jpg',
+    image: '../assets/pictures/default-story-theme.png',
     layout: 'image-only',
     choices: null,
     next: 'select'
@@ -26,15 +26,15 @@ export const defaultStory = {
     ]
   },
   character: {
-    text: 'You choose your role! Now you have to decide how to go on.',
-    image: 'assets/images/character.jpg',
+    text: 'You chose your role! Now you have to decide how to go on.',
+    image: '../assets/pictures/default-story-character.png',
     layout: 'image-left',
     choices: null,
     next: 'alien'
   },
   alien: {
     text: 'The alien is running towards you! What do you do?',
-    image: 'assets/images/alien.jpg',
+    image: '../assets/pictures/default-story-alien.png',
     layout: 'image-left',
     choices: [
       { text: 'Consult others and decide how to act together', next: 'injured', scores: { Collaborator: 2 } },
@@ -54,7 +54,7 @@ export const defaultStory = {
   },
   alienGroup: {
     text: 'The alien is coming towards you, and you found a stick on the ground. What do you do?',
-    image: 'assets/images/alien-group.jpg',
+    image: '../assets/pictures/default-story-alien-stick.png',
     layout: 'image-left',
     choices: [
       { text: 'Use it by myself to hit each alien', next: 'end', scores: { Leader: 1 } },
@@ -63,8 +63,8 @@ export const defaultStory = {
     ]
   },
   end: {
-    text: 'You survived! The end.',
-    image: 'assets/images/danger.jpg',
+    text: 'Congratulations, you survived. Good luck with your interview!',
+    image: '../assets/pictures/default-story-end.png',
     layout: 'image-left',
     choices: null
   }
