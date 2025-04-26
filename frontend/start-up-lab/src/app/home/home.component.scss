@@ -1,188 +1,192 @@
 :host {
-    display: block;
-    padding: 2rem;
-    background-color: #f9f9f9;
-    font-family: 'Roboto', sans-serif;
-    color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #eaeaf5, #e1dcf9);
+  font-family: 'Arial', sans-serif;
 }
 
 .home-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
-    background: #ffffff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    padding: 2rem;
+  width: 100%;
+  border-radius: 16px;
+  padding: 2.5rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.home-section {
+  background: #ffffff;
+  padding-top: 10rem;
+  padding-bottom: 10rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 60, 0.1);
+  margin: 2rem 0;
+  position: relative;
+  opacity: 0; /* Initially hidden */
+  transform: translateX(-50px); /* Start off-screen to the left */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.home-section.visible {
+  opacity: 1; /* Fade in */
+  transform: translateX(0); /* Slide into place */
+}
+
+
 .home-header {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+
+  h1 {
     font-size: 2.5rem;
-    font-weight: 700;
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.home-content {
-    font-size: 1.125rem;
-    color: #34495e;
-    line-height: 1.8;
-    margin-bottom: 2rem;
+    color: #7c7aac;
+    margin-bottom: 1rem;
     text-align: left;
-}
+    max-width: 700px;
 
-.home-footer {
-    margin-top: 2rem;
-    font-size: 0.875rem;
-    color: #7f8c8d;
-    border-top: 1px solid #ecf0f1;
-    padding-top: 1rem;
-    text-align: center;
-}
-
-button {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #2980b9;
-}
-
-input[type="text"], input[type="email"], textarea {
-    width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border: 1px solid #bdc3c7;
-    border-radius: 4px;
-    font-size: 1rem;
-    color: #2c3e50;
-}
-
-input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
-    outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
-}
-
-a {
-    color: #3498db;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-.home-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.home-header {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 1rem;
-}
-
-.home-content {
-    font-size: 1rem;
-    color: #666;
-    line-height: 1.5;
-}
-
-.home-footer {
-    margin-top: 2rem;
-    font-size: 0.875rem;
-    color: #999;
-}
-
-.home-container {
-    padding: 20px;
-    font-family: 'Roboto', sans-serif;
+    .highlight {
+      font-weight: bold;
+      background: linear-gradient(90deg, #fed0c5, #6a11cb, #2575fc, #6a11cb, #fed0c5);
+      background-size: 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradient-move 6s linear infinite;
+    }
   }
 
-  .home-header {
-    margin-bottom: 20px;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 5px;
-  }
-
-  .home-header h1 {
-    font-size: 2rem;
-    color: #333;
-  }
-
-  .home-header p {
+  p {
     font-size: 1.2rem;
     color: #555;
-  }
+    line-height: 1.6;
+    text-align: left;
 
-  section {
-    margin-top: 100px;
-    padding: 100px;
-    background-color: #f8f9fa;
-    border-radius: 5px;
+    .highlight-purple {
+      background-color: #7c7aac; /* Purple background */
+      color: #ffffff; /* White text */
+      padding: 0.2rem 0.4rem; /* Add padding around the text */
+      border-radius: 4px; /* Slightly rounded corners */
+      display: inline-block; /* Ensure only the text is highlighted */
+    }
   }
+}
 
-  section h2 {
-    font-size: 1.5rem;
-    color: #007bff;
-    margin-bottom: 10px;
+@keyframes gradient-move {
+  0% {
+    background-position: 0% 50%;
   }
+  100% {
+    background-position: 150% 50%;
+  }
+}
 
-  section p {
-    font-size: 1rem;
+.intro {
+  margin-top: 2rem;
+
+  h1 {
+    font-size: 2rem;
     color: #333;
-    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+  }
+}
+
+.service-overview,
+.target-audience,
+.newsletter-signup,
+.call-to-action {
+  margin-top: 4rem;
+
+  h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+
+      strong {
+        color: #007bff;
+      }
+    }
   }
 
   form {
-    margin-top: 10px;
-  }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 
-  form input {
-    padding: 10px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+    input {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 400px;
+    }
 
-  form button {
-    padding: 10px 20px;
-    background-color: #007bff;
+    button {
+      padding: 0.75rem 1.5rem;
+      background-color: #7c7aac;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #5a588f;
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+.call-to-action {
+  button {
+    padding: 1rem 2rem;
+    background-color: #7c7aac;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 1.2rem;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
   }
 
-  form button:hover {
-    background-color: #0056b3;
+  button:hover {
+    background-color: #5a588f;
+    transform: translateY(-2px);
   }
 
-  .call-to-action button {
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  button:active {
+    transform: translateY(0);
   }
-
-  .call-to-action button:hover {
-    background-color: #218838;
-  }
+}
