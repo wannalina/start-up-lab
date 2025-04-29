@@ -9,9 +9,11 @@ import { GameComponent } from './game/game.component';
 import { ServiceComponent } from './service/service.component';
 import { ReportComponent } from './reports/report.component';
 import { SignupComponent } from './signup/signup.component';
+import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
     { path: "", redirectTo: "/home", pathMatch: "full" },
+    { path: 'profile', component: ProfileComponent },
     { path: "home", component: HomeComponent },
     { path: "aboutus", component: AboutusComponent },
     { path: "contactus", component: ContactusComponent },
