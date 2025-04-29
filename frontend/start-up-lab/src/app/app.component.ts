@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -11,14 +12,18 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
-  title = 'start-up-lab';
+
+export class AppComponent implements OnInit {
   menuOpen: boolean = false;
   isLoggedIn: boolean = false;
 
+  constructor(private authService: AuthService) {}
+
   ngOnInit(): void {
-    // Check if the session cookie exists
-    this.isLoggedIn = document.cookie.split('; ').some((cookie) => cookie.startsWith('session='));
+    // Subscribe to login state changes
+    this.authService.isLoggedIn$.subscribe((loggedIn) => {
+      this.isLoggedIn = loggedIn;
+    });
   }
 
   toggleMenu() {
