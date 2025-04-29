@@ -6,7 +6,7 @@ import os
 from libs.gen_report import determine_report
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": os.getenv('WEB_APP_URL')}})
+CORS(app, origins=[os.getenv('WEB_APP_URL')])
 
 @app.route('/api/get-report')
 def get_game_results():
