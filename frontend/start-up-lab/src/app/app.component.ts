@@ -14,6 +14,12 @@ import { FormsModule } from '@angular/forms';
 export class AppComponent {
   title = 'start-up-lab';
   menuOpen: boolean = false;
+  isLoggedIn: boolean = false;
+
+  ngOnInit(): void {
+    // Check if the session cookie exists
+    this.isLoggedIn = document.cookie.split('; ').some((cookie) => cookie.startsWith('session='));
+  }
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
