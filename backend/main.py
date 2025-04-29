@@ -12,7 +12,7 @@ CORS(app, origins=['https://start-up-lab.vercel.app'])
 
 @app.route('/')
 def base_route():
-    print("Hello!")
+    return 'Hello!'
 
 @app.route('/api/get-report')
 def get_game_results():
