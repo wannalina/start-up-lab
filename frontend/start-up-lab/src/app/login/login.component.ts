@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+
+  constructor(private router: Router) {}
   email: string = '';
   password: string = '';
   errorMessage: string = '';
@@ -24,6 +26,8 @@ export class LoginComponent {
       document.cookie = `session=mock-session-token; path=/; max-age=3600`; // Expires in 1 hour
       alert('Login successful!');
       this.errorMessage = '';
+
+      this.router.navigate(['/services']); // Redirect to home page after successful login
     } else {
       this.errorMessage = 'Invalid email or password.';
     }

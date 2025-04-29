@@ -154,7 +154,13 @@
           <li class="navbar-item"><a href="services" class="navbar-link">Services</a></li>
           <li class="navbar-item"><a href="contactus" class="navbar-link">Contact</a></li>
         </ul>
-        <a [class.show]="menuOpen" href="login" class="login-button">Login</a>
+        <a
+          [class.show]="menuOpen"
+          [href]="isLoggedIn ? 'services' : 'login'"
+          class="login-button"
+        >
+          {{ isLoggedIn ? 'Profile' : 'Login' }}
+        </a>
       </nav>
     </div>
   </div>
