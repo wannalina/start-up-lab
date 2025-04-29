@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { GameComponent } from './game/game.component';
 import { ServiceComponent } from './service/service.component';
 import { ReportComponent } from './reports/report.component';
+import { SignupComponent } from './signup/signup.component';
 
 export const routes: Routes = [
     { path: "", redirectTo: "/home", pathMatch: "full" },
@@ -18,6 +19,7 @@ export const routes: Routes = [
     { path: "login", component: LoginComponent },
     { path: "game", component: GameComponent},
     { path: "report", component: ReportComponent },
+    { path: "signup", component: SignupComponent },
     { path: "**", component: HomeComponent }, // Updated wildcard route
 ];
 
