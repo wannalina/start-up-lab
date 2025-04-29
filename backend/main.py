@@ -2,11 +2,13 @@ import json
 from flask import Flask, request
 from flask_cors import CORS
 import os
+from dotenv import load_dotenv
 
 from libs.gen_report import determine_report
 
+load_dotenv()
 app = Flask(__name__)
-CORS(app, origins=[os.getenv('WEB_APP_URL')])
+CORS(app, origins=['https://start-up-lab.vercel.app'])
 
 @app.route('/api/get-report')
 def get_game_results():
