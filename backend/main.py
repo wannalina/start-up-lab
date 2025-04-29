@@ -4,7 +4,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 
 from libs.gen_report import determine_report
-from libs.sign_up import generate_hash, store_user_data, validate_user_data
+from libs.authentication import generate_hash, store_user_data, validate_user_data, compare_password
 
 load_dotenv()
 app = Flask(__name__)
@@ -56,7 +56,18 @@ def sign_up():
 @app.route('/api/login', methods=['POST'])
 def login():
     try: 
-        return
+        # get request data
+        data = request.json
+        email = data.get('email')
+        password = data.get('password')
+
+        # compare password with db
+        response = make_response(compare_password(email, password))
+        
+        #TODO: change return statements
+        if response.status_code != 200: return jsonify({'message': 'User login failed', 'status_code': 400 })
+        else: return jsonify({'message': 'User logged in successfully', 'status_code': 200 })
+
     except Exception as e:
         return f'An error occurred in login: {e}'
 

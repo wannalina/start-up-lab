@@ -45,3 +45,11 @@ def store_user_data(user_data):
         return
     except Exception as e:
         return f'Error saving data to database: {e}'
+
+def compare_password(email, password):
+    #TODO: compare user's password to the password in db
+    hashed_pw = generate_hash(password)
+    #TODO: get user by email from db
+    #TODO: compare hashed pws with each other
+    #TODO: return yes or no
+    return jsonify({ 'message': 'Login successful!' }), 200
