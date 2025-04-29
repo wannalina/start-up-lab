@@ -3,13 +3,13 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 2rem;
   background: linear-gradient(135deg, #eaeaf5, #e1dcf9);
   font-family: 'Arial', sans-serif;
 }
 
 .home-container {
   width: 100%;
+  max-width: 1200px;
   border-radius: 16px;
   padding: 2.5rem;
   text-align: center;
@@ -187,5 +187,11 @@
 
   button:active {
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) { /* For iPads and smaller devices */
+  .home-container {
+    padding: 0; /* Reduce padding for smaller screens */
   }
 }
