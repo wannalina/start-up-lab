@@ -40,7 +40,7 @@ def create_db():
 # main function
 if __name__ == "__main__":
     # establish db connection
-    connection, cursor = create_db(connection, cursor)
+    connection, cursor = create_db()
     close_connection(connection, cursor)
 
 
