@@ -39,7 +39,7 @@ def create_db(connection_generic, cursor_generic):
 if __name__ == "__main__":
     # establish db connection
     connection, cursor = connect_db()
-    connection, cursor = create_db()
+    connection, cursor = create_db(connection, cursor)
     close_connection(connection, cursor)
 
 
