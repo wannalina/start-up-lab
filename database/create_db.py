@@ -1,12 +1,14 @@
 import psycopg2
 import os
 
-from utils.db_connection import establish_connection, close_connection, connect_db
+from utils.db_connection import establish_connection, close_connection
 
 # function to create postgres database and table
-def create_db(connection_generic, cursor_generic):
+def create_db():
     try:
         print("Database is being created...")
+         # establish generic db connection
+        connection_generic, cursor_generic = establish_connection(os.getenv('GENERIC_DB_NAME'))
 
         # create postgresql db
         cursor_generic.execute(f"CREATE DATABASE {os.getenv('DB_NAME')};")
