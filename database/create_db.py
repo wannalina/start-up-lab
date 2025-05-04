@@ -1,7 +1,7 @@
 import psycopg2
 import os
 
-from utils.db_connection import establish_connection, close_connection
+from utils.db_connection import establish_connection, close_connection, connect_db
 
 # function to create postgres database and table
 def create_db(connection_generic, cursor_generic):
@@ -38,6 +38,7 @@ def create_db(connection_generic, cursor_generic):
 # main function
 if __name__ == "__main__":
     # establish db connection
+    connection, cursor = connect_db()
     connection, cursor = create_db()
     close_connection(connection, cursor)
 

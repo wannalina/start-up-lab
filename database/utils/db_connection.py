@@ -21,3 +21,16 @@ def establish_connection(db_name):
 def close_connection(connection, cursor):
     connection.close()
     cursor.close()
+
+# function to connect to generic db
+def connect_db():
+    try:
+        connection = None
+        cursor = None
+
+        # establish generic db connection
+        connection_first, cursor_first = establish_connection(os.getenv('GENERIC_DB_NAME'))
+        return connection, cursor
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
