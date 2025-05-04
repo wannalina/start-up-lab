@@ -63,8 +63,7 @@ def login():
 
         # compare password with db
         response = make_response(compare_password(email, password))
-        
-        #TODO: change return statements
+
         if response.status_code != 200: return jsonify({'message': 'User login failed', 'status_code': 400 })
         else: return jsonify({'message': 'User logged in successfully', 'status_code': 200 })
 
