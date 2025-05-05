@@ -1,0 +1,72 @@
+from flask import Flask, request, jsonify
+import psycopg2
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  
+
+# function to create db connection
+def get_db_connection():
+    try:
+        conn = psycopg2.connect(
+            dbname=os.getenv('DB_NAME'),
+            user=os.getenv('DB_USER'),
+            password=os.getenv('DB_PASSWORD'),
+            host=os.getenv('DB_HOST'),
+            port=os.getenv('DB_PORT'),
+            sslmode='require'
+        )
+        cur = conn.cursor()
+        return conn, cur
+    except Exception as e: 
+        print(f'Error connecting to database: {e}')
+
+# function to close database connection
+def close_connection(conn, cur):
+    cur.close()
+    conn.close()
+
+# function to add user to database
+def add_user(data):
+    try:
+        conn, cur = get_db_connection()
+        cur.execute("""
+            INSERT INTO user_data (firstname, lastname, email, password)
+            VALUES (%s, %s, %s, %s);
+        """, (data['firstname'], data['lastname'], data['email'], data['password']))
+        conn.commit()
+        close_connection(conn, cur)
+        return True
+    except Exception as e:
+        return False
+
+# function to fetch user data from datbase
+def get_user_by_email(email):
+    try:
+        conn, cur = get_db_connection()
+        cur.execute("SELECT email, password FROM user_data WHERE email = %s;", email)
+        users = cur.fetchone()
+        close_connection(conn, cur)
+        return users
+    except Exception as e:
+        return f'Error fetching user data from database: {e}'
+
+def create_columns():
+    try:
+        #data = request.get_json()
+        conn, cur = get_db_connection()
+    
+        cur.execute("""
+            CREATE TABLE user_data (
+                id SERIAL PRIMARY KEY,
+                firstname VARCHAR(200),
+                lastname VARCHAR(200),
+                email VARCHAR(50) NOT NULL,
+                password VARCHAR(50) NOT NULL
+            );
+        """)
+        conn.commit()
+        close_connection(conn, cur)
+        return jsonify({'message': 'Columns added successfully'}), 201
+    except Exception as e:
+        return jsonify(f'Adding columns failed: {e}'), 500

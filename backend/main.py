@@ -4,7 +4,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 
 from libs.gen_report import determine_report
-from libs.authentication import generate_hash, store_user_data, validate_user_data, compare_password
+from libs.authentication import handle_user_signup, handle_user_login
 
 load_dotenv()
 app = Flask(__name__)
@@ -14,7 +14,7 @@ CORS(app, origins=['http://localhost:5000']) #https://start-up-lab.vercel.app
 def base_route():
     return 'Hello!'
 
-
+# route for new user signup
 @app.route('/api/sign-up', methods=['POST'])
 def sign_up():
     try: 
@@ -26,33 +26,15 @@ def sign_up():
         email = data.get('email')
         password = data.get('password')
 
-        user_data = {
-            'firstname': first_name,
-            'lastname': last_name,
-            'email': email,
-            'password': password
-        }
+        response = make_response(handle_user_signup(first_name, last_name, email, password))
+        if response.status_code != 201:
+            return jsonify({'error': f'Error in signing up: {e}', 'status_code': 500 })
 
-        # validate user data
-        response = make_response(validate_user_data(user_data))
-        if response.status_code != 200:
-            raise Exception('Invalid name, email, or password!')
-
-        hashed_password = generate_hash(password)
-        
-        user_data_to_store = {
-            'firstname': first_name,
-            'lastname': last_name,
-            'email': email,
-            'password': hashed_password
-        }
-        
-        store_user_data(user_data_to_store)
-
-        return jsonify({'message': 'User registered successfully', 'status_code': 200 })
+        return jsonify({'message': 'User registered in successfully', 'status_code': 201 })
     except Exception as e:
-        return f'An error occurred in sign up: {e}'
+        return jsonify({'error': f'Error in signing up: {e}', 'status_code': 500 })
 
+# route for existing user login
 @app.route('/api/login', methods=['POST'])
 def login():
     try: 
@@ -61,14 +43,15 @@ def login():
         email = data.get('email')
         password = data.get('password')
 
-        # compare password with db
-        response = make_response(compare_password(email, password))
-
-        if response.status_code != 200: return jsonify({'message': 'User login failed', 'status_code': 400 })
-        else: return jsonify({'message': 'User logged in successfully', 'status_code': 200 })
+        # handle login
+        response = make_response(handle_user_login(email, password))
+        if response.status_code != 200: 
+            return jsonify({'message': 'User login failed', 'status_code': 400 })
+        
+        return jsonify({'message': 'User logged in successfully', 'status_code': 200 })
 
     except Exception as e:
-        return f'An error occurred in login: {e}'
+        return jsonify({'error': f'Error logging in: {e}', 'status_code': 500 })
 
 @app.route('/api/get-report', methods=['GET'])
 def get_game_results():
@@ -82,7 +65,26 @@ def get_game_results():
         report = determine_report(story_name, scores_dict)
         return report
     except Exception as e:
-        return f'An error occurred in get-report: {e}'
+        return jsonify({'error': 'Error fetching report', 'status_code': 500 })
+
+@app.route('/api/get-users', methods=['GET'])
+def get_users_from_db():
+    try:
+        users = get_users()
+        print("res:", users)
+        return jsonify(users), 200
+    except Exception as e:
+        return jsonify({'error': f'Error fetching user data', 'status_code': 500 })
+
+'''
+@app.route('/api/create-columns', methods=['POST'])
+def create_table_columns():
+    try:
+        create_columns()
+        return jsonify("Columns added successfully"), 201
+    except Exception as e: 
+        return jsonify("Error adding column to database"), 500
+'''
 
 if __name__ == "__main__":
     app.run(debug=True)
