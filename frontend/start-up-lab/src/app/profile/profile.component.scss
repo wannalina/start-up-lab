@@ -1,14 +1,24 @@
-.profile-container {
-  max-width: 600px;
-  margin: 2rem auto;
+/* Main container for the profile page */
+.profile-page {
+  display: flex;
+  gap: 2rem;
+  height: 100vh; /* Full browser height */
   padding: 2rem;
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif; /* Ensure consistent font */
+  box-sizing: border-box; /* Include padding in height calculation */
 }
 
-.profile-container h1 {
+/* Left Section: Profile Info */
+.profile-info-section {
+  flex: 1; /* Takes one-third of the page */
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Add scroll if content overflows */
+}
+
+.profile-info-section h1 {
   text-align: center;
   color: #7c7aac;
   margin-bottom: 1.5rem;
@@ -43,7 +53,112 @@
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
-.logout-button:active {
-  transform: translateY(0);
+/* Right Section: Assignment Section */
+.assignment-section {
+  flex: 2; /* Takes two-thirds of the page */
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Add scroll if content overflows */
+  position: relative; /* Enable positioning for child elements */
+}
+
+.assignment-section h2 {
+  color: #7c7aac;
+  margin-bottom: 1rem;
+}
+
+.assignment-list {
+  margin-bottom: 1.5rem;
+}
+
+.assignment-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.assignment-list li {
+  background: #f9f9f9;
+  padding: 0.8rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Create Assignment Button */
+.create-assignment-button {
+  position: absolute; /* Position the button relative to the assignment section */
+  top: 1.5rem; /* Align to the top */
+  right: 1.5rem; /* Align to the right */
+  padding: 0.8rem 1.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-assignment-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Popup Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Popup Window */
+.popup {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.popup h3 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.popup p {
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+.close-popup-button {
+  padding: 0.8rem 1.5rem;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.close-popup-button:hover {
+  background-color: #e60000;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }

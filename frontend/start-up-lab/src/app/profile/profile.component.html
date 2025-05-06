@@ -1,13 +1,39 @@
-<div class="profile-container">
-  <h1>Profile Page</h1>
-  <div class="profile-info">
-    <p><strong>Email:</strong> {{ email }}</p>
-    <p><strong>Username:</strong> {{ username }}</p>
-    <p><strong>First Name:</strong> {{ firstName }}</p>
-    <p><strong>Last Name:</strong> {{ lastName }}</p>
-    <p><strong>Phone Number:</strong> {{ phoneNumber }}</p>
-    <p><strong>Address:</strong> {{ address }}</p>
-    <p><strong>Role:</strong> {{ role }}</p>
+<div class="profile-page">
+  <!-- Left Section: Profile Info -->
+  <div class="profile-info-section">
+    <h1>Profile Info</h1>
+    <div class="profile-info">
+      <p><strong>Email:</strong> {{ email }}</p>
+      <p><strong>Username:</strong> {{ username }}</p>
+      <p><strong>First Name:</strong> {{ firstName }}</p>
+      <p><strong>Last Name:</strong> {{ lastName }}</p>
+      <p><strong>Phone Number:</strong> {{ phoneNumber }}</p>
+      <p><strong>Address:</strong> {{ address }}</p>
+      <p><strong>Role:</strong> {{ role }}</p>
+    </div>
+    <button class="logout-button" (click)="onLogout()">Logout</button>
   </div>
-  <button class="logout-button" (click)="onLogout()">Logout</button>
+
+  <!-- Right Section: Assignment Section -->
+  <div class="assignment-section">
+    <h2>Assignment Section</h2>
+    <div class="assignment-list">
+      <p *ngIf="assignments.length === 0">No assignments available.</p>
+      <ul *ngIf="assignments.length > 0">
+        <li *ngFor="let assignment of assignments">
+          {{ assignment }}
+        </li>
+      </ul>
+    </div>
+    <button class="create-assignment-button" (click)="onCreateAssignment()">Create New Assignment</button>
+
+    <!-- Popup Window -->
+    <div class="popup-overlay" *ngIf="showPopup">
+      <div class="popup">
+        <h3>Create New Assignment</h3>
+        <p>Assignment settings will go here (to be implemented).</p>
+        <button class="close-popup-button" (click)="closePopup()">Close</button>
+      </div>
+    </div>
+  </div>
 </div>

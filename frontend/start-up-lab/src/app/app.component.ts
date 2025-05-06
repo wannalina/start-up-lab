@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from './services/auth.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -16,13 +17,21 @@ import { AuthService } from './services/auth.service';
 export class AppComponent implements OnInit {
   menuOpen: boolean = false;
   isLoggedIn: boolean = false;
+  username: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private userService: UserService) {}
 
   ngOnInit(): void {
     // Subscribe to login state changes
     this.authService.isLoggedIn$.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
+
+      if (this.isLoggedIn) {
+        const userInfo = this.userService.getUserInfo();
+        this.username = userInfo?.username || ''; // Fetch username from user info
+      } else {
+        this.username = '';
+      }
     });
   }
 
