@@ -44,17 +44,37 @@ def add_user(data):
 def get_user_by_email(email):
     try:
         conn, cur = get_db_connection()
-        cur.execute("SELECT email, password FROM user_data WHERE email = %s;", email)
-        users = cur.fetchone()
+        cur.execute("SELECT email, password FROM user_data WHERE email = %s;", (email,))
+        row = cur.fetchone()
         close_connection(conn, cur)
-        return users
+
+        if row:
+            return {
+                "email": row[0],
+                "password": row[1]
+            }
+        else: return None
     except Exception as e:
         return f'Error fetching user data from database: {e}'
 
+def get_users():
+    try:
+        conn, cur = get_db_connection()
+        cur.execute("SELECT email, password FROM user_data;")
+        user = cur.fetchall()
+        close_connection(conn, cur)
+        return user
+    except Exception as e:
+        return f'Error fetching user data from database: {e}'
+
+# function to create table and columns in database for user data
 def create_columns():
     try:
         #data = request.get_json()
         conn, cur = get_db_connection()
+        
+        # Drop the table if it already exists
+        cur.execute("DROP TABLE IF EXISTS user_data;")
     
         cur.execute("""
             CREATE TABLE user_data (
@@ -62,7 +82,7 @@ def create_columns():
                 firstname VARCHAR(200),
                 lastname VARCHAR(200),
                 email VARCHAR(50) NOT NULL,
-                password VARCHAR(50) NOT NULL
+                password VARCHAR(200) NOT NULL
             );
         """)
         conn.commit()
