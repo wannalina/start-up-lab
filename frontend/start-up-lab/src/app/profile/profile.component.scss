@@ -33,6 +33,20 @@
   color: #333;
 }
 
+.profile-picture {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.profile-picture img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /* Makes the image circular */
+  object-fit: cover; /* Ensures the image fits within the circle */
+  border: 2px solid #7c7aac; /* Optional: Add a border around the image */
+}
+
 .logout-button {
   margin-top: 1.5rem;
   padding: 0.8rem 1.5rem;
@@ -62,15 +76,19 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow-y: auto; /* Add scroll if content overflows */
   position: relative; /* Enable positioning for child elements */
+  display: flex;
+  flex-direction: column; /* Ensure children stack vertically */
 }
 
-.assignment-section h2 {
+.assignment-section h1 {
   color: #7c7aac;
   margin-bottom: 1rem;
 }
 
 .assignment-list {
+  flex: 1; /* Allow the list to take up available space */
   margin-bottom: 1.5rem;
+  overflow-y: auto; /* Add scroll if the content overflows */
 }
 
 .assignment-list ul {
@@ -91,8 +109,8 @@
   position: absolute; /* Position the button relative to the assignment section */
   top: 1.5rem; /* Align to the top */
   right: 1.5rem; /* Align to the right */
-  padding: 0.8rem 1.5rem;
-  background-color: #007bff;
+  padding: 1rem 1.5rem;
+  background-color: #7c7aac;
   color: white;
   border: none;
   border-radius: 8px;
@@ -104,9 +122,140 @@
 }
 
 .create-assignment-button:hover {
-  background-color: #0056b3;
+  background-color: #5a588f;
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Popup Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Popup Window */
+.popup {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.popup h3 {
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.popup p {
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.popup form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.popup label {
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+}
+
+.popup input {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.popup input:focus {
+  outline: none;
+  border-color: #7c7aac;
+  box-shadow: 0 0 5px rgba(124, 122, 172, 0.5);
+}
+
+/* Buttons */
+.save-button,
+.close-popup-button {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.save-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.close-popup-button {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.close-popup-button:hover {
+  background-color: #e60000;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* View Button */
+.view-button {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-right: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.view-button:hover {
+  background-color: #0056b3;
+}
+
+/* Clipboard Button */
+.clipboard-button {
+  padding: 0.5rem 1rem;
+  background-color: #ffc107;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.clipboard-button:hover {
+  background-color: #e0a800;
 }
 
 /* Popup Overlay */
@@ -161,4 +310,261 @@
   background-color: #e60000;
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.assignment-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 1rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden; /* Ensures the border-radius applies to the entire table */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.assignment-table th,
+.assignment-table td {
+  padding: 1rem;
+  text-align: left;
+}
+
+.assignment-table th {
+  background-color: #7c7aac; /* Purple header */
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.assignment-table td {
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.assignment-table tr:nth-child(even) td {
+  background-color: #f4f4f4; /* Alternating row colors */
+}
+
+.assignment-table tr:hover td {
+  background-color: #e6e6f2; /* Subtle hover effect */
+}
+
+.assignment-table a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.assignment-table a:hover {
+  text-decoration: underline;
+}
+
+.assignment-table th:first-child,
+.assignment-table td:first-child {
+  border-top-left-radius: 8px; /* Rounded corners for the first column */
+}
+
+.assignment-table th:last-child,
+.assignment-table td:last-child {
+  border-top-right-radius: 8px; /* Rounded corners for the last column */
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto; /* Push pagination to the bottom */
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd; /* Optional: Add a separator line */
+}
+
+.pagination button {
+  padding: 0.5rem 1rem;
+  background-color: #7c7aac;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #5a588f;
+}
+
+.pagination span {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.view-button {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.view-button:hover {
+  background-color: #0056b3;
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #7c7aac;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner p {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #7c7aac;
+  font-weight: bold;
+}
+
+.clipboard-button {
+  padding: 0.5rem 1rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-left: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.clipboard-button:hover {
+  background-color: #218838;
+}
+
+/* Responsive Design for iPads and iPhones */
+@media (max-width: 768px) { /* For iPads and smaller devices */
+  .profile-page {
+    flex-direction: column; /* Stack sections vertically */
+    padding: 1rem;
+  }
+
+  .profile-info-section {
+    flex: none;
+    margin-bottom: 1rem;
+  }
+
+  .assignment-section {
+    flex: none;
+    padding: 1rem;
+  }
+
+  .create-assignment-button {
+    position: static; /* Remove absolute positioning */
+    margin-top: 1rem;
+    width: 100%; /* Full width for smaller screens */
+  }
+
+  .assignment-table {
+    font-size: 0.85rem; /* Reduce font size for smaller screens */
+  }
+
+  .assignment-table th,
+  .assignment-table td {
+    padding: 0.5rem; /* Reduce padding for smaller screens */
+  }
+
+  .pagination {
+    flex-direction: column; /* Stack pagination controls vertically */
+    gap: 0.5rem;
+  }
+
+  .pagination button {
+    width: 100%; /* Full width for pagination buttons */
+  }
+}
+
+@media (max-width: 480px) { /* For iPhones and smaller devices */
+  .profile-info-section h1 {
+    font-size: 1.2rem; /* Adjust font size for smaller screens */
+  }
+
+  .profile-info p {
+    font-size: 0.9rem; /* Reduce font size for smaller screens */
+  }
+
+  .profile-picture img {
+    width: 80px; /* Smaller profile picture */
+    height: 80px;
+  }
+
+  .assignment-table {
+    font-size: 0.8rem; /* Further reduce font size for iPhones */
+  }
+
+  .assignment-table th,
+  .assignment-table td {
+    padding: 0.4rem; /* Further reduce padding */
+  }
+
+  .create-assignment-button {
+    font-size: 0.9rem; /* Adjust button font size */
+    padding: 0.8rem;
+  }
+
+  .view-button,
+  .clipboard-button {
+    font-size: 0.8rem; /* Adjust button font size */
+    padding: 0.4rem 0.8rem;
+  }
+
+  .popup {
+    width: 90%; /* Make popup fit smaller screens */
+    padding: 1.5rem;
+  }
+
+  .popup h3 {
+    font-size: 1.2rem; /* Adjust popup title size */
+  }
+
+  .popup input {
+    font-size: 0.9rem; /* Adjust input font size */
+    padding: 0.6rem;
+  }
+
+  .save-button,
+  .close-popup-button {
+    font-size: 0.9rem; /* Adjust button font size */
+    padding: 0.6rem 1rem;
+  }
 }
