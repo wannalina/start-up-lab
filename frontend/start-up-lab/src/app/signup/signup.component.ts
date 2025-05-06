@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SignupService } from '../services/signup.service';
 
 @Component({
   selector: 'app-signup',
@@ -19,8 +21,9 @@ export class SignupComponent {
   confirmPassword: string = '';
 
   errorMessage: string = '';
+  successMessage: string = '';
 
-  constructor() {}
+  constructor(private signupService: SignupService, private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -70,6 +73,28 @@ export class SignupComponent {
       phoneNumber: this.phoneNumber,
       password: this.password
     });
+
+    this.signupService
+      .signup({
+        email: this.email,
+        username: this.username,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        phoneNumber: this.phoneNumber,
+        password: this.password
+      })
+      .subscribe({
+        next: (response) => {
+          this.successMessage = response.message;
+          this.errorMessage = '';
+          alert('Signup successful!');
+          this.router.navigate(['/login']); // Redirect to login page
+        },
+        error: (err) => {
+          this.errorMessage = err.message;
+          this.successMessage = '';
+        }
+      });
 
     this.resetForm();
     this.errorMessage = ''; // Clear error message on successful signup
