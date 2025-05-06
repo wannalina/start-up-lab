@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule} from '@angular/common/http';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
@@ -19,7 +20,7 @@ export class AppComponent implements OnInit {
   isLoggedIn: boolean = false;
   username: string = '';
 
-  constructor(private authService: AuthService, private userService: UserService) {}
+  constructor(private authService: AuthService, private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     // Subscribe to login state changes
@@ -37,5 +38,14 @@ export class AppComponent implements OnInit {
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
+  }
+
+  profileClicked() {
+    this.router.navigate(['/profile']);
+  }
+  
+  onLogout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }
