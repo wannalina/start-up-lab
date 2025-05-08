@@ -21,10 +21,11 @@ export class LoginComponent {
   onLogin(event: Event) {
     event.preventDefault();
 
-    // Mock login validation
-    if (this.email === 'test@example.com' && this.password === 'password') {
-      this.authService.login(); // Update login state
-      alert('Login successful!');
+    this.authService.login(this.email, this.password);
+
+    // login validation
+    if (this.authService.isLoggedIn$) {
+      // alert('Login successful!');
       this.errorMessage = '';
 
       this.router.navigate(['/profile']); // Redirect to profile page after successful login
