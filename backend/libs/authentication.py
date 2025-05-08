@@ -1,6 +1,7 @@
 import re
 import bcrypt
 from flask import jsonify
+from flask_jwt_extended import create_access_token
 
 from libs.CRUD_db import get_user_by_email, add_user, get_user_by_email
 
@@ -114,3 +115,10 @@ def handle_user_login(email, password):
             return jsonify({'message': 'Incorrect email or password'}), 403
     except Exception as e:
         return jsonify({'error': f'Error in user login: {e}'}), 500
+
+def generate_jwt_token(email):
+    try:
+        token = create_access_token(identity=email)
+        return token, 200
+    except Exception as e: 
+        return 'Error in generating JWT access token', 500

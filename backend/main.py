@@ -1,21 +1,28 @@
 import json
+import os
 import requests
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 from dotenv import load_dotenv
 
-from libs.profile_report import determine_report, send_report_email
-from libs.authentication import handle_user_signup, handle_user_login
+from flask_jwt_extended import JWTManager, create_access_token
 
-URL = 'http://localhost:5000' #https://start-up-lab.vercel.app
+from libs.profile_report import determine_report, send_report_email
+from libs.authentication import handle_user_signup, handle_user_login, generate_jwt_token
+
+URL = 'http://localhost:4200' #https://start-up-lab.vercel.app
 load_dotenv()
 app = Flask(__name__)
 CORS(app, origins=[URL])
 
+# set config for signing the JWT token
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+jwt = JWTManager(app)
+
 # base route for testing
 @app.route('/', methods=['GET'])
 def base_route():
-    return jsonify({'message': 'Base route works!', status_code: 200})
+    return jsonify({'message': 'Base route works!'}), 200
 
 # route for new user sign-up
 @app.route('/api/sign-up', methods=['POST'])
@@ -49,10 +56,14 @@ def login():
 
         # handle login
         response, status_code = handle_user_login(email, password)
-        if status_code == 200: 
-            return jsonify({'message': 'User logged in successfully'}), 200
-
-        return jsonify({'message': 'User login failed'}), 400
+        if status_code != 200: 
+            return jsonify({'message': 'User login failed'}), 400
+        
+        # generate jwt token for session cookie
+        jwt_token, status_code = generate_jwt_token(email)
+        if status_code != 200:
+            return jsonify({'error': 'Error generating JWT token'}), 400
+        return jsonify({'message': jwt_token}), 200
 
     except Exception as e:
         return jsonify({'error': f'Error logging in: {e}'}), 500
