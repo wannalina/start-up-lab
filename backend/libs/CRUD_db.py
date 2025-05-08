@@ -57,6 +57,23 @@ def get_user_by_email(email):
     except Exception as e:
         return f'Error fetching user data from database: {e}'
 
+def get_user_row_by_email(email):
+    try:
+        conn, cur = get_db_connection()
+        cur.execute("SELECT firstname, lastname, email FROM user_data WHERE email = %s;", (email,))
+        row = cur.fetchone()
+        close_connection(conn, cur)
+
+        if row:
+            return {
+                "firstname": row[0],
+                "lastname": row[1],
+                "email": row[2]
+            }
+        else: return None
+    except Exception as e:
+        return f'Error fetching user row: {e}'
+
 def get_users():
     try:
         conn, cur = get_db_connection()

@@ -1,14 +1,14 @@
 import json
 import os
 import requests
-from flask import Flask, jsonify, request, make_response
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from dotenv import load_dotenv
 
-from flask_jwt_extended import JWTManager, create_access_token
+from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 
 from libs.profile_report import determine_report, send_report_email
-from libs.authentication import handle_user_signup, handle_user_login, generate_jwt_token
+from libs.authentication import handle_user_signup, handle_user_login, generate_jwt_token, get_user_profile
 
 URL = 'http://localhost:4200' #https://start-up-lab.vercel.app
 load_dotenv()
@@ -67,6 +67,20 @@ def login():
 
     except Exception as e:
         return jsonify({'error': f'Error logging in: {e}'}), 500
+
+@app.route('/api/session-user', methods=['GET'])
+@jwt_required()
+def get_session_user():
+    try:
+        user = get_user_profile()
+        '''
+        user_identity = get_jwt_identity()
+        user = get_user_row_by_email(user_identity)
+        print("identity:", user_identity)
+        '''
+        return jsonify({'message': user}), 200
+    except Exception as e: 
+        return jsonify({'error': 'Error decoding JWT token'}), 500
 
 # route for fetching personality report after game
 @app.route('/api/get-report', methods=['GET'])

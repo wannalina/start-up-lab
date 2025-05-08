@@ -15,6 +15,7 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
+  isLoggedIn: boolean = false;
 
   constructor(private router: Router, private authService: AuthService) {}
 
@@ -23,11 +24,14 @@ export class LoginComponent {
 
     this.authService.login(this.email, this.password);
 
-    // login validation
-    if (this.authService.isLoggedIn$) {
-      // alert('Login successful!');
-      this.errorMessage = '';
+    this.authService.isLoggedIn$.subscribe((loggedIn) => {
+      this.isLoggedIn = loggedIn;
+    });
 
+    // login validation
+    if (this.isLoggedIn) {
+      console.log("is:",);
+      this.errorMessage = '';
       this.router.navigate(['/profile']); // Redirect to profile page after successful login
     } else {
       this.errorMessage = 'Invalid email or password.';

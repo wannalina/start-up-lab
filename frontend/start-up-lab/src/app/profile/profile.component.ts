@@ -14,10 +14,10 @@ import { delay }  from 'rxjs/operators';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  email: string = 'test@example.com';
+  email: string = '';
   username: string = 'testuser';
-  firstName: string = 'John';
-  lastName: string = 'Doe';
+  firstName: string = '';
+  lastName: string = '';
   phoneNumber: string = '123-456-7890';
   address: string = '123 Main St, Springfield, USA';
   role: string = 'User';
@@ -39,15 +39,14 @@ export class ProfileComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    const userInfo = this.userService.getUserInfo();
+  async ngOnInit(): Promise<void> {
+    const userInfo = await this.userService.getUserInfo();
     if (userInfo) {
       this.email = userInfo.email;
-      this.username = userInfo.username;
       this.firstName = userInfo.firstName;
       this.lastName = userInfo.lastName;
-      this.phoneNumber = userInfo.phoneNumber;
-      this.role = userInfo.role;
+      //this.phoneNumber = userInfo.phoneNumber;
+      //this.role = userInfo.role;
 
       // Fetch assignments
       this.userService.getAssignments().pipe(delay(3000)).subscribe((data) => {
