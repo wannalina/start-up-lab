@@ -1,0 +1,95 @@
+<div class="profile-page">
+  <!-- Left Section: Profile Info -->
+  <div class="profile-info-section">
+    <h1>Interviewer Info</h1>
+    <div class="profile-info">
+      <div class="profile-picture">
+        <img src="assets/profile/profile.png" alt="Profile Picture" />
+      </div>
+      <p><strong>Email:</strong> {{ email }}</p>
+      <p><strong>Username:</strong> {{ username }}</p>
+      <p><strong>First Name:</strong> {{ firstName }}</p>
+      <p><strong>Last Name:</strong> {{ lastName }}</p>
+      <p><strong>Phone Number:</strong> {{ phoneNumber }}</p>
+      <p><strong>Role:</strong> {{ role }}</p>
+    </div>
+  </div>
+
+  <!-- Right Section: Assignment Section -->
+  <div class="assignment-section">
+    <h2>Assignment Section</h2>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoading" class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading assignments...</p>
+    </div>
+
+    <!-- Assignment List -->
+    <div class="assignment-list" *ngIf="!isLoading">
+      <p *ngIf="assignments.length === 0">No assignments available.</p>
+      <table *ngIf="assignments.length > 0" class="assignment-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Candidate's Name</th>
+            <th>Session Link</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let assignment of paginatedAssignments">
+            <td>{{ assignment.sessionID }}</td>
+            <td>{{ assignment.title }}</td>
+            <td>{{ assignment.candidateName }}</td>
+            <td><a [href]="assignment.sessionLink" target="_blank">View Session</a></td>
+            <td>
+              <button class="view-button" (click)="viewSession(assignment)">View</button>
+              <button class="clipboard-button" (click)="copyToClipboard(assignment.sessionLink)">Copy Link</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination" *ngIf="!isLoading">
+    <!--- <div class="pagination" *ngIf="!isLoading && totalPages > 1"> -->
+      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+
+    <button class="create-assignment-button" (click)="onCreateAssignment()">+ Create Assignment</button>
+
+    <!-- Popup Window for Viewing Session -->
+    <div class="popup-overlay" *ngIf="showSessionPopup">
+      <div class="popup">
+        <h3>Session Information</h3>
+        <p><strong>ID:</strong> {{ selectedSession?.sessionID }}</p>
+        <p><strong>Title:</strong> {{ selectedSession?.title }}</p>
+        <p><strong>Candidate's Name:</strong> {{ selectedSession?.candidateName }}</p>
+        <p><strong>Session Link:</strong> <a [href]="selectedSession?.sessionLink" target="_blank">{{ selectedSession?.sessionLink }}</a></p>
+        <button class="close-popup-button" (click)="closeSessionPopup()">Close</button>
+      </div>
+    </div>
+
+    <!-- Popup Window for Creating Assignment -->
+    <div class="popup-overlay" *ngIf="showCreatePopup">
+      <div class="popup">
+        <h3>Create New Assignment</h3>
+        <form>
+          <label for="title">Title:</label>
+          <input id="title" type="text" [(ngModel)]="newAssignment.title" name="title" />
+          <label for="candidateName">Candidate's Name:</label>
+          <input id="candidateName" type="text" [(ngModel)]="newAssignment.candidateName" name="candidateName" />
+          <label for="sessionLink">Session Link:</label>
+          <input id="sessionLink" type="text" [(ngModel)]="newAssignment.sessionLink" name="sessionLink" />
+          <button type="button" class="save-button" (click)="saveAssignment()">Save</button>
+          <button type="button" class="close-popup-button" (click)="closeCreatePopup()">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

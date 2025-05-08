@@ -48,7 +48,7 @@
   }
 
   .login-button {
-    display: none; /* Hide the login button by default */
+    display: block; /* Hide the login button by default */
     padding: 5px 15px;
     background-color: #7c7aac;
     color: white;
@@ -77,6 +77,56 @@
   .menu-toggle:hover {
     background-color: #5a588f;
   }
+
+  .user-actions {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  .username-text {
+    color: #7c7aac; /* Purple color like other menu items */
+    font-weight: bold;
+    margin-right: 15px;
+  }
+
+  .logout-button {
+    padding: 5px 15px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .logout-button:hover {
+    background-color: #e60000;
+  }
+
+  .logout-button.responsive {
+    display: none; /* Hide logout button by default on smaller screens */
+    margin-left: auto;
+    margin-top: 10px;
+    padding: 5px 15px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+
+  .logout-button.responsive:hover {
+    background-color: #e60000;
+  }
+
+  .username-text.small-screen {
+      display: none;
+    }
 
   /* Responsive Design */
   @media (max-width: 768px) { /* For iPads and smaller devices */
@@ -116,7 +166,32 @@
     }
 
     .login-button.show {
-      display: none; /* Show the login button when the menu is open */
+      display: block; /* Show the login button when the menu is open */
+    }
+
+    .logout-button {
+      display: none; /* Hide logout button on iPads and smaller devices */
+    }
+
+    .logout-button.responsive {
+      display: none;/* Hide logout button by default */
+      align-self: flex-start;
+      margin-top: 10px;
+      margin-left: 0;
+    }
+
+    .logout-button.responsive.show {
+      display: block; /* Show logout button when the menu is open */
+    }
+
+    .username-text {
+      display: none; /* Hide default username text */
+    }
+
+    .username-text.small-screen {
+      display: inline-block; /* Show username text for smaller devices */
+      margin-right: auto; /* Move it to the left */
+      font-size: 0.9rem;
     }
   }
 
@@ -137,6 +212,15 @@
       font-size: 0.9rem;
       padding: 5px 10px;
     }
+
+    .logout-button.responsive {
+      font-size: 0.9rem;
+      padding: 5px 10px;
+    }
+
+    .username-text.small-screen {
+      font-size: 0.8rem; /* Slightly smaller font for iPhones */
+    }
   }
 </style>
 
@@ -147,14 +231,55 @@
         <a href="home">
           <img src="assets/logo/logo.jpg" alt="Logo" style="height: 30px; margin-right: 15px;">
         </a>
+
+        <!-- Hello {username} for smaller devices -->
+        <span
+          class="username-text small-screen"
+          *ngIf="isLoggedIn"
+          (click)="profileClicked()"
+        >
+          <u>{{ username }}</u>
+        </span>
+
         <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+
         <ul class="navbar-list" [class.show]="menuOpen">
           <li class="navbar-item"><a href="home" class="navbar-link">Home</a></li>
           <li class="navbar-item"><a href="aboutus" class="navbar-link">About</a></li>
           <li class="navbar-item"><a href="services" class="navbar-link">Services</a></li>
           <li class="navbar-item"><a href="contactus" class="navbar-link">Contact</a></li>
         </ul>
-        <a [class.show]="menuOpen" href="login" class="login-button">Login</a>
+
+        <!-- User actions for larger screens -->
+        <div class="user-actions" *ngIf="isLoggedIn">
+           <span
+            class="username-text"
+            (click)="profileClicked()"
+            style="cursor: pointer;"
+          >
+            <u>Hello, {{ username }}</u>
+          </span>
+          <button class="logout-button" (click)="onLogout()">Logout</button>
+        </div>
+
+        <!-- Login button for non-logged-in users -->
+        <a
+          *ngIf="!isLoggedIn"
+          [class.show]="menuOpen"
+          [href]="'login'"
+          class="login-button"
+        >
+          Login
+        </a>
+
+        <button
+        *ngIf="isLoggedIn"
+        [class.show]="menuOpen"
+        class="logout-button responsive"
+        (click)="onLogout()"
+        >
+          Logout
+        </button>
       </nav>
     </div>
   </div>
