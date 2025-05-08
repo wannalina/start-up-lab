@@ -31,6 +31,9 @@ export class AuthService {
         },
         body: JSON.stringify(userData)
       });
+      if (!response.ok) {
+        throw new Error(`Error logging in`);
+      }
       this.jwtToken = (await response.json()).message;
 
       // set browser cookie
@@ -48,5 +51,13 @@ export class AuthService {
 
   private checkSessionCookie(): boolean {
     return document.cookie.split('; ').some((cookie) => cookie.startsWith('session='));
+  }
+
+  getJwtFromCookie(cookieName: string): string | null {
+    const cookieMatch = document.cookie.match(new RegExp('(^| )' + cookieName + '=([^;]+)'));
+    if (cookieMatch) {
+      return cookieMatch[2];
+    }
+    return null;
   }
 }

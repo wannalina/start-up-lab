@@ -1,9 +1,9 @@
 import re
 import bcrypt
 from flask import jsonify
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, get_jwt_identity
 
-from libs.CRUD_db import get_user_by_email, add_user, get_user_by_email
+from libs.CRUD_db import get_user_by_email, add_user, get_user_by_email, get_user_row_by_email
 
 # function to validate user data upon sign-up
 def validate_user_data(user_data):
@@ -122,3 +122,12 @@ def generate_jwt_token(email):
         return token, 200
     except Exception as e: 
         return 'Error in generating JWT access token', 500
+
+# function to get user profile data from request authorization header
+def get_user_profile():
+    try:
+        user_identity = get_jwt_identity()
+        user = get_user_row_by_email(user_identity)
+        return user, 200
+    except Exception as e:
+        return f'Error fetching user profile: {e}'
