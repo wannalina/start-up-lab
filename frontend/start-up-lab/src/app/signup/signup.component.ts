@@ -13,10 +13,10 @@ import { SignupService } from '../services/signup.service';
 })
 export class SignupComponent {
   email: string = '';
-  username: string = '';
+  //username: string = '';
   firstName: string = '';
   lastName: string = '';
-  phoneNumber: string = '';
+  //phoneNumber: string = '';
   password: string = '';
   confirmPassword: string = '';
 
@@ -30,7 +30,7 @@ export class SignupComponent {
   onSignup(event: Event): void {
     event.preventDefault(); // Prevent the default form submission behavior
 
-    if (!this.email || !this.username || !this.firstName || !this.lastName || !this.phoneNumber || !this.password || !this.confirmPassword) {
+    if (!this.email || !this.firstName || !this.lastName || !this.password || !this.confirmPassword) {  // add phone number
       this.errorMessage = 'All fields are required!';
       return;
     }
@@ -44,11 +44,11 @@ export class SignupComponent {
       this.errorMessage = 'Password must be at least 6 characters long!';
       return;
     }
-
+    /*
     if (!/^\d+$/.test(this.phoneNumber)) {
       this.errorMessage = 'Phone number must contain only digits!';
       return;
-    }
+    } 
 
     if (this.phoneNumber.length < 10) {
       this.errorMessage = 'Phone number must be at least 10 digits long!';
@@ -58,7 +58,7 @@ export class SignupComponent {
     if (this.username.length < 3) {
       this.errorMessage = 'Username must be at least 3 characters long!';
       return;
-    }
+    } */
     
     if (this.password !== this.confirmPassword) {
       this.errorMessage = 'Passwords do not match!';
@@ -67,34 +67,32 @@ export class SignupComponent {
 
     console.log('Signup Data:', {
       email: this.email,
-      username: this.username,
+      //username: this.username,
       firstName: this.firstName,
       lastName: this.lastName,
-      phoneNumber: this.phoneNumber,
+      //phoneNumber: this.phoneNumber,
       password: this.password
     });
 
-    this.signupService
-      .signup({
-        email: this.email,
-        username: this.username,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        phoneNumber: this.phoneNumber,
-        password: this.password
-      })
-      .subscribe({
-        next: (response) => {
-          this.successMessage = response.message;
-          this.errorMessage = '';
-          alert('Signup successful!');
-          this.router.navigate(['/login']); // Redirect to login page
-        },
-        error: (err) => {
-          this.errorMessage = err.message;
-          this.successMessage = '';
-        }
-      });
+    this.signupService.signup({
+      email: this.email,
+      //username: this.username,
+      firstname: this.firstName,
+      lastname: this.lastName,
+      //phoneNumber: this.phoneNumber,
+      password: this.password
+    }).subscribe({
+      next: (response) => {
+        this.successMessage = response.message;
+        this.errorMessage = '';
+        alert('Signup successful!');
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        this.errorMessage = err.message;
+        this.successMessage = '';
+      }
+    });
 
     this.resetForm();
     this.errorMessage = ''; // Clear error message on successful signup
@@ -102,10 +100,10 @@ export class SignupComponent {
 
   private resetForm(): void {
     this.email = '';
-    this.username = '';
+    //this.username = '';
     this.firstName = '';
     this.lastName = '';
-    this.phoneNumber = '';
+    //this.phoneNumber = '';
     this.password = '';
     this.confirmPassword = '';
   }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environment';
 
-interface UserData {
+export interface UserLoginData {
   email: string;
   password: string;
 }
@@ -18,7 +18,7 @@ export class AuthService {
   constructor() {}
 
   async login(email: string, password: string): Promise<void> {
-    const userData: UserData = {
+    const userData: UserLoginData = {
       email: email,
       password: password
     };

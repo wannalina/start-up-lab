@@ -30,7 +30,6 @@ export class LoginComponent {
 
     // login validation
     if (this.isLoggedIn) {
-      console.log("is:",);
       this.errorMessage = '';
       this.router.navigate(['/profile']); // Redirect to profile page after successful login
     } else {
