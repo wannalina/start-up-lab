@@ -9,3 +9,6 @@ Backend:
 
 Frontend: 
 - 
+
+To generate JWT secret key for backend, use command: 
+python -c "import secrets; print(secrets.token_hex(32))"

@@ -1,28 +1,41 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { catchError, delay, map } from 'rxjs/operators';
+import { environment } from '../../../environment';
+
+export interface UserData {
+  email: string;
+  //username: string;
+  firstname: string;
+  lastname: string;
+  //phoneNumber: string;
+  password: string;
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignupService {
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
 
-  signup(userData: {
-    email: string;
-    username: string;
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    password: string;
-  }): Observable<{ message: string }> {
-    // Mock backend response
-    if (userData.email === 'test@example.com') {
-      // Simulate an error if the email is already taken
-      return throwError(() => new Error('Email is already registered')).pipe(delay(1000));
-    }
-
-    // Simulate a successful signup response
-    return of({ message: 'Signup successful!' }).pipe(delay(1000));
+  signup(userData: UserData): Observable<{ message: string }> {
+    return this.httpClient.post<{ message: string }>(
+      `${environment.serverApiUrl}/sign-up`,
+      userData,
+      { observe: 'response' }
+    ).pipe(
+      map(response => {
+        if (response.status === 201) {
+          return { message: 'Signup successful!' };
+        } else {
+          throw new Error('Signup failed');
+        }
+      }),
+      catchError(err => {
+        return throwError(() => new Error('Signup failed, please try again...'));
+      }),
+      delay(1000)
+    );
   }
 }

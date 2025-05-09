@@ -15,18 +15,23 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
+  isLoggedIn: boolean = false;
 
   constructor(private router: Router, private authService: AuthService) {}
 
-  onLogin(event: Event) {
+  async onLogin(event: Event) {
     event.preventDefault();
 
-    // Mock login validation
-    if (this.email === 'test@example.com' && this.password === 'password') {
-      this.authService.login(); // Update login state
-      alert('Login successful!');
-      this.errorMessage = '';
+    await this.authService.login(this.email, this.password);
 
+    this.authService.isLoggedIn$.subscribe((loggedIn) => {
+      this.isLoggedIn = loggedIn;
+    });
+
+    console.log("logged in:", this.isLoggedIn);
+    // login validation
+    if (this.isLoggedIn) {
+      this.errorMessage = '';
       this.router.navigate(['/profile']); // Redirect to profile page after successful login
     } else {
       this.errorMessage = 'Invalid email or password.';

@@ -1,30 +1,43 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { environment } from '../../../environment';
+import { AuthService } from './auth.service';
+
+interface User {
+    email: string; 
+    firstName: string; 
+    lastName: string; 
+    //phoneNumber: string; 
+    //role: string 
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  constructor() {}
+  jwtToken: string | null = '';
 
-  getUserInfo(): { email: string; username: string; firstName: string; lastName: string; phoneNumber: string; role: string } | null {
+  constructor(private authService: AuthService) {}
+
+  async getUserInfo(): Promise<User | null> {
     // Check if the session cookie exists
     const hasSession = document.cookie.split('; ').some((cookie) => cookie.startsWith('session='));
+    this.jwtToken = this.authService.getJwtFromCookie('session');
 
-    if (hasSession) {
-      // Mock user data
+    if (hasSession && this.jwtToken) {
+      const response = await fetch(`${environment.serverApiUrl}/session-user`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${this.jwtToken}`
+        }
+      });
+      const user = (await response.json()).message;
       return {
-        email: 'test@example.com',
-        username: 'testuser',
-        firstName: 'John',
-        lastName: 'Doe',
-        phoneNumber: '123-456-7890',
-        role: 'User'
+        'firstName': user[0].firstname,
+        'lastName': user[0].lastname,
+        'email': user[0].email
       };
     }
-
-    
-
     return null; // No session, return null
   }
 
