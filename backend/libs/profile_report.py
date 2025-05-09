@@ -1,12 +1,13 @@
 import os
 from dotenv import load_dotenv
 import json
+import os
 import smtplib
 from email.message import EmailMessage
 from email.utils import make_msgid, formatdate
 from flask import jsonify
 
-from libs.CRUD_db import get_user_by_email
+from libs.CRUD_db import get_user_by_email, add_report_to_db, patch_report_link_to_report
 
 load_dotenv()
 
@@ -49,7 +50,7 @@ def determine_report(story_name, scores):
         return None
 
 # function to send link to report as email to interviewer
-def send_report_email(email):
+def send_report_email(email, report_link):
     try: 
         user_data = get_user_by_email(email)
         if user_data['email'] == None: 
@@ -61,7 +62,7 @@ def send_report_email(email):
 
             You can access the profile report for the candidate by clicking the link below:
 
-            https://start-up-lab.vercel.app/reports/view?email={email} << this is not yet functional
+            Link to the candidate's personality report: {report_link}
 
             Best regards,  
             Game2Hire
@@ -82,7 +83,33 @@ def send_report_email(email):
             smtp.login(os.getenv('SMTP_USER'), os.getenv('SMTP_PASS'))
             smtp.send_message(msg)
         
-        return jsonify({'message': 'Email sent to interviewer successfully'}), 200
+        return 'Email sent to interviewer successfully', 200
 
     except Exception as e:
-        return jsonify({'error': 'Error sending report email'}), 500
+        return f'Error sending report email: {e}', 500
+
+# function to store report data to database and create report link
+def store_report_and_link(report, game_session_id):
+    try:
+        report_link = ''    # initially empty placeholder until loink generated
+        report_table_data = {
+            "report_type": report['name'],
+            "report_link": report_link,
+            "game_id": game_session_id,
+        }
+        # add report row to database
+        report_id = add_report_to_db(report_table_data)
+
+        # create report link
+        report_link = f'{os.getenv("FRONTEND_URL")}/candidate-report?report-id={report_id}'
+        if report_link is None:
+            raise Exception('Generating report link failed')
+
+        # add report link to database
+        is_report_patched = patch_report_link_to_report(report_id, report_link)
+        if not is_report_patched: 
+            raise Exception('Adding report link to database failed')
+
+        return report_link, 200
+    except Exception as e: 
+        return 'Storing report and creating link failed', 500

@@ -57,6 +57,7 @@ def get_user_by_email(email):
     except Exception as e:
         return f'Error fetching user data from database: {e}'
 
+# function to fetch all user data by email
 def get_user_row_by_email(email):
     try:
         conn, cur = get_db_connection()
@@ -74,6 +75,7 @@ def get_user_row_by_email(email):
     except Exception as e:
         return f'Error fetching user row: {e}'
 
+# function to fetch all users from database
 def get_users():
     try:
         conn, cur = get_db_connection()
@@ -84,13 +86,63 @@ def get_users():
     except Exception as e:
         return f'Error fetching user data from database: {e}'
 
-# function to create table and columns in database for user data
-def create_columns():
+# function to add new game session to database
+def add_game_session(data):
+    try:
+        conn, cur = get_db_connection()
+        cur.execute("""
+            INSERT INTO game_session (candidate_firstname, candidate_lastname, candidate_email, candidate_phone_number, interviewer_id)
+            VALUES (%s, %s, %s, %s, %s)
+            RETURNING game_id;
+        """, (data['firstname_cand'], data['lastname_cand'], data['email_cand'], data['phone_number_cand'], data['id_interviewer']))
+        game_session_id = cur.fetchone()[0]
+        conn.commit()
+        close_connection(conn, cur)
+        return game_session_id
+    except Exception as e:
+        return None
+
+# function to add new report to candidate_reports table
+def add_report_to_db(data):
+    try:
+        conn, cur = get_db_connection()
+        cur.execute("""
+            INSERT INTO candidate_reports (report_type, report_link, game_id)
+            VALUES (%s, %s, %s)
+            RETURNING report_id;
+        """, (data['report_type'], data['report_link'], data['game_id']))
+        report_id = cur.fetchone()[0]
+        conn.commit()
+        close_connection(conn, cur)
+        return report_id
+    except Exception as e:
+        return None
+
+# function to add report link to existing report row
+def patch_report_link_to_report(report_id, report_link):
+    try:
+        conn, cur = get_db_connection()
+        cur.execute("""
+            UPDATE candidate_reports
+            SET report_link = %s
+            WHERE report_id = %s;
+        """, (report_link, report_id))
+        conn.commit()
+        close_connection(conn, cur)
+        return True
+    except Exception as e:
+        print(f'Error updating report link: {e}')
+        return False
+
+
+
+''' CREATING DB TABLES'''
+# function to create user_data table in database
+def create_table_user_data():
     try:
         #data = request.get_json()
         conn, cur = get_db_connection()
-        
-        # Drop the table if it already exists
+        # drop the table if it already exists
         cur.execute("DROP TABLE IF EXISTS user_data;")
     
         cur.execute("""
@@ -100,6 +152,52 @@ def create_columns():
                 lastname VARCHAR(200),
                 email VARCHAR(50) NOT NULL,
                 password VARCHAR(200) NOT NULL
+            );
+        """)
+        conn.commit()
+        close_connection(conn, cur)
+        return jsonify({'message': 'Columns added successfully'}), 201
+    except Exception as e:
+        return jsonify(f'Adding columns failed: {e}'), 500
+
+# function to create game_session table in database
+def create_table_game_session():
+    try:
+        conn, cur = get_db_connection()
+        # drop the table if it already exists
+        cur.execute("DROP TABLE IF EXISTS game_session;")
+    
+        cur.execute("""
+            CREATE TABLE game_session (
+                game_id SERIAL PRIMARY KEY,
+                candidate_firstname VARCHAR(200),
+                candidate_lastname VARCHAR(200),
+                candidate_email VARCHAR(50) NOT NULL,
+                candidate_phone_number VARCHAR(20),
+                interviewer_id INTEGER,
+                FOREIGN KEY (interviewer_id) REFERENCES user_data(id)
+            );
+        """)
+        conn.commit()
+        close_connection(conn, cur)
+        return jsonify({'message': 'Columns added successfully'}), 201
+    except Exception as e:
+        return jsonify(f'Adding columns failed: {e}'), 500
+
+# function to create candidate_reports table in database
+def create_table_candidate_reports():
+    try:
+        conn, cur = get_db_connection()
+        # drop the table if it already exists
+        cur.execute("DROP TABLE IF EXISTS candidate_reports;")
+    
+        cur.execute("""
+            CREATE TABLE candidate_reports (
+                report_id SERIAL PRIMARY KEY,
+                report_type VARCHAR(200),
+                report_link VARCHAR(200),
+                game_id INTEGER,
+                FOREIGN KEY (game_id) REFERENCES game_session(game_id)
             );
         """)
         conn.commit()
