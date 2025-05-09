@@ -43,7 +43,7 @@
             <td>{{ assignment.sessionID }}</td>
             <td>{{ assignment.title }}</td>
             <td>{{ assignment.candidateName }}</td>
-            <td><a [href]="assignment.sessionLink" target="_blank">View Session</a></td>
+            <td>{{ assignment.sessionLink }}</td>
             <td>
               <button class="view-button" (click)="viewSession(assignment)">View</button>
               <button class="clipboard-button" (click)="copyToClipboard(assignment.sessionLink)">Copy Link</button>
@@ -84,8 +84,8 @@
           <input id="title" type="text" [(ngModel)]="newAssignment.title" name="title" />
           <label for="candidateName">Candidate's Name:</label>
           <input id="candidateName" type="text" [(ngModel)]="newAssignment.candidateName" name="candidateName" />
-          <label for="sessionLink">Session Link:</label>
-          <input id="sessionLink" type="text" [(ngModel)]="newAssignment.sessionLink" name="sessionLink" />
+          <label for="candidateEmail">Candidate's Email:</label>
+          <input id="candidateEmail" type="text" [(ngModel)]="newAssignment.candidateEmail" name="candidateEmail" />
           <button type="button" class="save-button" (click)="saveAssignment()">Save</button>
           <button type="button" class="close-popup-button" (click)="closeCreatePopup()">Cancel</button>
         </form>
