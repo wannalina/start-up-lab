@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
   showSessionPopup: boolean = false;
   showCreatePopup: boolean = false; // For create assignment popup
   selectedSession: { sessionID: string; title: string; candidateName: string; sessionLink: string } | null = null;
-  newAssignment: { title: string; candidateName: string; sessionLink: string } = { title: '', candidateName: '', sessionLink: '' };
+  newAssignment: { title: string; candidateName: string; candidateEmail: string } = { title: '', candidateName: '', candidateEmail: '' };
 
   constructor(
     private authService: AuthService,
@@ -96,13 +96,13 @@ export class ProfileComponent implements OnInit {
 
   closeCreatePopup(): void {
     this.showCreatePopup = false;
-    this.newAssignment = { title: '', candidateName: '', sessionLink: '' }; // Reset form
+    this.newAssignment = { title: '', candidateName: '', candidateEmail: '' }; // Reset form
   }
 
   saveAssignment(): void {
     const newId = (this.assignments.length + 1).toString();
     const newAssignment = { sessionID: newId, ...this.newAssignment };
-    this.assignments.push(newAssignment);
+    // this.assignments.push(newAssignment);
     this.updatePaginatedAssignments();
     this.closeCreatePopup();
   }
