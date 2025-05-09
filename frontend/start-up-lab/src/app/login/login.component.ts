@@ -19,15 +19,16 @@ export class LoginComponent {
 
   constructor(private router: Router, private authService: AuthService) {}
 
-  onLogin(event: Event) {
+  async onLogin(event: Event) {
     event.preventDefault();
 
-    this.authService.login(this.email, this.password);
+    await this.authService.login(this.email, this.password);
 
     this.authService.isLoggedIn$.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
     });
 
+    console.log("logged in:", this.isLoggedIn);
     // login validation
     if (this.isLoggedIn) {
       this.errorMessage = '';
