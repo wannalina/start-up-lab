@@ -91,10 +91,10 @@ def add_game_session(data):
     try:
         conn, cur = get_db_connection()
         cur.execute("""
-            INSERT INTO game_session (candidate_firstname, candidate_lastname, candidate_email, candidate_phone_number, interviewer_id)
-            VALUES (%s, %s, %s, %s, %s)
+            INSERT INTO game_session (story_name, candidate_firstname, candidate_lastname, candidate_email, candidate_phone_number, interviewer_id)
+            VALUES (%s, %s, %s, %s, %s, %s)
             RETURNING game_id;
-        """, (data['firstname_cand'], data['lastname_cand'], data['email_cand'], data['phone_number_cand'], data['id_interviewer']))
+        """, (data['story_name'], data['firstname_cand'], data['lastname_cand'], data['email_cand'], data['phone_number_cand'], data['id_interviewer']))
         game_session_id = cur.fetchone()[0]
         conn.commit()
         close_connection(conn, cur)
@@ -134,6 +134,18 @@ def patch_report_link_to_report(report_id, report_link):
         print(f'Error updating report link: {e}')
         return False
 
+# function to fetch report name by rpeortId from database
+def get_report_name_by_id(report_id):
+    try:
+        conn, cur = get_db_connection()
+        cur.execute("SELECT report_type FROM candidate_reports WHERE report_id = %s;", (report_id,))
+        report_name = cur.fetchone()[0]
+        close_connection(conn, cur)
+
+        return report_name
+    except Exception as e:
+        return None
+
 
 
 ''' CREATING DB TABLES'''
@@ -170,6 +182,7 @@ def create_table_game_session():
         cur.execute("""
             CREATE TABLE game_session (
                 game_id SERIAL PRIMARY KEY,
+                story_name VARCHAR(200),
                 candidate_firstname VARCHAR(200),
                 candidate_lastname VARCHAR(200),
                 candidate_email VARCHAR(50) NOT NULL,

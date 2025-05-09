@@ -7,11 +7,10 @@ from dotenv import load_dotenv
 
 from flask_jwt_extended import JWTManager, jwt_required
 
-from libs.profile_report import determine_report, send_report_email, store_report_and_link
+from libs.profile_report import determine_report, send_report_email, store_report_and_link, get_report_by_name
 from libs.authentication import handle_user_signup, handle_user_login, generate_jwt_token, get_user_profile
 
-#from libs.CRUD_db import create_table_user_data, create_table_game_session, create_table_candidate_reports
-from libs.CRUD_db import add_game_session, close_connection, get_db_connection, patch_report_link_to_report, add_report_to_db
+from libs.CRUD_db import add_game_session, close_connection, get_db_connection,get_report_name_by_id, create_table_user_data, create_table_game_session, create_table_candidate_reports
 
 URL = 'http://localhost:4200' #https://start-up-lab.vercel.app
 load_dotenv()
@@ -86,7 +85,7 @@ def get_session_user():
         return jsonify({'error': 'Error decoding JWT token'}), 500
 
 # route for fetching personality report after game
-@app.route('/api/get-report', methods=['GET'])
+@app.route('/api/get-report', methods=['POST'])
 def get_game_results():
     try:
         # get current game name and score from query parameters
@@ -94,47 +93,52 @@ def get_game_results():
         final_scores = request.args.get('score')
         game_session_id = request.args.get('gameId')       #TODO: consider this in the frontend request
         scores_dict = json.loads(final_scores)
-        email = (request.json).get('email')
 
         # determine which report to select
         report = determine_report(story_name, scores_dict)
-    
-    
-        # store report in database and generate link
-        report_link, status_code = store_report_and_link(report, game_session_id)
 
-        # send report as email to interviewer
-        response, status_code = send_report_email(email, report_link)
-        if status_code != 200: 
-            return jsonify({'error': 'Report sending failed'}), 500
-        return jsonify({'message': report_link}), 200
+        # store report in database and generate link
+        store_report_and_link(report['name'], game_session_id)
+
+        return jsonify({'message': report}), 200
     except Exception as e:
         return jsonify({'error': 'Error fetching report'}), 500
 
-@app.route('/candidate-report')
-def get_rpeort_from_link():
-    return
+# route for fetching report by reportId
+@app.route('/api/fetch-report', methods=['GET'])
+def show_email_report():
+    try:
+        report_id = int(request.args.get('report-id'))
+        story_name = request.args.get('story-name')
+        report_name = get_report_name_by_id(report_id)
 
-'''
+        report = get_report_by_name(story_name, report_name)
+        return jsonify({'message': report}), 200
+    except Exception as e:
+        return jsonify({'error': f'Fetching report failed: {e}'})
+
+# route for sending email about candidate to interviewer
 @app.route('/api/send-email', methods=['POST'])
 def send_email():
     try:
         data = request.json
         email = data.get('email')
+        report_link = data.get('report-link')
 
-        response, status_code = send_report_email(email)
+        response, status_code = send_report_email(email, report_link)
         if status_code == 200: 
             return jsonify({'message': 'Report sent to interviewer successfully'}), 200
         return jsonify({'error': 'Report sending failed'}), 500
 
     except Exception as e:
         return jsonify({'error': f'Error sending report as email: {e}'}), 500
-'''
 
+# route for creating a new game session
 @app.route('/api/create-game-session', methods=['POST'])
 def create_new_game():
     try:
         data = request.json
+        story_name = data.get('story_name')
         firstname_cand = data.get('candidate_firstname')
         lastname_cand = data.get('candidate_lastname')
         email_cand = data.get('candidate_email')
@@ -142,6 +146,7 @@ def create_new_game():
         id_interviewer = data.get('interviewer_id')
 
         game_session_data = {
+            "story_name": story_name,
             "firstname_cand": firstname_cand,
             "lastname_cand": lastname_cand,
             "email_cand": email_cand,
@@ -162,7 +167,7 @@ def create_new_game():
 USER_DATA: { id, firstname, lastname, email, password }
 GAME_SESSION: { game_id, candidate_firstname, candidate_lastname, candidate_email, candidate_phone_number, interviewer_id }
 CANDIDATE_REPORTS: { report_id, report_type, report_link, game_id }
-
+'''
 @app.route('/api/create-db-tables', methods=['POST'])
 def create_table_columns():
     try:
@@ -184,12 +189,25 @@ def get_sessions():
     columns = [desc[0] for desc in cur.description]
     print("Column names:", columns1, columns)
     sessions = cur.fetchall()  # fetch the rows
+    cur.execute("SELECT * FROM candidate_reports;")
+    reports = cur.fetchall()
     close_connection(conn, cur)
 
     print("Users:", users) 
     print("Game sessions:", sessions)  # This will print to your server log
+    print("Reports:", reports)
     return jsonify(users, sessions), 200  # Return the data as JSON
-'''
+
+@app.route('/api/delete-db-tables', methods=['POST'])
+def delete_tables():
+    try:
+        conn, cur = get_db_connection()
+        cur.execute("DROP TABLE IF EXISTS candidate_reports;")
+        conn.commit()
+        close_connection(conn, cur)
+        return jsonify({'message': 'Table candidate_reports deleted successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': f'Failed to delete table: {e}'}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)

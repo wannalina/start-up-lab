@@ -49,6 +49,35 @@ def determine_report(story_name, scores):
         print(f"Error determining report: {e}")
         return None
 
+def get_report_by_name(story_name, report_name):
+    try: 
+        if not report_name or not isinstance(report_name, str):
+            raise Exception("Invalid report name provided.")
+
+        report_name = report_name.lower()
+
+        # determine path to report directory
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        report_dir = os.path.join(base_dir, '..', 'assets', 'reports', story_name)
+        report_dir = os.path.abspath(report_dir)
+
+        if not os.path.isdir(report_dir):
+            raise Exception(f"Report directory for story '{story_name}' not found at {report_dir}")
+
+        # loop through files and find match by report name
+        for filename in os.listdir(report_dir):
+            if filename.endswith(".json"):
+                filepath = os.path.join(report_dir, filename)
+                with open(filepath, 'r') as file:
+                    report_data = json.load(file)
+                    if report_data.get("name", "").lower() == report_name:
+                        return report_data
+
+        raise Exception(f"No matching report found for name '{report_name}'.")
+
+    except Exception as e:
+        return f'Fetching report failed: {e}'
+
 # function to send link to report as email to interviewer
 def send_report_email(email, report_link):
     try: 
@@ -89,11 +118,11 @@ def send_report_email(email, report_link):
         return f'Error sending report email: {e}', 500
 
 # function to store report data to database and create report link
-def store_report_and_link(report, game_session_id):
+def store_report_and_link(report_name, game_session_id):
     try:
         report_link = ''    # initially empty placeholder until loink generated
         report_table_data = {
-            "report_type": report['name'],
+            "report_type": report_name,
             "report_link": report_link,
             "game_id": game_session_id,
         }
@@ -101,7 +130,7 @@ def store_report_and_link(report, game_session_id):
         report_id = add_report_to_db(report_table_data)
 
         # create report link
-        report_link = f'{os.getenv("FRONTEND_URL")}/candidate-report?report-id={report_id}'
+        report_link = f'{os.getenv("FRONTEND_URL")}/candidate-report?story-name={game_session_id}&report-id={report_id}'
         if report_link is None:
             raise Exception('Generating report link failed')
 
@@ -112,4 +141,4 @@ def store_report_and_link(report, game_session_id):
 
         return report_link, 200
     except Exception as e: 
-        return 'Storing report and creating link failed', 500
+        return f'Storing report and creating link failed {e}', 500
