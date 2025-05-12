@@ -69,7 +69,6 @@
         <p><strong>ID:</strong> {{ selectedSession?.sessionID }}</p>
         <p><strong>Title:</strong> {{ selectedSession?.title }}</p>
         <p><strong>Candidate's Name:</strong> {{ selectedSession?.candidateName }}</p>
-        <p><strong>Session Link:</strong> <a [href]="selectedSession?.sessionLink" target="_blank">{{ selectedSession?.sessionLink }}</a></p>
         <button class="close-popup-button" (click)="closeSessionPopup()">Close</button>
       </div>
     </div>
@@ -81,10 +80,14 @@
         <form>
           <label for="title">Title:</label>
           <input id="title" type="text" [(ngModel)]="newAssignment.title" name="title" />
+          <label for="storyName">Story Name:</label> <!--TODO: implement as dropdown/radiobox-->
+          <input id="storyName" type="text" [(ngModel)]="newAssignment.storyName" name="storyName" />
           <label for="candidateName">Candidate's Name:</label>
           <input id="candidateName" type="text" [(ngModel)]="newAssignment.candidateName" name="candidateName" />
-          <label for="sessionLink">Session Link:</label>
-          <input id="sessionLink" type="text" [(ngModel)]="newAssignment.sessionLink" name="sessionLink" />
+          <label for="candidateName">Candidate's Phone Number:</label>
+          <input id="candidatePhoneNumber" type="text" [(ngModel)]="newAssignment.candidatePhoneNumber" name="candidatePhoneNumber" />
+          <label for="candidateName">Candidate's Email:</label>
+          <input id="candidateEmail" type="text" [(ngModel)]="newAssignment.candidateEmail" name="candidateEmail" />
           <button type="button" class="save-button" (click)="saveAssignment()">Save</button>
           <button type="button" class="close-popup-button" (click)="closeCreatePopup()">Cancel</button>
         </form>

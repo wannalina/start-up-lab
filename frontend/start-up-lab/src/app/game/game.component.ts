@@ -17,10 +17,14 @@ export class GameComponent implements OnInit {
   story: any;
   currentStory: any;
   chosenCharacter: string = '';
+  gameId: string | null = null;
 
   constructor(private gameStateService: GameStateService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    const gameId = this.route.snapshot.paramMap.get('session-id');
+    this.gameStateService.setGameId(gameId);
+
     this.route.queryParams.subscribe(params => {
       const storyType = params['story'];
       if (storyType === 'default') {

@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
-import { delay }  from 'rxjs/operators';
+import { GameStateService, GameSession } from '../services/game_state.service';
+import { GameStateApi } from '../api/gameStateApi';
 
 @Component({
   selector: 'app-profile',
@@ -19,10 +20,11 @@ export class ProfileComponent implements OnInit {
   firstName: string = '';
   lastName: string = '';
   phoneNumber: string = '123-456-7890';
+  storyName: string = '';
   address: string = '123 Main St, Springfield, USA';
   role: string = 'User';
-  assignments: { sessionID: string; title: string; candidateName: string; sessionLink: string }[] = [];
-  paginatedAssignments: { sessionID: string; title: string; candidateName: string; sessionLink: string }[] = [];
+  assignments: GameSession[] = [];
+  paginatedAssignments: GameSession[] = [];
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalPages: number = 0;
@@ -30,13 +32,15 @@ export class ProfileComponent implements OnInit {
   showPopup: boolean = false;
   showSessionPopup: boolean = false;
   showCreatePopup: boolean = false; // For create assignment popup
-  selectedSession: { sessionID: string; title: string; candidateName: string; sessionLink: string } | null = null;
-  newAssignment: { title: string; candidateName: string; sessionLink: string } = { title: '', candidateName: '', sessionLink: '' };
+  selectedSession: GameSession | null = null;
+  newAssignment: GameSession = { sessionID: '', title: '', storyName: '', candidateName: '', candidateEmail: '', candidatePhoneNumber: '', sessionLink: '' };
 
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private gameStateService: GameStateService,
+    private gameStateApi: GameStateApi
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -49,12 +53,19 @@ export class ProfileComponent implements OnInit {
       //this.role = userInfo.role;
 
       // Fetch assignments
-      this.userService.getAssignments().pipe(delay(3000)).subscribe((data) => {
+      /*this.userService.getAssignments().pipe(delay(3000)).subscribe((data) => {
         this.assignments = data;
         this.totalPages = Math.ceil(this.assignments.length / this.itemsPerPage);
         this.updatePaginatedAssignments();
         this.isLoading = false;
-      });
+      });*/
+
+      const assignmentsList = await this.userService.getAssignments();
+      this.assignments = assignmentsList;
+      this.totalPages = Math.ceil(this.assignments.length / this.itemsPerPage);
+      this.updatePaginatedAssignments();
+      this.isLoading = false;
+      
     } else {
       // If no session, redirect to login
       this.router.navigate(['/login']);
@@ -74,7 +85,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  viewSession(assignment: { sessionID: string; title: string; candidateName: string; sessionLink: string }): void {
+  viewSession(assignment: GameSession): void {
     this.selectedSession = assignment;
     this.showSessionPopup = true;
   }
@@ -95,12 +106,45 @@ export class ProfileComponent implements OnInit {
 
   closeCreatePopup(): void {
     this.showCreatePopup = false;
-    this.newAssignment = { title: '', candidateName: '', sessionLink: '' }; // Reset form
+    this.newAssignment = { sessionID: '', title: '', storyName: '', candidateName: '', candidatePhoneNumber: '', candidateEmail: '', sessionLink: '' }; // Reset form
   }
 
-  saveAssignment(): void {
-    const newId = (this.assignments.length + 1).toString();
-    const newAssignment = { sessionID: newId, ...this.newAssignment };
+  async createNewGame(assignment: GameSession): Promise<void> {
+    try {
+      const newGameSession: GameSession = {
+        "sessionID": assignment.sessionID,
+        "title": assignment.title,
+        "candidateName": assignment.candidateName,
+        "candidateEmail": assignment.candidateEmail,
+        "candidatePhoneNumber": assignment.candidatePhoneNumber,
+        "sessionLink": assignment.sessionLink,
+        "storyName": assignment.storyName
+      };
+      
+      await this.gameStateApi.createGameSession(newGameSession);
+    } catch(error) {
+      console.error(`Error creating new game session: ${error}`);
+    }
+  }
+
+  async saveAssignment(): Promise<void> {
+    let newId = '';
+
+    if (this.assignments === undefined) {
+      newId = (1).toString();
+    } else {
+      newId = (this.assignments.length + 1).toString();
+    }
+    this.gameStateService.setGameId(newId);
+
+    this.newAssignment.sessionLink = await this.gameStateApi.getGameSessionLink(newId);
+
+    this.newAssignment.sessionID = newId; 
+    const newAssignment: GameSession = { ...this.newAssignment };
+
+    // create new game session
+    await this.createNewGame(newAssignment);
+
     this.assignments.push(newAssignment);
     this.updatePaginatedAssignments();
     this.closeCreatePopup();
@@ -110,7 +154,7 @@ export class ProfileComponent implements OnInit {
     this.showPopup = false; // Hide the popup
   }
 
-  copyToClipboard(sessionLink: string): void {
+  copyToClipboard(sessionLink: any): void {
     navigator.clipboard.writeText(sessionLink).then(
       () => {
         alert('Session link copied to clipboard!');

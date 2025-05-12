@@ -142,3 +142,10 @@ def store_report_and_link(report_name, game_session_id):
         return report_link, 200
     except Exception as e: 
         return f'Storing report and creating link failed {e}', 500
+
+def generate_session_link(game_session_id): 
+    try: 
+        game_session_link = f'{os.getenv("FRONTEND_URL")}/game?session-id={game_session_id}'
+        return game_session_link
+    except Exception as e:
+        return f'Generating game session link failed: {e}'

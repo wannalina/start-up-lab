@@ -19,7 +19,7 @@ export const routes: Routes = [
     { path: "contactus", component: ContactusComponent },
     { path: "services", component: ServiceComponent },
     { path: "login", component: LoginComponent },
-    { path: "game", component: GameComponent},
+    { path: "game/:session-id", component: GameComponent},
     { path: "report", component: ReportComponent },
     { path: "signup", component: SignupComponent },
     { path: "**", component: HomeComponent }, // Updated wildcard route

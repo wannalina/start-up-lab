@@ -28,7 +28,6 @@ export class LoginComponent {
       this.isLoggedIn = loggedIn;
     });
 
-    console.log("logged in:", this.isLoggedIn);
     // login validation
     if (this.isLoggedIn) {
       this.errorMessage = '';

@@ -61,15 +61,16 @@ def get_user_by_email(email):
 def get_user_row_by_email(email):
     try:
         conn, cur = get_db_connection()
-        cur.execute("SELECT firstname, lastname, email FROM user_data WHERE email = %s;", (email,))
+        cur.execute("SELECT id, firstname, lastname, email FROM user_data WHERE email = %s;", (email,))
         row = cur.fetchone()
         close_connection(conn, cur)
 
         if row:
             return {
-                "firstname": row[0],
-                "lastname": row[1],
-                "email": row[2]
+                "id": row[0],
+                "firstname": row[1],
+                "lastname": row[2],
+                "email": row[3]
             }
         else: return None
     except Exception as e:
@@ -87,20 +88,32 @@ def get_users():
         return f'Error fetching user data from database: {e}'
 
 # function to add new game session to database
-def add_game_session(data):
+def add_game_session(data):     #TODO: add game session link to db
     try:
         conn, cur = get_db_connection()
         cur.execute("""
-            INSERT INTO game_session (story_name, candidate_firstname, candidate_lastname, candidate_email, candidate_phone_number, interviewer_id)
-            VALUES (%s, %s, %s, %s, %s, %s)
+            INSERT INTO game_session (game_id, story_name, candidate_name, candidate_email, candidate_phone_number, session_link, interviewer_id)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
             RETURNING game_id;
-        """, (data['story_name'], data['firstname_cand'], data['lastname_cand'], data['email_cand'], data['phone_number_cand'], data['id_interviewer']))
+        """, (data['game_id'], data['story_name'], data['name_cand'], data['email_cand'], data['phone_number_cand'], data['session_link'], data['id_interviewer']))
         game_session_id = cur.fetchone()[0]
         conn.commit()
         close_connection(conn, cur)
         return game_session_id
     except Exception as e:
         return None
+
+# function to get user's game sessions on profile page
+def get_sessions_by_user(interviewer_id):
+    try: 
+        connection, cur = get_db_connection()
+        cur.execute("SELECT * FROM game_session WHERE interviewer_id = %s", (interviewer_id,))
+        game_sessions_list = cur.fetchall()
+        close_connection(connection, cur)
+
+        return game_sessions_list, 200
+    except Exception as e: 
+        return f'Error fetching game sessions: {e}', 500
 
 # function to add new report to candidate_reports table
 def add_report_to_db(data):
@@ -181,12 +194,12 @@ def create_table_game_session():
     
         cur.execute("""
             CREATE TABLE game_session (
-                game_id SERIAL PRIMARY KEY,
+                game_id INTEGER PRIMARY KEY,
                 story_name VARCHAR(200),
-                candidate_firstname VARCHAR(200),
-                candidate_lastname VARCHAR(200),
+                candidate_name VARCHAR(200),
                 candidate_email VARCHAR(50) NOT NULL,
                 candidate_phone_number VARCHAR(20),
+                session_link VARCHAR(200),
                 interviewer_id INTEGER,
                 FOREIGN KEY (interviewer_id) REFERENCES user_data(id)
             );

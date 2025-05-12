@@ -7,10 +7,11 @@ from dotenv import load_dotenv
 
 from flask_jwt_extended import JWTManager, jwt_required
 
-from libs.profile_report import determine_report, send_report_email, store_report_and_link, get_report_by_name
+from libs.profile_report import determine_report, send_report_email, store_report_and_link, get_report_by_name, generate_session_link
 from libs.authentication import handle_user_signup, handle_user_login, generate_jwt_token, get_user_profile
+from libs.game_sessions import get_sessions_for_user
 
-from libs.CRUD_db import add_game_session, close_connection, get_db_connection,get_report_name_by_id, create_table_user_data, create_table_game_session, create_table_candidate_reports
+from libs.CRUD_db import add_game_session, get_sessions_by_user, close_connection, get_db_connection,get_report_name_by_id, create_table_user_data, create_table_game_session, create_table_candidate_reports
 
 URL = 'http://localhost:4200' #https://start-up-lab.vercel.app
 load_dotenv()
@@ -75,17 +76,12 @@ def login():
 def get_session_user():
     try:
         user = get_user_profile()
-        '''
-        user_identity = get_jwt_identity()
-        user = get_user_row_by_email(user_identity)
-        print("identity:", user_identity)
-        '''
         return jsonify({'message': user}), 200
     except Exception as e: 
         return jsonify({'error': 'Error decoding JWT token'}), 500
 
 # route for fetching personality report after game
-@app.route('/api/get-report', methods=['POST'])
+@app.route('/api/show-report', methods=['POST'])
 def get_game_results():
     try:
         # get current game name and score from query parameters
@@ -135,31 +131,54 @@ def send_email():
 
 # route for creating a new game session
 @app.route('/api/create-game-session', methods=['POST'])
+@jwt_required()
 def create_new_game():
     try:
         data = request.json
-        story_name = data.get('story_name')
-        firstname_cand = data.get('candidate_firstname')
-        lastname_cand = data.get('candidate_lastname')
-        email_cand = data.get('candidate_email')
-        phone_number_cand = data.get('candidate_phone_number')
-        id_interviewer = data.get('interviewer_id')
+        game_id = data.get('sessionID')
+        story_name = data.get('storyName')
+        name_cand = data.get('candidateName')
+        email_cand = data.get('candidateEmail')
+        phone_number_cand = data.get('candidatePhoneNumber')
+        game_session_link = data.get('sessionLink')['message']
+        user_data, status_code = get_user_profile()
 
         game_session_data = {
+            "game_id": game_id,
             "story_name": story_name,
-            "firstname_cand": firstname_cand,
-            "lastname_cand": lastname_cand,
+            "name_cand": name_cand,
             "email_cand": email_cand,
             "phone_number_cand": phone_number_cand,
-            "id_interviewer": id_interviewer
+            "session_link": game_session_link,
+            "id_interviewer": user_data['id']
         }
+
         game_session_id = add_game_session(game_session_data)   #TODO: try to change this placement
         if game_session_id is None: 
-            return jsonify({'error', 'Error creating game session'}), 500
+            return jsonify({'error': 'Error creating game session'}), 500
         return jsonify({'message': game_session_id}), 200
 
     except Exception as e:
         return jsonify({'error': f'Game session creation failed: {e}'}), 500
+
+@app.route('/api/get-sessions-for-user', methods=['GET'])
+@jwt_required()
+def get_game_sessions_for_user():
+    try:
+        sessions_list, status_code = get_sessions_for_user()
+        return jsonify({'message': sessions_list}), 200
+    except Exception as e: 
+        return jsonify({'error': f'Fetching sessions for user failed: {e}'}), 500
+
+@app.route('/api/get-session-link', methods=['POST'])
+def get_game_session_link():
+    try: 
+        data = request.json
+        session_id = data.get('session-id')
+        game_session_link = generate_session_link(session_id)
+        return jsonify({'message': game_session_link}), 200
+    except Exception as e: 
+        return jsonify({'error': f'Fetching game session link failed'}), 500
 
 
 # route for creating new database tables
@@ -203,6 +222,8 @@ def delete_tables():
     try:
         conn, cur = get_db_connection()
         cur.execute("DROP TABLE IF EXISTS candidate_reports;")
+        cur.execute("DROP TABLE IF EXISTS game_session;")
+        
         conn.commit()
         close_connection(conn, cur)
         return jsonify({'message': 'Table candidate_reports deleted successfully'}), 200

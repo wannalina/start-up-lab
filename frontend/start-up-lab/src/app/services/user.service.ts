@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { environment } from '../../../environment';
 import { AuthService } from './auth.service';
+import { GameStateApi } from '../api/gameStateApi';
+import { GameSession } from './game_state.service';
 
 interface User {
+    userId: number;
     email: string; 
     firstName: string; 
     lastName: string; 
@@ -17,7 +19,7 @@ interface User {
 export class UserService {
   jwtToken: string | null = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private gameStateApi: GameStateApi) {}
 
   async getUserInfo(): Promise<User | null> {
     // Check if the session cookie exists
@@ -33,36 +35,20 @@ export class UserService {
       });
       const user = (await response.json()).message;
       return {
-        'firstName': user[0].firstname,
-        'lastName': user[0].lastname,
-        'email': user[0].email
+        'userId': user.id,
+        'firstName': user.firstname,
+        'lastName': user.lastname,
+        'email': user.email
       };
     }
     return null; // No session, return null
   }
 
-  getAssignments(): Observable<{ sessionID: string; title: string; candidateName: string; sessionLink: string }[]> {
-    // Mock data
-    const mockAssignments = [
-      {
-        sessionID: '1',
-        title: 'Space Quiz (Personality Test)',
-        candidateName: 'Alice Johnson',
-        sessionLink: 'https://example.com/session/1'
-      },
-      {
-        sessionID: '2',
-        title: 'Adventure Quiz (Personality Test)',
-        candidateName: 'Bob Smith',
-        sessionLink: 'https://example.com/session/2'
-      },
-      {
-        sessionID: '3',
-        title: 'Science Quiz (Math Test)',
-        candidateName: 'Charlie Brown',
-        sessionLink: 'https://example.com/session/3'
-      }
-    ];
-    return of(mockAssignments); // Simulate an observable response
+  async getAssignments(): Promise<GameSession[]> {
+    const gameSessionList = await this.gameStateApi.getGameSessionsForUser();
+    if (gameSessionList === null) {
+      return [];
+    }
+    return gameSessionList;
   }
 }
