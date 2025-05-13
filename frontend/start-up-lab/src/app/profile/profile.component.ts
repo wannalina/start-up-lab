@@ -65,7 +65,6 @@ export class ProfileComponent implements OnInit {
       this.totalPages = Math.ceil(this.assignments.length / this.itemsPerPage);
       this.updatePaginatedAssignments();
       this.isLoading = false;
-      
     } else {
       // If no session, redirect to login
       this.router.navigate(['/login']);

@@ -27,7 +27,6 @@ export class LoginComponent {
     this.authService.isLoggedIn$.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
     });
-
     // login validation
     if (this.isLoggedIn) {
       this.errorMessage = '';

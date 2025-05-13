@@ -76,6 +76,7 @@ def get_user_row_by_email(email):
     except Exception as e:
         return f'Error fetching user row: {e}'
 
+
 def get_email_by_id(user_id):
     try:
         conn, cur = get_db_connection()
@@ -97,6 +98,7 @@ def get_story_name_by_id(game_id):
         return f'Error fetching sotry name by game id: {e}'
 
 # function to fetch all users from database
+
 def get_users():
     try:
         conn, cur = get_db_connection()
