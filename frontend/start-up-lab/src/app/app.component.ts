@@ -28,8 +28,9 @@ export class AppComponent implements OnInit {
       this.isLoggedIn = loggedIn;
 
       if (this.isLoggedIn) {
-        const userInfo = this.userService.getUserInfo();
-        this.username = userInfo?.username || ''; // Fetch username from user info
+        this.userService.getUserInfo().then((userInfo) => {
+          this.username = userInfo?.firstName || ''; // Fetch username from user info
+        });
       } else {
         this.username = '';
       }

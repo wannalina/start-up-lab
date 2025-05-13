@@ -1,16 +1,18 @@
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   standalone: true,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   constructor(private el: ElementRef, private router: Router) {}
+
   formData = {
     email: '',
   }
@@ -37,14 +39,29 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onSubscribe(event: Event): void {
-    event.preventDefault(); // Prevent the default form submission behavior
-    console.log(`Subscribed email: ${this.formData.email}`); // Print the email to the console
-    alert(`Thank you for subscribing to our newsletter, ${this.formData.email}`); 
-    this.formData.email = ''; // Clear the email input field
+  onSubscribe(event: Event, form: any): void {
+    event.preventDefault();
+    if (form.valid) {
+      console.log('Subscribed with email:', this.formData.email);
+      alert('Thank you for subscribing!');
+      this.formData.email = ''; // Clear the input field
+      form.resetForm(); // Reset the form state
+    } else {
+      console.error('Invalid email address');
+    }
   }
 
   navigateToLogin() {
     this.router.navigate(['/login']);
+  }
+
+  navigateToDemo() {
+    this.router.navigate(['/game']);
+  }
+
+  navigateToService() {
+    this.router.navigate(['/services']).then(() => {
+      window.scrollTo(0, 0);
+    });
   }
 }
