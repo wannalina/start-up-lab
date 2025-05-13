@@ -18,17 +18,18 @@ import { UserService } from './services/user.service';
 export class AppComponent implements OnInit {
   menuOpen: boolean = false;
   isLoggedIn: boolean = false;
-  username: string = '';
+  firstName: string = '';
 
   constructor(private authService: AuthService, private userService: UserService, private router: Router) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     // Subscribe to login state changes
-    this.authService.isLoggedIn$.subscribe((loggedIn) => {
+    this.authService.isLoggedIn$.subscribe(async(loggedIn) => {
       this.isLoggedIn = loggedIn;
 
       if (this.isLoggedIn) {
-        const userInfo = this.userService.getUserInfo();
+        const userInfo = await this.userService.getUserInfo();
+        this.firstName = userInfo.firstName || '';
       }
     });
   }

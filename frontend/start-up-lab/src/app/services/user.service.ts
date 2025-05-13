@@ -21,7 +21,7 @@ export class UserService {
 
   constructor(private authService: AuthService, private gameStateApi: GameStateApi) {}
 
-  async getUserInfo(): Promise<User | null> {
+  async getUserInfo(): Promise<User> {
     // Check if the session cookie exists
     const hasSession = document.cookie.split('; ').some((cookie) => cookie.startsWith('session='));
     this.jwtToken = this.authService.getJwtFromCookie('session');
@@ -41,7 +41,7 @@ export class UserService {
         'email': user.email
       };
     }
-    return null; // No session, return null
+    return {} as User; // No session, return null
   }
 
   async getAssignments(): Promise<GameSession[]> {
