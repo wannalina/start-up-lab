@@ -5,6 +5,7 @@ import { defaultStory } from '../../assets/stories/default-story';
 import { adventureStory } from '../../assets/stories/test-story'; // Import the new story
 import { GameStateService } from '../services/game_state.service';
 import { Router } from '@angular/router';
+import { GameStateApi } from '../api/gameStateApi';
 
 @Component({
   selector: 'app-game',
@@ -19,11 +20,14 @@ export class GameComponent implements OnInit {
   chosenCharacter: string = '';
   gameId: string | null = null;
 
-  constructor(private gameStateService: GameStateService, private router: Router, private route: ActivatedRoute) {}
+  constructor(private gameStateService: GameStateService, 
+    private router: Router, 
+    private route: ActivatedRoute, 
+    private gameStateApi: GameStateApi) {}
 
   ngOnInit() {
     const gameId = this.route.snapshot.paramMap.get('session-id');
-    this.gameStateService.setGameId(gameId);
+    this.gameStateService.setGameId(gameId || '');
 
     this.route.queryParams.subscribe(params => {
       const storyType = params['story'];
@@ -50,14 +54,16 @@ export class GameComponent implements OnInit {
     }
   }
 
-  makeChoice(choice: any, next: string) {
+  async makeChoice(choice: any, next: string) {
     // update choice score to determine report
     this.updateGameScores(choice);
 
     // open the report if at the end of the game
     if (next === 'end') {
+      const reportId = await this.gameStateApi.getReportId(this.gameStateService.name(), this.gameStateService.scores(), this.gameStateService.gameId());
+      this.gameStateService.setReportId(reportId);
       setTimeout(() =>  {
-        this.router.navigate(['/report']);
+        this.router.navigate([`/report/${this.gameStateService.reportId()}`]);
       }, 2000);
     }
 

@@ -1,6 +1,5 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { ContactusComponent } from './contactus/contactus.component';
@@ -20,7 +19,7 @@ export const routes: Routes = [
     { path: "services", component: ServiceComponent },
     { path: "login", component: LoginComponent },
     { path: "game/:session-id", component: GameComponent},
-    { path: "report", component: ReportComponent },
+    { path: "report/:report-id", component: ReportComponent },
     { path: "signup", component: SignupComponent },
     { path: "**", component: HomeComponent }, // Updated wildcard route
 ];

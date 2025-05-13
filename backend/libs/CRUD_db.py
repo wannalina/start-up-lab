@@ -76,6 +76,26 @@ def get_user_row_by_email(email):
     except Exception as e:
         return f'Error fetching user row: {e}'
 
+def get_email_by_id(user_id):
+    try:
+        conn, cur = get_db_connection()
+        cur.execute("SELECT email FROM user_data WHERE id = %s;", (user_id,))
+        email = cur.fetchone()[0]
+        close_connection(conn, cur)
+        return email
+    except Exception as e:
+        return f'Error fetching user email by id: {e}'
+
+def get_story_name_by_id(game_id):
+    try:
+        conn, cur = get_db_connection()
+        cur.execute("SELECT story_name FROM game_session WHERE game_id = %s;", (game_id,))
+        story_name = cur.fetchone()[0]
+        close_connection(conn, cur)
+        return story_name
+    except Exception as e:
+        return f'Error fetching sotry name by game id: {e}'
+
 # function to fetch all users from database
 def get_users():
     try:
@@ -95,7 +115,7 @@ def add_game_session(data):     #TODO: add game session link to db
             INSERT INTO game_session (game_id, story_name, candidate_name, candidate_email, candidate_phone_number, session_link, interviewer_id)
             VALUES (%s, %s, %s, %s, %s, %s, %s)
             RETURNING game_id;
-        """, (data['game_id'], data['story_name'], data['name_cand'], data['email_cand'], data['phone_number_cand'], data['session_link'], data['id_interviewer']))
+        """, (int(data['game_id']), data['story_name'], data['name_cand'], data['email_cand'], data['phone_number_cand'], data['session_link'], int(data['id_interviewer'])))
         game_session_id = cur.fetchone()[0]
         conn.commit()
         close_connection(conn, cur)
@@ -151,13 +171,35 @@ def patch_report_link_to_report(report_id, report_link):
 def get_report_name_by_id(report_id):
     try:
         conn, cur = get_db_connection()
-        cur.execute("SELECT report_type FROM candidate_reports WHERE report_id = %s;", (report_id,))
-        report_name = cur.fetchone()[0]
+        cur.execute("SELECT game_id, report_type FROM candidate_reports WHERE report_id = %s;", (report_id,))
+        data = cur.fetchone()
         close_connection(conn, cur)
 
-        return report_name
+        return data[0], data[1]
     except Exception as e:
         return None
+
+def get_user_by_game_id(game_id):
+    try: 
+        conn, cur = get_db_connection()
+        cur.execute("SELECT interviewer_id FROM game_session WHERE game_id = %s", (game_id,))
+        interviewer_id = cur.fetchone()[0]
+        close_connection(conn, cur)
+        
+        return interviewer_id
+    except Exception as e:
+        return f'Fetching game session by id failed: {e}'
+
+def get_report_link_by_game_id(game_id):
+    try:
+        conn, cur = get_db_connection()
+        cur.execute("SELECT report_link FROM candidate_reports WHERE game_id = %s", (game_id,))
+        report_link = cur.fetchone()[0]
+        close_connection(conn, cur)
+
+        return report_link
+    except Exception as e: 
+        return f'Error fetching report by game id: {e}'
 
 
 

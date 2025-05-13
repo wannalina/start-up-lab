@@ -7,11 +7,11 @@ from dotenv import load_dotenv
 
 from flask_jwt_extended import JWTManager, jwt_required
 
-from libs.profile_report import determine_report, send_report_email, store_report_and_link, get_report_by_name, generate_session_link
+from libs.profile_report import determine_report, send_report_email, store_report_and_link, get_report_by_name, generate_session_link, get_data_for_email, get_report_by_id, get_story_name_by_report_id
 from libs.authentication import handle_user_signup, handle_user_login, generate_jwt_token, get_user_profile
 from libs.game_sessions import get_sessions_for_user
 
-from libs.CRUD_db import add_game_session, get_sessions_by_user, close_connection, get_db_connection,get_report_name_by_id, create_table_user_data, create_table_game_session, create_table_candidate_reports
+from libs.CRUD_db import add_game_session, close_connection, get_db_connection,get_report_name_by_id, create_table_user_data, create_table_game_session, create_table_candidate_reports
 
 URL = 'http://localhost:4200' #https://start-up-lab.vercel.app
 load_dotenv()
@@ -80,35 +80,64 @@ def get_session_user():
     except Exception as e: 
         return jsonify({'error': 'Error decoding JWT token'}), 500
 
-# route for fetching personality report after game
-@app.route('/api/show-report', methods=['POST'])
-def get_game_results():
+# route for fetching personality report ID after game
+@app.route('/api/get-report-id', methods=['GET'])
+def get_game_report_id():
     try:
         # get current game name and score from query parameters
         story_name = request.args.get('storyName')
         final_scores = request.args.get('score')
-        game_session_id = request.args.get('gameId')       #TODO: consider this in the frontend request
+        game_session_id = request.args.get('gameId')
         scores_dict = json.loads(final_scores)
 
         # determine which report to select
         report = determine_report(story_name, scores_dict)
 
         # store report in database and generate link
-        store_report_and_link(report['name'], game_session_id)
+        report_id = store_report_and_link(report['name'], game_session_id)
+
+        return jsonify({'message': report_id}), 200
+    except Exception as e:
+        return jsonify({'error': 'Error fetching report'}), 500
+
+
+# route for fetching personality report after game
+@app.route('/api/show-report', methods=['GET'])
+def get_game_results():
+    try:
+        # get current game name and score from query parameters
+        report_id = request.args.get('report-id')
+        report = get_report_by_id(report_id)
 
         return jsonify({'message': report}), 200
     except Exception as e:
         return jsonify({'error': 'Error fetching report'}), 500
+'''
+@app.route('/api/get-report-by-id', methods=['POST'])
+def report_by_id():
+    try: 
+        report_id = request.args.get('report-id')
 
+        report_name = get_report_name_by_id(report_id)
+        report = get_report_by_name(report_name)
+
+        return jsonify({'message': report}), 200
+    except Exception as e:
+        return jsonify({'error': f'Error fetching report by id: {e}'})
+'''
 # route for fetching report by reportId
 @app.route('/api/fetch-report', methods=['GET'])
 def show_email_report():
     try:
-        report_id = int(request.args.get('report-id'))
-        story_name = request.args.get('story-name')
-        report_name = get_report_name_by_id(report_id)
+        report_id = request.args.get('report-id')
+        print("id", report_id)
+        game_id, report_name = get_report_name_by_id(report_id)
+        print("name", report_name)
+        story_name = get_story_name_by_report_id(report_id)
+        print("name s", story_name)
 
         report = get_report_by_name(story_name, report_name)
+        print("report", report)
         return jsonify({'message': report}), 200
     except Exception as e:
         return jsonify({'error': f'Fetching report failed: {e}'})
@@ -118,10 +147,14 @@ def show_email_report():
 def send_email():
     try:
         data = request.json
-        email = data.get('email')
-        report_link = data.get('report-link')
+        game_id = data.get('game-id')
+        print("id", game_id)
+        
+        email, report_link = get_data_for_email(game_id)
+        print("email", email, report_link)
 
         response, status_code = send_report_email(email, report_link)
+        print("res", response)
         if status_code == 200: 
             return jsonify({'message': 'Report sent to interviewer successfully'}), 200
         return jsonify({'error': 'Report sending failed'}), 500
@@ -140,8 +173,8 @@ def create_new_game():
         name_cand = data.get('candidateName')
         email_cand = data.get('candidateEmail')
         phone_number_cand = data.get('candidatePhoneNumber')
-        game_session_link = data.get('sessionLink')['message']
-        user_data, status_code = get_user_profile()
+        game_session_link = data.get('sessionLink')
+        user_data = get_user_profile()
 
         game_session_data = {
             "game_id": game_id,

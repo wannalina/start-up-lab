@@ -7,7 +7,7 @@ from email.message import EmailMessage
 from email.utils import make_msgid, formatdate
 from flask import jsonify
 
-from libs.CRUD_db import get_user_by_email, add_report_to_db, patch_report_link_to_report
+from libs.CRUD_db import get_user_by_email, add_report_to_db, patch_report_link_to_report, get_report_link_by_game_id, get_user_by_game_id, get_report_name_by_id, get_story_name_by_id, get_email_by_id
 
 load_dotenv()
 
@@ -48,6 +48,23 @@ def determine_report(story_name, scores):
     except Exception as e:
         print(f"Error determining report: {e}")
         return None
+
+def get_report_by_id(report_id):
+    try: 
+        game_id, report_name = get_report_name_by_id(report_id)
+        story_name = get_story_name_by_id(game_id)
+        report = get_report_by_name(story_name, report_name)
+        return report
+    except Exception as e:
+        return f'Fetching report failed: {e}'
+
+def get_story_name_by_report_id(report_id):
+    try:
+        game_id, report_name = get_report_name_by_id(report_id)
+        story_name = get_story_name_by_id(game_id)
+        return story_name
+    except Exception as e:
+        return f'Error fetching  story name by report id: {e}'
 
 def get_report_by_name(story_name, report_name):
     try: 
@@ -130,7 +147,7 @@ def store_report_and_link(report_name, game_session_id):
         report_id = add_report_to_db(report_table_data)
 
         # create report link
-        report_link = f'{os.getenv("FRONTEND_URL")}/candidate-report?story-name={game_session_id}&report-id={report_id}'
+        report_link = f'{os.getenv("FRONTEND_URL")}/report/{report_id}'
         if report_link is None:
             raise Exception('Generating report link failed')
 
@@ -139,13 +156,22 @@ def store_report_and_link(report_name, game_session_id):
         if not is_report_patched: 
             raise Exception('Adding report link to database failed')
 
-        return report_link, 200
+        return report_id
     except Exception as e: 
-        return f'Storing report and creating link failed {e}', 500
+        return f'Storing report and creating link failed {e}'
 
 def generate_session_link(game_session_id): 
     try: 
-        game_session_link = f'{os.getenv("FRONTEND_URL")}/game?session-id={game_session_id}'
+        game_session_link = f'{os.getenv("FRONTEND_URL")}/game/{game_session_id}'
         return game_session_link
     except Exception as e:
         return f'Generating game session link failed: {e}'
+
+def get_data_for_email(game_id):
+    try: 
+        report_link = get_report_link_by_game_id(game_id)
+        interviewer_id = get_user_by_game_id(game_id)
+        email = get_email_by_id(interviewer_id)
+        return email, report_link
+    except Exception as e: 
+        return f'Fetching data for sending failed:  {e}'
