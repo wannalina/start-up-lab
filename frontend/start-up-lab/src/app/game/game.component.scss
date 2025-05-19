@@ -131,18 +131,16 @@ h2 {
 /* --- RESPONSIVE RULES --- */
 @media (max-width: 768px) {
   .game-container.image-left {
-    flex-direction: column;
-    align-items: center;
+    gap: 0px;
   }
 
   .story-content {
-    width: 90%;
     padding: 1rem;
     margin: 0.5rem;
+    width: 50%;
   }
 
   .choices button {
-    width: 90%;
     font-size: 0.9rem;
   }
 
@@ -151,13 +149,17 @@ h2 {
 }
 
 @media (max-width: 480px) {
+  .game-container {
+    gap: 0px;
+  }
+
   .story-content {
-    width: 100%;
-    padding: 1rem;
+    padding: 0.5rem;
+    width: 90%;
+    min-height: 10vh;
   }
 
   .choices button {
-    width: 100%;
     font-size: 0.85rem;
   }
 
