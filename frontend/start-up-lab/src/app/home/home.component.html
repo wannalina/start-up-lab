@@ -2,39 +2,122 @@
     <header class="home-header">
         <h1>Your journey for better recruitment with <span class="highlight">gamification</span> is here</h1>
         <p>We are <span class="highlight-purple">Game2Hire</span></p>
+        <button (click)="navigateToLogin()">Sign Up</button>
+        <button (click)="navigateToDemo()">Try our free demo</button>
     </header>
 
     <section class="home-section intro">
-        <h1>Transforming Recruitment Through Innovation</h1>
+        <h1>Welcome to Game2Hire</h1>
         <p>Helping job applicants overcome pre-interview nerves and empowering companies to optimize their recruiting process.</p>
+        <div class="row mt-4 mt-md-5">
+            <div class="col-sm-6 col-lg-3 mt-4">
+            <div class="ring-icon mx-auto">
+                <!-- Inline SVG for Chart Bar Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="feature-icon">
+                <path
+                    fill="currentColor"
+                    d="M396.8 352h22.4c6.4 0 12.8-6.4 12.8-12.8V108.8c0-6.4-6.4-12.8-12.8-12.8h-22.4c-6.4 0-12.8 6.4-12.8 12.8v230.4c0 6.4 6.4 12.8 12.8 12.8zm-192 0h22.4c6.4 0 12.8-6.4 12.8-12.8V140.8c0-6.4-6.4-12.8-12.8-12.8h-22.4c-6.4 0-12.8 6.4-12.8 12.8v198.4c0 6.4 6.4 12.8 12.8 12.8zm96 0h22.4c6.4 0 12.8-6.4 12.8-12.8V204.8c0-6.4-6.4-12.8-12.8-12.8h-22.4c-6.4 0-12.8 6.4-12.8 12.8v134.4c0 6.4 6.4 12.8 12.8 12.8zM496 400H48V80c0-8.84-7.16-16-16-16H16C7.16 64 0 71.16 0 80v336c0 17.67 14.33 32 32 32h464c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16zm-387.2-48h22.4c6.4 0 12.8-6.4 12.8-12.8v-70.4c0-6.4-6.4-12.8-12.8-12.8h-22.4c-6.4 0-12.8 6.4-12.8 12.8v70.4c0 6.4 6.4 12.8 12.8 12.8z"
+                ></path>
+                </svg>
+            </div>
+            <h5 class="mt-4">Innovative</h5>
+            <p class="mb-0 mt-3 px-3">
+                Innovative gamification platform to streamline recruitment by assessing candidates' soft skills through a short, immersive narrative game.
+            </p>
+            </div>
+
+            <div class="col-sm-6 col-lg-3 mt-4">
+            <div class="ring-icon mx-auto">
+                <!-- Inline SVG for Bell Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="feature-icon">
+                <path
+                    fill="currentColor"
+                    d="M439.39 362.29c-19.32-20.76-55.47-51.99-55.47-154.29 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84C118.56 68.1 64.08 130.3 64.08 208c0 102.3-36.15 133.53-55.47 154.29-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h383.8c19.12 0 32-15.6 32.1-32 .05-7.55-2.61-15.27-8.61-21.71zM67.53 368c21.22-27.97 44.42-74.33 44.53-159.42 0-.2-.06-.38-.06-.58 0-61.86 50.14-112 112-112s112 50.14 112 112c0 .2-.06.38-.06.58.11 85.1 23.31 131.46 44.53 159.42H67.53zM224 512c35.32 0 63.97-28.65 63.97-64H160.03c0 35.35 28.65 64 63.97 64z"
+                ></path>
+                </svg>
+            </div>
+            <h5 class="mt-4">Risk Management</h5>
+            <p class="mb-0 mt-3 px-3">
+                10 minutes while waiting for the interviewer, which can save time and costs of the interview while also reduces interviewee's anxiety.
+            </p>
+            </div>
+
+            <div class="col-sm-6 col-lg-3 mt-4">
+            <div class="ring-icon mx-auto">
+                <!-- Inline SVG for Lightbulb Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" class="feature-icon">
+                <path
+                    fill="currentColor"
+                    d="M176 80c-52.94 0-96 43.06-96 96 0 8.84 7.16 16 16 16s16-7.16 16-16c0-35.3 28.72-64 64-64 8.84 0 16-7.16 16-16s-7.16-16-16-16zM96.06 459.17c0 3.15.93 6.22 2.68 8.84l24.51 36.84c2.97 4.46 7.97 7.14 13.32 7.14h78.85c5.36 0 10.36-2.68 13.32-7.14l24.51-36.84c1.74-2.62 2.67-5.7 2.68-8.84l.05-43.18H96.02l.04 43.18zM176 0C73.72 0 0 82.97 0 176c0 44.37 16.45 84.85 43.56 115.78 16.64 18.99 42.74 58.8 52.42 92.16v.06h48v-.12c-.01-4.77-.72-9.51-2.15-14.07-5.59-17.81-22.82-64.77-62.17-109.67-20.54-23.43-31.52-53.15-31.61-84.14-.2-73.64 59.67-128 127.95-128 70.58 0 128 57.42 128 128 0 30.97-11.24 60.85-31.65 84.14-39.11 44.61-56.42 91.47-62.1 109.46a47.507 47.507 0 0 0-2.22 14.3v.1h48v-.05c9.68-33.37 35.78-73.18 52.42-92.16C335.55 260.85 352 220.37 352 176 352 78.8 273.2 0 176 0z"
+                ></path>
+                </svg>
+            </div>
+            <h5 class="mt-4">Behavioural Analysis</h5>
+            <p class="mb-0 mt-3 px-3">
+                Behavioural report generated for recruiter and candidate for data-driven analysis.
+            </p>
+            </div>
+        </div>
     </section> 
     
     <section class="home-section service-overview">
-        <h2>Our Solution</h2>
-        <p>We provide a unique service that uses gameplay in the 10 minutes leading up to an interview to analyze candidates' personality traits and job-related strengths and weaknesses.</p>
+        <div class="service-overview-container">
+            <!-- Left Section: Image -->
+            <div class="service-overview-image">
+                <img src="assets/home/service.jpg" alt="service picture" />
+            </div>
+
+            <!-- Right Section: Text Content -->
+            <div class="service-overview-content">
+                <h2>Our Service</h2>
+                <p class="service-overview-p">
+                    At Game 2 Hire, we transform the 10 minutes before a job interview into a powerful window of insight. Through a scientifically designed game experience, we help candidates ease anxiety while giving recruiters valuable data about their soft skills, personality, and job readiness.
+                </p>
+                <p class="service-overview-button" (click)="navigateToService()">Learn more ⟶</p>
+            </div>
+        </div>
     </section>
     
     <section class="home-section target-audience">
-        <h2>Who We Serve</h2>
-        <ul>
+      <div class="target-audience-container">
+        <!-- Left Section: Text Content -->
+        <div class="target-audience-content">
+          <h2>Who We Serve</h2>
+          <ul>
             <li>Innovative startups</li>
-            <li>Medium-sized high-tech companies</li>
             <li>Recruiters and interviewers seeking data-driven insights</li>
-        </ul>
+          </ul>
+        </div>
+
+        <!-- Right Section: Image -->
+        <div class="target-audience-image">
+          <img src="assets/home/serve.jpg" alt="serve picture" />
+        </div>
+      </div>
     </section>
 
     <section class="home-section newsletter-signup">
         <h2>Stay Updated</h2>
         <p>Sign up for our newsletter to receive the latest updates and insights.</p>
-        <form (submit)="onSubscribe($event)">
-            <input type="email" placeholder="Enter your email" [(ngModel)]="formData.email" name="email" required>
-            <button type="submit">Subscribe</button>
+        <form #newsletterForm="ngForm" (submit)="onSubscribe($event, newsletterForm)">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              [(ngModel)]="formData.email"
+              name="email"
+              required
+              email
+              #emailInput="ngModel"
+            />
+            <button type="submit" [disabled]="!newsletterForm.valid">Subscribe</button>
+            <div *ngIf="emailInput.invalid && emailInput.touched" class="error-message">
+              Please enter a valid email address.
+            </div>
         </form>
     </section>
 
     <section class="home-section call-to-action">
         <h2>Get Started Today</h2>
-        <button>Sign Up</button>
-        <!-- <button (click)="navigateToLogin()">Sign Up</button> -->
+        <button (click)="navigateToLogin()">Sign Up</button>
     </section>
 </div>
