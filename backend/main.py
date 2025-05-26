@@ -10,7 +10,7 @@ from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 from libs.profile_report import determine_report, send_report_email
 from libs.authentication import handle_user_signup, handle_user_login, generate_jwt_token, get_user_profile
 
-URL = 'http://localhost:4200' #https://start-up-lab.vercel.app
+URL = 'https://start-up-lab.vercel.app' #http://localhost:4200
 load_dotenv()
 app = Flask(__name__)
 CORS(app, origins=[URL])
