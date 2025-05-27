@@ -56,7 +56,7 @@ export class HomeComponent implements OnInit {
   }
 
   navigateToDemo() {
-    this.router.navigate(['/game']);
+    this.router.navigate(['/game', `default-story`], { queryParams: { "session-id": "demo" } });
   }
 
   navigateToService() {

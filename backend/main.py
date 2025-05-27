@@ -13,7 +13,7 @@ from libs.game_sessions import get_sessions_for_user
 
 from libs.CRUD_db import add_game_session, close_connection, get_db_connection,get_report_name_by_id, create_table_user_data, create_table_game_session, create_table_candidate_reports
 
-URL = 'https://start-up-lab.vercel.app' #http://localhost:4200
+URL = 'https://start-up-lab.vercel.app' # 'http://localhost:4200' 
 load_dotenv()
 app = Flask(__name__)
 CORS(app, origins=[URL])
@@ -95,15 +95,30 @@ def get_game_report_id():
 
         # store report in database and generate link
         report_id = store_report_and_link(report['name'], game_session_id)
-
         return jsonify({'message': report_id}), 200
     except Exception as e:
         return jsonify({'error': 'Error fetching report'}), 500
 
+# route to fetch demo report
+@app.route('/api/show-demo-report', methods=['GET'])
+def show_demo_report():
+    try:
+        # get current game name and score from query parameters
+        story_name = request.args.get('story-name')
+        final_scores = request.args.get('score')
+        scores_dict = json.loads(final_scores)
+
+        # determine which report to select
+        report = determine_report(story_name, scores_dict)
+        
+        return jsonify({'message': report}), 200
+    except Exception as e: 
+        return jsonify({'error': 'Error fetching demo report'}), 500
 
 # route for fetching personality report after game
 @app.route('/api/show-report', methods=['GET'])
 def get_game_results():
+    report = ""
     try:
         # get current game name and score from query parameters
         report_id = request.args.get('report-id')
@@ -112,32 +127,16 @@ def get_game_results():
         return jsonify({'message': report}), 200
     except Exception as e:
         return jsonify({'error': 'Error fetching report'}), 500
-'''
-@app.route('/api/get-report-by-id', methods=['POST'])
-def report_by_id():
-    try: 
-        report_id = request.args.get('report-id')
 
-        report_name = get_report_name_by_id(report_id)
-        report = get_report_by_name(report_name)
-
-        return jsonify({'message': report}), 200
-    except Exception as e:
-        return jsonify({'error': f'Error fetching report by id: {e}'})
-'''
 # route for fetching report by reportId
 @app.route('/api/fetch-report', methods=['GET'])
 def show_email_report():
     try:
         report_id = request.args.get('report-id')
-        print("id", report_id)
         game_id, report_name = get_report_name_by_id(report_id)
-        print("name", report_name)
         story_name = get_story_name_by_report_id(report_id)
-        print("name s", story_name)
 
         report = get_report_by_name(story_name, report_name)
-        print("report", report)
         return jsonify({'message': report}), 200
     except Exception as e:
         return jsonify({'error': f'Fetching report failed: {e}'})
@@ -148,13 +147,10 @@ def send_email():
     try:
         data = request.json
         game_id = data.get('game-id')
-        print("id", game_id)
         
         email, report_link = get_data_for_email(game_id)
-        print("email", email, report_link)
 
         response, status_code = send_report_email(email, report_link)
-        print("res", response)
         if status_code == 200: 
             return jsonify({'message': 'Report sent to interviewer successfully'}), 200
         return jsonify({'error': 'Report sending failed'}), 500
@@ -207,8 +203,9 @@ def get_game_sessions_for_user():
 def get_game_session_link():
     try: 
         data = request.json
+        story_name = data.get('story-name')
         session_id = data.get('session-id')
-        game_session_link = generate_session_link(session_id)
+        game_session_link = generate_session_link(story_name, session_id)
         return jsonify({'message': game_session_link}), 200
     except Exception as e: 
         return jsonify({'error': f'Fetching game session link failed'}), 500
@@ -244,11 +241,7 @@ def get_sessions():
     cur.execute("SELECT * FROM candidate_reports;")
     reports = cur.fetchall()
     close_connection(conn, cur)
-
-    print("Users:", users) 
-    print("Game sessions:", sessions)  # This will print to your server log
-    print("Reports:", reports)
-    return jsonify(users, sessions), 200  # Return the data as JSON
+    return jsonify(users, sessions), 200
 
 @app.route('/api/delete-db-tables', methods=['POST'])
 def delete_tables():

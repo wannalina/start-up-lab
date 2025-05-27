@@ -31,6 +31,6 @@ export class ServiceComponent implements OnInit {
   }
 
   navigateToGame(storyType: string) {
-    this.router.navigate(['/game'], { queryParams: { story: storyType } });
+    this.router.navigate(['/game', `${storyType}-story`], { queryParams: { "session-id": "demo" } });
   }
 }

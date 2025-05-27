@@ -33,15 +33,19 @@ export class ReportComponent implements OnInit {
 
     async ngOnInit() {
         this.reportId = this.route.snapshot.paramMap.get('report-id') || '';
-        this.report = await this.getReportById();
+        this.report = await this.getReport();
     }
 
     // function to fetch report by report ID
-    async getReportById(): Promise<Report> {
+    async getReport(): Promise<Report> {
         try {
-            this.report = await this.gameStateApi.getReportById(this.reportId);
-            await this.gameStateApi.sendReportEmail(this.gameStateService.gameId());
-    
+            if (this.gameStateService.reportId() === "demo") {
+                this.report = await this.gameStateApi.getDemoReport(this.storyName, this.finalScores);
+            } else {
+                this.report = await this.gameStateApi.getReportById(this.gameStateService.reportId());
+                console.log("gameid:", this.gameStateService.gameId())
+                await this.gameStateApi.sendReportEmail(this.gameStateService.gameId());
+            }
             this.gameStateService.resetSignals();
             return this.report;
         } catch(error) {

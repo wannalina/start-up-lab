@@ -18,7 +18,7 @@ export class GameComponent implements OnInit {
   story: any;
   currentStory: any;
   chosenCharacter: string = '';
-  gameId: string | null = null;
+  gameId: string | '' = '';
 
   constructor(private gameStateService: GameStateService, 
     private router: Router, 
@@ -26,7 +26,7 @@ export class GameComponent implements OnInit {
     private gameStateApi: GameStateApi) {}
 
   ngOnInit() {
-    const gameId = this.route.snapshot.paramMap.get('session-id');
+    const gameId = this.route.snapshot.queryParams['session-id'];
     this.gameStateService.setGameId(gameId || '');
 
     this.route.queryParams.subscribe(params => {

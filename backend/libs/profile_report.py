@@ -5,7 +5,6 @@ import os
 import smtplib
 from email.message import EmailMessage
 from email.utils import make_msgid, formatdate
-from flask import jsonify
 
 from libs.CRUD_db import get_user_by_email, add_report_to_db, patch_report_link_to_report, get_report_link_by_game_id, get_user_by_game_id, get_report_name_by_id, get_story_name_by_id, get_email_by_id
 
@@ -160,9 +159,9 @@ def store_report_and_link(report_name, game_session_id):
     except Exception as e: 
         return f'Storing report and creating link failed {e}'
 
-def generate_session_link(game_session_id): 
+def generate_session_link(story_name, game_session_id): 
     try: 
-        game_session_link = f'{os.getenv("FRONTEND_URL")}/game/{game_session_id}'
+        game_session_link = f'{os.getenv("FRONTEND_URL")}/game/{story_name}?session-id={game_session_id}'
         return game_session_link
     except Exception as e:
         return f'Generating game session link failed: {e}'

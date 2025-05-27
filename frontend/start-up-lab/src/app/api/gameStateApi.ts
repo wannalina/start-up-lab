@@ -24,14 +24,14 @@ export class GameStateApi {
         }
     }
 
-    async getGameSessionLink(gameSessionId: string): Promise<string> {
+    async getGameSessionLink(gameSessionId: string, storyName: string = 'default-story'): Promise<string> {
         try {
             const res = await fetch(`${environment.serverApiUrl}/get-session-link`, {
                 method: 'POST',
                 headers: {
                 "Content-Type": "application/json"
                 }, 
-                body: JSON.stringify({'session-id': gameSessionId})
+                body: JSON.stringify({'story-name': storyName, 'session-id': gameSessionId})
             });
             const gameSessionLink =(await res.json()).message;
             return gameSessionLink;
@@ -61,10 +61,13 @@ export class GameStateApi {
     // function to get report ID
     async getReportId(storyName: string, finalScores: any, gameId: string): Promise<any> {
         try {
+            if (gameId === "demo") {
+                return "demo";
+            }
             const encodedScores = encodeURIComponent(JSON.stringify(finalScores));
             const res = await fetch(`${environment.serverApiUrl}/get-report-id?storyName=${storyName}&score=${encodedScores}&gameId=${gameId}`);
-            const reportId = (await res.json()).message;
-            return reportId;
+            const report_id = (await res.json()).message;
+            return report_id;
         } catch(error) {
             console.error(`Error occurred in getReportId: ${error}`);
             return null;
@@ -79,6 +82,19 @@ export class GameStateApi {
             return report;
         } catch(error) {
             console.error(`Error occurred in getReportById: ${error}`);
+            return null;
+        }
+    }
+
+    // function to get demo report
+    async getDemoReport(storyName: string, finalScores: any) {
+        try {
+            const encodedScores = encodeURIComponent(JSON.stringify(finalScores));
+            const res = await fetch(`${environment.serverApiUrl}/show-demo-report?story-name=${storyName}&score=${encodedScores}`);
+            const report = (await res.json()).message;
+            return report;
+        } catch(error) {
+            console.error(`Error getting demo report: ${error}`);
             return null;
         }
     }
