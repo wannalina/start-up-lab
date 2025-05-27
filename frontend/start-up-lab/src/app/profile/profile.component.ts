@@ -139,6 +139,7 @@ export class ProfileComponent implements OnInit {
     this.newAssignment.sessionLink = await this.gameStateApi.getGameSessionLink(newId);
 
     this.newAssignment.sessionID = newId; 
+    this.newAssignment.storyName = 'default-story';
     const newAssignment: GameSession = { ...this.newAssignment };
 
     // create new game session
