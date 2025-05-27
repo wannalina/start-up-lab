@@ -238,7 +238,7 @@
           *ngIf="isLoggedIn"
           (click)="profileClicked()"
         >
-          <u>{{ username }}</u>
+          <u>{{ firstName }}</u>
         </span>
 
         <button class="menu-toggle" (click)="toggleMenu()">☰</button>
@@ -257,7 +257,7 @@
             (click)="profileClicked()"
             style="cursor: pointer;"
           >
-            <u>Hello, {{ username }}</u>
+            <u>Hello, {{ firstName }}</u>
           </span>
           <button class="logout-button" (click)="onLogout()">Logout</button>
         </div>

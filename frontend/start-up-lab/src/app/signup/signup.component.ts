@@ -67,7 +67,6 @@ export class SignupComponent {
 
     console.log('Signup Data:', {
       email: this.email,
-      //username: this.username,
       firstName: this.firstName,
       lastName: this.lastName,
       //phoneNumber: this.phoneNumber,

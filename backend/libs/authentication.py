@@ -128,6 +128,6 @@ def get_user_profile():
     try:
         user_identity = get_jwt_identity()
         user = get_user_row_by_email(user_identity)
-        return user, 200
+        return user
     except Exception as e:
         return f'Error fetching user profile: {e}'

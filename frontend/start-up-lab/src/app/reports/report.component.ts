@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environment';
 import { GameStateService } from '../services/game_state.service';
 import { CommonModule } from '@angular/common';
+import { GameStateApi } from '../api/gameStateApi';
+import { ActivatedRoute } from '@angular/router';
 
 class Report {
     name?: string;
@@ -27,29 +27,27 @@ export class ReportComponent implements OnInit {
     storyName: string = this.gameStateService.name();
     report: Report = new Report();
     finalScores: Object = this.gameStateService.scores();
+    reportId: string = '';
 
-    constructor(private http: HttpClient, private gameStateService: GameStateService) {}
+    constructor(private gameStateService: GameStateService, private gameStateApi: GameStateApi, private route: ActivatedRoute) {}
 
     async ngOnInit() {
-        this.report = await this.getReport();
+        this.reportId = this.route.snapshot.paramMap.get('report-id') || '';
+        this.report = await this.getReportById();
     }
 
-    // function to reset signals after end of game
-    resetSignals() {
-        this.gameStateService.resetCharacter();
-        this.gameStateService.resetScores();
-        this.gameStateService.resetStoryName();
-    }
-
-    // function to fetch report name based on story name
-    async getReport(): Promise<Report> {
-        // fetch report name to display
-        const encodedScores = encodeURIComponent(JSON.stringify(this.finalScores));
-        const response = (await fetch(`${environment.serverApiUrl}/get-report?storyName=${this.storyName}&score=${encodedScores}`));
-        this.report = await response.json();
-
-        this.resetSignals();
-        return this.report;
+    // function to fetch report by report ID
+    async getReportById(): Promise<Report> {
+        try {
+            this.report = await this.gameStateApi.getReportById(this.reportId);
+            await this.gameStateApi.sendReportEmail(this.gameStateService.gameId());
+    
+            this.gameStateService.resetSignals();
+            return this.report;
+        } catch(error) {
+            console.error(`Error occurred in getReport: ${error}`);
+            return {} as Report;
+        }
     }
 
     // function to convert report json object to string

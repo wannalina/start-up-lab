@@ -40,7 +40,7 @@ export class AuthService {
       document.cookie = `session=${this.jwtToken}; path=/; max-age=3600;SameSite=Strict;`; // HttpOnly // Expires in 1 hour
       this.loggedIn.next(true);
     } catch(error) {
-      console.error(`Error logging in: ${error}`)
+      console.error(`Error logging in: ${error}`);
     }
   }
 
