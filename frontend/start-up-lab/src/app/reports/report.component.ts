@@ -33,6 +33,7 @@ export class ReportComponent implements OnInit {
 
     async ngOnInit() {
         this.reportId = this.route.snapshot.paramMap.get('report-id') || '';
+        this.gameStateService.setReportId(this.reportId);
         this.report = await this.getReport();
     }
 
@@ -43,7 +44,6 @@ export class ReportComponent implements OnInit {
                 this.report = await this.gameStateApi.getDemoReport(this.storyName, this.finalScores);
             } else {
                 this.report = await this.gameStateApi.getReportById(this.gameStateService.reportId());
-                console.log("gameid:", this.gameStateService.gameId())
                 await this.gameStateApi.sendReportEmail(this.gameStateService.gameId());
             }
             this.gameStateService.resetSignals();
